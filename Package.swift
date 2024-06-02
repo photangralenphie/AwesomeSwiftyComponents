@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "AwsomeSwiftyComponents",
     platforms: [
-        SupportedPlatform.iOS(.v13)
+        SupportedPlatform.iOS(.v14)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.

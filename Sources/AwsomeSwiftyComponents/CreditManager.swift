@@ -9,6 +9,7 @@ public enum Licence {
     case apache
 }
 
+@available(iOS 14.0, *)
 public struct LicenceView: View {
     
     // Init
