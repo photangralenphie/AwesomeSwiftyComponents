@@ -51,6 +51,7 @@ public struct InlineColorPicker: View {
     }
 }
 
+@available(iOS 15.0, *)
 fileprivate struct Feedback: ViewModifier {
     let colorIndex: Int
     func body(content: Content) -> some View {
@@ -63,12 +64,15 @@ fileprivate struct Feedback: ViewModifier {
     }
 }
 
+@available(iOS 15.0, *)
 public enum ColorPickerStyle {
     case slim, expanded
 }
 
+@available(iOS 15.0, *)
 fileprivate let availibleColors = [Color.blue, Color.cyan, Color.mint, Color.green, Color.yellow, Color.orange, Color.red, Color.purple, Color.indigo, Color.primary]
 
+@available(iOS 15.0, *)
 public func GetColorByID(_ ID: Int) -> Color {
     return availibleColors[ID]
 }
