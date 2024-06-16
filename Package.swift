@@ -4,20 +4,20 @@
 import PackageDescription
 
 let package = Package(
-    name: "AwsomeSwiftyComponents",
+    name: "AwesomeSwiftyComponents",
     platforms: [
         SupportedPlatform.iOS(.v14)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "AwsomeSwiftyComponents",
-            targets: ["AwsomeSwiftyComponents"]),
+            name: "AwesomeSwiftyComponents",
+            targets: ["AwesomeSwiftyComponents"]),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "AwsomeSwiftyComponents"),
+            name: "AwesomeSwiftyComponents"),
     ]
 )
