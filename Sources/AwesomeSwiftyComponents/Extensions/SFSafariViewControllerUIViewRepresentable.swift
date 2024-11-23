@@ -1,0 +1,67 @@
+//
+//  SFSafariViewControllerUIViewRepresentable.swift
+//  Wizzard Locations
+//
+//  Original by: Antoine van der Lee
+//  https://www.avanderlee.com/swiftui/sfsafariviewcontroller-open-webpages-in-app/
+//
+//  Modified by Jonas Helmer on 28.08.24.
+//
+
+import SwiftUI
+import UIKit
+import SafariServices
+
+struct SFSafariViewControllerUIViewRepresentable: UIViewControllerRepresentable {
+
+    let url: URL
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<Self>) -> SFSafariViewController {
+        return SFSafariViewController(url: url)
+    }
+
+    func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SFSafariViewControllerUIViewRepresentable>) {
+        // No need to do anything here
+    }
+}
+
+/// Monitors the `openURL` environment variable and handles them in-app instead of via
+/// the external web browser.
+@available(iOS 15.0, *)
+private struct SafariViewControllerViewModifier: ViewModifier {
+    public let useInAppBrowser: Bool
+    @State private var urlToOpen: URL?
+
+    func body(content: Content) -> some View {
+        content
+            .environment(\EnvironmentValues.openURL as! WritableKeyPath<EnvironmentValues, OpenURLAction>, OpenURLAction { url in
+                if (!useInAppBrowser) {
+                    return .systemAction
+                }
+
+                /// Catch any URLs that are about to be opened in an external browser.
+                /// Instead, handle them here and store the URL to reopen in our sheet.
+                urlToOpen = url
+                return .handled
+            })
+            .sheet(isPresented: Binding(
+                get: { urlToOpen != nil },
+                set: { if !$0 { urlToOpen = nil } }
+            )) {
+                if let urlToOpen = urlToOpen {
+                    SFSafariViewControllerUIViewRepresentable(url: urlToOpen)
+                }
+            }
+    }
+}
+
+@available(iOS 15.0, *)
+public extension View {
+    /// Monitor the `openURL` environment variable and handle them in-app instead of via
+    /// the external web browser.
+    /// Uses the `SafariViewWrapper` which will present the URL in a `SFSafariViewController`.
+
+    public func useInAppSafari(_ useInAppBrowser: Bool) -> some View {
+        modifier(SafariViewControllerViewModifier(useInAppBrowser: useInAppBrowser))
+    }
+}

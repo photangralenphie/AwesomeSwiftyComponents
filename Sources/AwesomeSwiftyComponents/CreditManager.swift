@@ -1,8 +1,51 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
 #if !os(macOS)
 
 import SwiftUI
+
+@available(iOS 18.0, *)
+public struct CreditManager<Content: View>: View {
+    @ViewBuilder public var content: Content
+    
+    public init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+        
+    public var body: some View {
+        NavigationStack {
+            Form {
+                ForEach(sections: content) { section in
+                    Section(header: section.header) {
+                        section.content
+                    }
+                }
+            }
+            .navigationTitle("Credits")
+        }
+    }
+}
+
+@available(iOS 18.0, *)
+public struct LinkedCreditManager<Content: View>: View {
+    @ViewBuilder public var content: Content
+    let text: LocalizedStringKey
+    let systemImage: String
+    
+    public init(text: LocalizedStringKey = "Credits", systemImage: String = "text.document.fill", @ViewBuilder content: () -> Content) {
+        self.content = content()
+        self.text = text
+        self.systemImage = systemImage
+    }
+    
+    public var body: some View {
+        NavigationLink {
+            CreditManager {
+                content
+            }
+        } label: {
+            Label(text, systemImage: systemImage)
+        }
+    }
+}
 
 public enum Licence {
     case mit

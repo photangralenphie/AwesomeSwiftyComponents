@@ -4,32 +4,48 @@ import SwiftUI
 public struct ColorSchemeSwitcher: View {
     
     @Binding public var colorScheme: PreferredColorScheme
-    @State public var showIcon: Bool
+    let showIcon: Bool
+    let hapticFeedback: Bool
+    let systemLabel: String
+    let darkLabel: String
+    let lightLabel: String
     
-    public init(colorScheme: Binding<PreferredColorScheme>, showIcon: Bool) {
+    public init(colorScheme: Binding<PreferredColorScheme>, showIcon: Bool = true, hapticFeedback: Bool = true, systemLabel: String = "System", darkLabel: String = "Dark", lightLabel: String = "Light") {
         _colorScheme = colorScheme
         self.showIcon = showIcon
+        self.hapticFeedback = hapticFeedback
+        self.systemLabel = systemLabel
+        self.darkLabel = darkLabel
+        self.lightLabel = lightLabel
     }
     
     public var body: some View {
-        HStack {
-            Image(systemName: colorScheme.icon())
-                .foregroundStyle(Color.accentColor)
-                .modifier(iOS17Stuff(feedbackTrigger: colorScheme))
-            Picker("Is Dark?", selection: $colorScheme) {
-                Text("System")
-                    .tag(PreferredColorScheme.systemDefault)
-                Text("Dark")
-                    .tag(PreferredColorScheme.dark)
-                Text("Light")
-                    .tag(PreferredColorScheme.light)
+        let schemaSwitcher = Picker("Is Dark?", selection: $colorScheme) {
+            Text(systemLabel)
+                .tag(PreferredColorScheme.systemDefault)
+            Text(darkLabel)
+                .tag(PreferredColorScheme.dark)
+            Text(lightLabel)
+                .tag(PreferredColorScheme.light)
+        }
+        .pickerStyle(.segmented)
+        .modifier(iOO17HapticFeedBack(feedbackTrigger: colorScheme))
+        
+        if(showIcon) {
+            Label {
+                schemaSwitcher
+            } icon: {
+                Image(systemName: colorScheme.icon)
+                    .foregroundStyle(Color.accentColor)
+                    .modifier(iOS17ContentTransition())
             }
-            .pickerStyle(.segmented)
+        } else {
+            schemaSwitcher
         }
     }
 }
 
-fileprivate struct iOS17Stuff : ViewModifier {
+fileprivate struct iOO17HapticFeedBack : ViewModifier {
     let feedbackTrigger: PreferredColorScheme
     func body(content: Content) -> some View {
         if #available(iOS 17.0, *) {
@@ -42,12 +58,23 @@ fileprivate struct iOS17Stuff : ViewModifier {
     }
 }
 
+fileprivate struct iOS17ContentTransition : ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 17.0, *) {
+            content
+                .contentTransition(.symbolEffect(.replace))
+        } else {
+            content
+        }
+    }
+}
+
 public enum PreferredColorScheme: String, CaseIterable {
     case light
     case dark
     case systemDefault
     
-    fileprivate func icon() -> String {
+    fileprivate var icon: String {
         switch self {
             case .dark:
                 return "moon.circle"
@@ -58,7 +85,7 @@ public enum PreferredColorScheme: String, CaseIterable {
         }
     }
     
-    public func mode() -> ColorScheme? {
+    public var mode: ColorScheme? {
         switch self {
         case .dark:
             return .dark

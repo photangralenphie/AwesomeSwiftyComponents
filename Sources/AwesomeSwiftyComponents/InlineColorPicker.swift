@@ -1,19 +1,23 @@
 import SwiftUI
 
 @available(iOS 15.0, *)
-public struct InlineColorPicker: View {
+public struct InlineColorPicker<T: ColorOptions>: View {
     
-    @Binding public var colorIndex: Int
+    var selectedColor: Binding<T>
     
-    @State public var pickerStyle: ColorPickerStyle
-    @State public var systemImage: String
-    @State public var description: String
+    let pickerStyle: ColorPickerStyle
+    let systemImage: String
+    let description: LocalizedStringKey
     
-    public init(colorIndex: Binding<Int>, pickerStyle: ColorPickerStyle, systemImage: String = "paintbrush", description: String = "Accent Color:") {
-        _colorIndex = colorIndex
+    private let enumType: any ColorOptions.Type
+    
+    public init(selectedColor: Binding<T>, pickerStyle: ColorPickerStyle = .slim, systemImage: String = "paintbrush", description: LocalizedStringKey = "Accent Color:") {
+        self.selectedColor = selectedColor
         self.pickerStyle = pickerStyle
         self.systemImage = systemImage
         self.description = description
+        
+        self.enumType = type(of: selectedColor.wrappedValue)
     }
     
     public var body: some View {
@@ -22,42 +26,50 @@ public struct InlineColorPicker: View {
                 HStack {
                     Label(description, systemImage: systemImage)
                     Spacer()
-                    Text(GetColorByID(colorIndex).description.capitalized)
-                        .foregroundColor(GetColorByID(colorIndex))
+                    Text(selectedColor.wrappedValue.SwiftUIColor.description.capitalized)
+                        .foregroundColor(selectedColor.wrappedValue.SwiftUIColor)
                 }
             }
 
             HStack {
-                ForEach(availibleColors, id: \.self) { color in
+                let colors = Array(enumType.allCases.compactMap { $0 as? T })
+                ForEach(colors.indices, id: \.self) { colorIndex in
                     Circle()
-                        .strokeBorder(GetColorByID(colorIndex) == color ? Color.gray : color , lineWidth: 3)
+                        .strokeBorder(selectedColor.wrappedValue == colors[colorIndex] ? Color.gray : colors[colorIndex].SwiftUIColor , lineWidth: 3)
                         .background {
-                            if (color == Color.primary) {
+                            if (colors[colorIndex].IsPrimaryColor()) {
                                 Image(systemName: "circle.righthalf.fill")
                                     .imageScale(.large)
                             } else {
-                                Circle().foregroundColor(color)
+                                Circle().foregroundColor(colors[colorIndex].SwiftUIColor)
                             }
                         }
                         .padding(.horizontal, -13)
                         .onTapGesture {
-                            colorIndex = availibleColors.firstIndex(of: color)!
+                            selectedColor.wrappedValue = colors[colorIndex]
                         }
                 }
             }
         }
         .padding(.vertical, 7)
-        .modifier(Feedback(colorIndex: colorIndex))
+        .modifier(Feedback(color: selectedColor.wrappedValue.SwiftUIColor))
+    }
+    
+    func elementAt<T: Collection>(from collection: T, index: T.Index) -> T.Element? {
+        guard collection.indices.contains(index) else {
+            return nil
+        }
+        return collection[index]
     }
 }
 
 @available(iOS 15.0, *)
 fileprivate struct Feedback: ViewModifier {
-    let colorIndex: Int
+    let color: Color
     func body(content: Content) -> some View {
         if #available(iOS 17.0, *) {
             content
-                .sensoryFeedback(.selection, trigger: colorIndex)
+                .sensoryFeedback(.selection, trigger: color)
         } else {
             content
         }
@@ -69,10 +81,57 @@ public enum ColorPickerStyle {
     case slim, expanded
 }
 
-@available(iOS 15.0, *)
-fileprivate let availibleColors = [Color.blue, Color.cyan, Color.mint, Color.green, Color.yellow, Color.orange, Color.red, Color.purple, Color.indigo, Color.primary]
+import SwiftUI
 
 @available(iOS 15.0, *)
-public func GetColorByID(_ ID: Int) -> Color {
-    return availibleColors[ID]
+public enum AvailableColors: Int, ColorOptions, Codable {
+    case blue = 0
+    case cyan = 1
+    case mint = 2
+    case green = 3
+    case yellow = 4
+    case orange = 5
+    case red = 6
+    case purple = 7
+    case indigo = 8
+    case primary = 9
+    
+    public var SwiftUIColor: Color {
+        switch self {
+        case .blue:
+            return .blue
+        case .cyan:
+            return .cyan
+        case .mint:
+            return .mint
+        case .green:
+            return .green
+        case .yellow:
+            return .yellow
+        case .orange:
+            return .orange
+        case .red:
+            return .red
+        case .purple:
+            return .purple
+        case .indigo:
+            return .indigo
+        case .primary:
+            return .primary
+        }
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.rawValue)
+    }
+    
+    public func IsPrimaryColor() -> Bool {
+        return self == .primary
+    }
+}
+
+
+public protocol ColorOptions: CaseIterable, Hashable {
+    var SwiftUIColor: Color { get }
+    func IsPrimaryColor() -> Bool
 }
