@@ -1,26 +1,31 @@
 //
 //  SFSafariViewControllerUIViewRepresentable.swift
-//  Wizzard Locations
 //
-//  Original by: Antoine van der Lee
+//  Originally by: Antoine van der Lee
 //  https://www.avanderlee.com/swiftui/sfsafariviewcontroller-open-webpages-in-app/
 //
 //  Modified by Jonas Helmer on 28.08.24.
 //
 
+#if(os(iOS))
 import SwiftUI
 import UIKit
 import SafariServices
 
-struct SFSafariViewControllerUIViewRepresentable: UIViewControllerRepresentable {
+@available(iOS 13.0, *)
+public struct SFSafariViewControllerUIViewRepresentable: UIViewControllerRepresentable {
 
     let url: URL
+    
+    public init(url: URL) {
+        self.url = url
+    }
 
-    func makeUIViewController(context: UIViewControllerRepresentableContext<Self>) -> SFSafariViewController {
+    public func makeUIViewController(context: UIViewControllerRepresentableContext<Self>) -> SFSafariViewController {
         return SFSafariViewController(url: url)
     }
 
-    func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SFSafariViewControllerUIViewRepresentable>) {
+    public func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SFSafariViewControllerUIViewRepresentable>) {
         // No need to do anything here
     }
 }
@@ -28,13 +33,14 @@ struct SFSafariViewControllerUIViewRepresentable: UIViewControllerRepresentable 
 /// Monitors the `openURL` environment variable and handles them in-app instead of via
 /// the external web browser.
 @available(iOS 15.0, *)
+@available(macOS 10.15, *)
 private struct SafariViewControllerViewModifier: ViewModifier {
     public let useInAppBrowser: Bool
     @State private var urlToOpen: URL?
 
     func body(content: Content) -> some View {
         content
-            .environment(\EnvironmentValues.openURL as! WritableKeyPath<EnvironmentValues, OpenURLAction>, OpenURLAction { url in
+            .environment(\EnvironmentValues.openURL, OpenURLAction { url in
                 if (!useInAppBrowser) {
                     return .systemAction
                 }
@@ -56,12 +62,16 @@ private struct SafariViewControllerViewModifier: ViewModifier {
 }
 
 @available(iOS 15.0, *)
+@available(macOS 10.15, *)
 public extension View {
     /// Monitor the `openURL` environment variable and handle them in-app instead of via
     /// the external web browser.
+    ///
     /// Uses the `SafariViewWrapper` which will present the URL in a `SFSafariViewController`.
+    /// Originally by: [Antoine van der Lee](https://www.avanderlee.com/swiftui/sfsafariviewcontroller-open-webpages-in-app/)
 
     public func useInAppSafari(_ useInAppBrowser: Bool) -> some View {
         modifier(SafariViewControllerViewModifier(useInAppBrowser: useInAppBrowser))
     }
 }
+#endif

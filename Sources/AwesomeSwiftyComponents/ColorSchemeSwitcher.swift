@@ -1,6 +1,7 @@
 import SwiftUI
 
 @available(iOS 15.0, *)
+@available(macOS 14, *)
 public struct ColorSchemeSwitcher: View {
     
     @Binding public var colorScheme: PreferredColorScheme
@@ -45,6 +46,7 @@ public struct ColorSchemeSwitcher: View {
     }
 }
 
+@available(macOS 14, *)
 fileprivate struct iOO17HapticFeedBack : ViewModifier {
     let feedbackTrigger: PreferredColorScheme
     func body(content: Content) -> some View {
@@ -58,6 +60,7 @@ fileprivate struct iOO17HapticFeedBack : ViewModifier {
     }
 }
 
+@available(macOS 14, *)
 fileprivate struct iOS17ContentTransition : ViewModifier {
     func body(content: Content) -> some View {
         if #available(iOS 17.0, *) {
@@ -69,6 +72,7 @@ fileprivate struct iOS17ContentTransition : ViewModifier {
     }
 }
 
+@available(macOS 10.15, *)
 public enum PreferredColorScheme: String, CaseIterable {
     case light
     case dark

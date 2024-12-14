@@ -1,13 +1,10 @@
-//
-//  NavigationFontSetter.swift
-//  Wizzard Locations
-//
-//  Created by Jonas Helmer on 20.11.24.
-//
-
+#if(os(iOS))
 import UIKit
-
+/// A collection of unrelated static functions, that can modify the appearance of your app
 public struct UIExtensions {
+    
+    /// Sets the NavigationBar font.
+    /// - Parameter fontDesign: The font to use.
     public static func setNavigationBarFont(fontDesign: UIFontDescriptor.SystemDesign)  {
         let largeTitleDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .largeTitle)
             .withDesign(fontDesign)!
@@ -38,3 +35,4 @@ public struct UIExtensions {
         UINavigationBar.appearance().scrollEdgeAppearance = scrollEdgeAppearance
     }
 }
+#endif
