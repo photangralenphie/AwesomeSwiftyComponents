@@ -70,7 +70,7 @@ public extension View {
     /// Uses the `SafariViewWrapper` which will present the URL in a `SFSafariViewController`.
     /// Originally by: [Antoine van der Lee](https://www.avanderlee.com/swiftui/sfsafariviewcontroller-open-webpages-in-app/)
 
-    public func useInAppSafari(_ useInAppBrowser: Bool) -> some View {
+    func useInAppSafari(_ useInAppBrowser: Bool) -> some View {
         modifier(SafariViewControllerViewModifier(useInAppBrowser: useInAppBrowser))
     }
 }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(macOS 13.0, *)
 @available(iOS 15.0, *)
 public struct ListFooter: View {
     
@@ -33,6 +34,5 @@ public struct ListFooter: View {
         .frame(maxWidth: .infinity)
         .listRowBackground(Color.white.opacity(0))
         .listRowSeparator(.hidden)
-        .listRowSpacing(0)
     }
 }
