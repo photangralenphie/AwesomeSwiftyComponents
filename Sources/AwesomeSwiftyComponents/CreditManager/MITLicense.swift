@@ -8,7 +8,7 @@
 import SwiftUI
 
 @available(iOS 14.0, *)
-public struct MITLicence: View {
+public struct MITLicense: View {
     
     private let name: String
     private let year: String
@@ -21,7 +21,7 @@ public struct MITLicence: View {
     }
     
     public var body: some View {
-        Form {
+        List {
             Section {
                 Text("MIT License")
                 Text("Copyright (c) \(year) \(author)")
@@ -30,6 +30,8 @@ public struct MITLicence: View {
                 Text("THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.")
             }
         }
+        .font(.footnote)
+        .listStyle(.plain)
         .navigationTitle(name)
     }
 }

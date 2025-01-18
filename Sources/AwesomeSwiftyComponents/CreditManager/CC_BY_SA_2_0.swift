@@ -13,14 +13,14 @@ public struct CC_BY_SA_2_0: View {
     public let credit: String
 
     public var body: some View {
-        Form {
+        List {
             Section {
                 Text("Attribution-ShareAlike 2.0 Generic")
                 Text("""
                     CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT PROVIDE LEGAL SERVICES. DISTRIBUTION OF THIS LICENSE DOES NOT CREATE AN ATTORNEY-CLIENT RELATIONSHIP. CREATIVE COMMONS PROVIDES THIS INFORMATION ON AN "AS-IS" BASIS. CREATIVE COMMONS MAKES NO WARRANTIES REGARDING THE INFORMATION PROVIDED, AND DISCLAIMS LIABILITY FOR DAMAGES RESULTING FROM ITS USE.
                     """)
-                
             }
+            
             Section {
                 Text("License")
                 Text("""
@@ -30,9 +30,7 @@ public struct CC_BY_SA_2_0: View {
                 Text("""
                     BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
                     """)
-            }
-            
-            Section {
+
                 Text("1. Definitions")
                 Text("""
                     a. "Collective Work" means a work, such as a periodical issue, anthology or encyclopedia, in which the Work in its entirety in unmodified form, along with a number of other contributions, constituting separate and independent works in themselves, are assembled into a collective whole. A work that constitutes a Collective Work will not be considered a Derivative Work (as defined below) for the purposes of this License.
@@ -112,6 +110,8 @@ public struct CC_BY_SA_2_0: View {
                 """)
             }
         }
+        .font(.footnote)
+        .listStyle(.plain)
         .navigationTitle(credit)
     }
 }

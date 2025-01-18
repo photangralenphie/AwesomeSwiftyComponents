@@ -13,7 +13,7 @@ public struct CC0: View {
     public let credit: String
 
     public var body: some View {
-        Form {
+        List {
             Section {
                 Text("""
                     CC0 1.0 Universal
@@ -56,6 +56,8 @@ public struct CC0: View {
                     """)
             }
         }
+        .font(.footnote)
+        .listStyle(.plain)
         .navigationTitle(credit)
     }
 }

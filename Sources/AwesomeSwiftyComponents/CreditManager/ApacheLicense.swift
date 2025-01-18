@@ -15,7 +15,7 @@ public struct ApacheLicense: View {
     public let author: String
 
     public var body: some View {
-        Form {
+        List {
             Section {
                 Text("""
                     Apache License
@@ -114,6 +114,8 @@ public struct ApacheLicense: View {
                     """)
             }
         }
+        .font(.footnote)
+        .listStyle(.plain)
         .navigationTitle(name)
     }
 }
