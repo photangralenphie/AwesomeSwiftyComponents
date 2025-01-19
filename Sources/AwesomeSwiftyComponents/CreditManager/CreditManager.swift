@@ -51,12 +51,13 @@ public enum Licence {
     case mit(name: String, author: String, year: String)
     case apache(name: String, author: String, year: String)
     case CC0(credit: String)
+    case CC_BY_2_0(credit: String)
+    case CC_BY_3_0(credit: String)
     case CC_BY_SA_2_0(credit: String)
     case CC_BY_SA_3_0(credit: String)
     case CC_BY_SA_4_0(credit: String)
-    case CC_BY_2_0(credit: String)
-    case CC_BY_3_0(credit: String)
     case publicDomain(credit: String)
+    case photographerAttribution(name: String)
     
     public var description: String {
         switch self {
@@ -78,6 +79,8 @@ public enum Licence {
                 return "CC BY 3.0"
             case .publicDomain(let credit):
                 return "Public Domain"
+            case .photographerAttribution(name: let name):
+                return "All Rights Reserved"
         }
     }
     
@@ -101,6 +104,8 @@ public enum Licence {
                 return credit
             case .publicDomain(credit: let credit):
                 return credit
+            case .photographerAttribution(name: let name):
+                return name
         }
     }
 }
@@ -134,6 +139,8 @@ public struct LicenceLink: View {
                 self.name = credit
             case .publicDomain(credit: let credit):
                 self.name = credit
+            case .photographerAttribution(name: let name):
+                self.name = name
         }
     }
     
@@ -187,6 +194,11 @@ public struct LicenceView: View {
                     CC_BY_3_0(credit: credit)
                 case .publicDomain(credit: let credit):
                     PublicDomain(credit: credit)
+                case .photographerAttribution(name: let name):
+                    Form {
+                        Text("Image by \(name)")
+                        Text("All rights reserved.")
+                    }
             }
         }
         .navigationBarTitleDisplayMode(.inline)
