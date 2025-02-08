@@ -21,7 +21,7 @@ public struct ColorSchemeSwitcher: View {
     }
     
     public var body: some View {
-        let schemaSwitcher = Picker("Is Dark?", selection: $colorScheme) {
+		let schemaSwitcher = Picker("Is Dark?", selection: $colorScheme) {
             Text(systemLabel)
                 .tag(PreferredColorScheme.systemDefault)
             Text(darkLabel)

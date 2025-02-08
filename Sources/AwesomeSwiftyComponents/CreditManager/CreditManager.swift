@@ -1,8 +1,9 @@
-#if !os(macOS)
+//#if !os(macOS)
 
 import SwiftUI
 
 @available(iOS 18.0, *)
+@available(macOS 15.0, *)
 public struct CreditManager<Content: View>: View {
     @ViewBuilder public var content: Content
     
@@ -25,6 +26,7 @@ public struct CreditManager<Content: View>: View {
 }
 
 @available(iOS 18.0, *)
+@available(macOS 15.0, *)
 public struct LinkedCreditManager<Content: View>: View {
     @ViewBuilder public var content: Content
     let text: LocalizedStringKey
@@ -110,6 +112,7 @@ public enum Licence {
     }
 }
 
+@available(macOS 13.0, *)
 public struct LicenceLink: View {
     
     private let licence: Licence
@@ -165,6 +168,7 @@ public struct LicenceLink: View {
     }
 }
 
+@available(macOS 13.0, *)
 public struct LicenceView: View {
     
     private let licence: Licence
@@ -201,8 +205,10 @@ public struct LicenceView: View {
                     }
             }
         }
+		#if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
+		#endif
     }
 }
 
-#endif
+//#endif

@@ -1,8 +1,11 @@
-#if(os(iOS))
+#if !os(macOS)
 import UIKit
+#endif
+
 /// A collection of unrelated static functions, that can modify the appearance of your app
 public struct UIExtensions {
     
+	#if !os(macOS)
     /// Sets the NavigationBar font.
     /// - Parameter fontDesign: The font to use.
     public static func setNavigationBarFont(fontDesign: UIFontDescriptor.SystemDesign)  {
@@ -34,5 +37,5 @@ public struct UIExtensions {
         UINavigationBar.appearance().standardAppearance = standardAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = scrollEdgeAppearance
     }
+	#endif
 }
-#endif
