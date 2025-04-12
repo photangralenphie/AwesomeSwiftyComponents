@@ -12,10 +12,11 @@ import SwiftUI
 /// ```swift
 /// @AppStorage("myColor") private var myColor: AvailableColors = .blue
 /// ```
-/// Add the piker to your `View`. The picker looks best, if you make it a child of a `Form` or `List` and bind you defined variable to it:
+/// Add the piker to your `View` and bind you defined variable to it:
 /// ```swift
 /// InlineColorPicker(selectedColor: $myColor)
 /// ```
+/// The picker looks best, if you make it a child of a `Form` or `List`
 ///
 /// ### Using the selected Color
 /// To use the selected, use the ``ColorOptions/SwiftUIColor`` property:

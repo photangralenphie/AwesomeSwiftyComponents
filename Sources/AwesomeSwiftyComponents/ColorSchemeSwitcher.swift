@@ -7,11 +7,11 @@ public struct ColorSchemeSwitcher: View {
     @Binding public var colorScheme: PreferredColorScheme
     let showIcon: Bool
     let hapticFeedback: Bool
-    let systemLabel: String
-    let darkLabel: String
-    let lightLabel: String
+    let systemLabel: LocalizedStringKey
+	let darkLabel: LocalizedStringKey
+    let lightLabel: LocalizedStringKey
     
-    public init(colorScheme: Binding<PreferredColorScheme>, showIcon: Bool = true, hapticFeedback: Bool = true, systemLabel: String = "System", darkLabel: String = "Dark", lightLabel: String = "Light") {
+    public init(colorScheme: Binding<PreferredColorScheme>, showIcon: Bool = true, hapticFeedback: Bool = true, systemLabel: LocalizedStringKey = "System", darkLabel: LocalizedStringKey = "Dark", lightLabel: LocalizedStringKey = "Light") {
         _colorScheme = colorScheme
         self.showIcon = showIcon
         self.hapticFeedback = hapticFeedback
