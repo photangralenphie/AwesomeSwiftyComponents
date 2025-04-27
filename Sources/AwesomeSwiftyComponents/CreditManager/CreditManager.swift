@@ -49,7 +49,8 @@ public struct LinkedCreditManager<Content: View>: View {
     }
 }
 
-public enum Licence {
+public enum Licence: Identifiable{
+	
     case mit(name: String, author: String, year: String)
     case apache(name: String, author: String, year: String)
     case CC0(credit: String)
@@ -60,6 +61,31 @@ public enum Licence {
     case CC_BY_SA_4_0(credit: String)
     case publicDomain(credit: String)
     case photographerAttribution(name: String)
+	
+	public var id: String {
+		switch self {
+			case let .mit(name, author, year):
+				return "mit-\(name)-\(author)-\(year)"
+			case let .apache(name, author, year):
+				return "apache-\(name)-\(author)-\(year)"
+			case let .CC0(credit):
+				return "cc0-\(credit)"
+			case let .CC_BY_2_0(credit):
+				return "ccby20-\(credit)"
+			case let .CC_BY_3_0(credit):
+				return "ccby30-\(credit)"
+			case let .CC_BY_SA_2_0(credit):
+				return "ccbysa20-\(credit)"
+			case let .CC_BY_SA_3_0(credit):
+				return "ccbysa30-\(credit)"
+			case let .CC_BY_SA_4_0(credit):
+				return "ccbysa40-\(credit)"
+			case let .publicDomain(credit):
+				return "publicdomain-\(credit)"
+			case let .photographerAttribution(name):
+				return "photographer-\(name)"
+		}
+	}
     
     public var description: String {
         switch self {

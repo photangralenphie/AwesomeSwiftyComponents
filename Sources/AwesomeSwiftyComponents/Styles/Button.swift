@@ -30,8 +30,30 @@ public struct iOSBorderedForMacOS<S: Shape>: ButtonStyle {
                     .overlay {
                         Color.clear.background(.regularMaterial)
                     }
-                    .clipShape(Circle())
             )
+			.clipShape(clipShape)
         #endif
     }
+}
+
+/// A Button style mimicking the bordered prominent ButtonStyle on iOS just for macOS.
+/// Applying this to a button wont change the default default ButtonStyle on iOS
+@available(macOS 12.0, *)
+public struct iOSBorderedProminentForMacOS<S: Shape>: ButtonStyle {
+	
+	let clipShape: S
+	
+	public init(clipShape: S = RoundedRectangle(cornerRadius: 7)) {
+		self.clipShape = clipShape
+	}
+	
+	public func makeBody(configuration: Configuration) -> some View {
+		configuration.label
+		#if os(macOS)
+			.foregroundStyle(.foreground)
+			.padding(6)
+			.background(Color.accentColor)
+			.clipShape(clipShape)
+		#endif
+	}
 }
