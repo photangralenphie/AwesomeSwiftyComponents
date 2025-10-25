@@ -184,7 +184,7 @@ public struct LicenceLink: View {
                 } icon: {
                     image
                         .frame(width: 50, height: 50)
-                        .clipShape(.rect(cornerRadius: 5))
+						.clipShape(.rect(cornerRadius: 10, style: .continuous))
                         .padding(.leading)
                 }
             } else {
