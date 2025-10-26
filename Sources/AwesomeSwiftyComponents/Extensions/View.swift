@@ -53,3 +53,26 @@ extension View {
 		modifier(ConditionalBackground(show: show, background: background()))
 	}
 }
+
+// MARK: - ListGlassCell
+@available(iOS 26, macOS 26, *)
+public struct ListGlassCell<S: Shape>: ViewModifier {
+	
+	let glass: Glass
+	let shape: S
+	
+	public func body(content: Content) -> some View {
+		content
+			.listRowBackground(
+				Color.clear
+					.glassEffect(.clear.interactive(), in: shape)
+			)
+	}
+}
+
+@available(iOS 26, macOS 26, *)
+extension View {
+	public func listGlassCell(_ glass: Glass = .clear.interactive(), in shape: some Shape = DefaultGlassEffectShape()) -> some View {
+		modifier(ListGlassCell(glass: glass, shape: shape))
+	}
+}
