@@ -38,7 +38,7 @@ public struct CenteredImageLabelStyle: LabelStyle {
     }
 }
 
-@available(macOS 12.0,  iOS 15, *)
+@available(macOS 12.0, iOS 15, *)
 extension LabelStyle where Self == CenteredImageLabelStyle {
 
 	/// A label style that vertically centers the icon. (tintIcon: if the icon should be displayed in the accent color)
@@ -54,6 +54,7 @@ extension LabelStyle where Self == CenteredImageLabelStyle {
 
 
 // MARK: - SpaceAdaptable
+@available(macOS 11.0, iOS 15, *)
 public struct DefaultSpaceAdaptableLabelStyle: LabelStyle {
 	
 	public let horizontalSizeClass: UserInterfaceSizeClass?
@@ -66,6 +67,7 @@ public struct DefaultSpaceAdaptableLabelStyle: LabelStyle {
 	}
 }
 
+@available(macOS 11.0, iOS 15, *)
 extension LabelStyle where Self == DefaultSpaceAdaptableLabelStyle {
 
 	/// A label style that shows the icon and text in a regular horizontalSizeClass and the icon only in a compact horizontalSizeClass.

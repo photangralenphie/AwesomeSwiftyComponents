@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// An  awesome, simple but customizable Inline color picker. Supports saving a color with `@AppStorage`.  You can provide your own colors by implementing a type conforming to ``ColorOptions``.
+/// An  awesome, simple but customisable Inline color picker. Supports saving a color with `@AppStorage`.  You can provide your own colors by implementing a type conforming to ``ColorOptions``.
 ///
 /// ## Essentials
 /// Get started by defining a `@State` variable to hold you selected color.
@@ -8,7 +8,7 @@ import SwiftUI
 /// ```swift
 /// @State private var myColor: AvailableColors = .blue
 /// ```
-/// If you want to persist the state over restarts (e.g. for tint/accentColors), use `@AppStorage`:
+/// If you want to persist the state over app restarts (e.g. for tint/accentColors), use `@AppStorage`:
 /// ```swift
 /// @AppStorage("myColor") private var myColor: AvailableColors = .blue
 /// ```
@@ -35,8 +35,7 @@ import SwiftUI
 ///  ```swift
 /// InlineColorPicker(selectedColor: $myColor, pickerStyle: .expanded(systemImage: "paintbrush.pointed", description: "Selected Color:"))
 /// ```
-@available(iOS 15.0, *)
-@available(macOS 14, *)
+@available(iOS 26, macOS 26, *)
 public struct InlineColorPicker<T: ColorOptions>: View {
     
     /// The selected color wrapper. Binding to a variable of type ``AvailableColors`` or you own type which conforms to ``ColorOptions``.
@@ -44,8 +43,8 @@ public struct InlineColorPicker<T: ColorOptions>: View {
     /// The style of the picker.
     let pickerStyle: InlineColorPickerStyle
     
-    private let enumType: any ColorOptions.Type
-    
+	private let colors: Array<T>
+	@Namespace private var colorPickerNamespace
     
     /// Creates a new ``InlineColorPicker``.
     /// - Parameters:
@@ -55,44 +54,58 @@ public struct InlineColorPicker<T: ColorOptions>: View {
         self.selectedColor = selectedColor
         self.pickerStyle = pickerStyle
         
-        self.enumType = type(of: selectedColor.wrappedValue)
+		let enumType: any ColorOptions.Type = type(of: selectedColor.wrappedValue)
+		self.colors = Array(enumType.allCases.compactMap { $0 as? T })
     }
     
     public var body: some View {
-        VStack {
-            switch pickerStyle {
-                case .expanded(let systemImage, let description):
-                    HStack {
-                        Label(description, systemImage: systemImage)
-                        Spacer()
-                        Text(selectedColor.wrappedValue.SwiftUIColor.description.capitalized)
-                            .foregroundColor(selectedColor.wrappedValue.SwiftUIColor)
-                    }
-                default: EmptyView()
-            }
+		ZStack {
 
-            HStack {
-                let colors = Array(enumType.allCases.compactMap { $0 as? T })
-                ForEach(colors.indices, id: \.self) { colorIndex in
-                    Circle()
-                        .strokeBorder(selectedColor.wrappedValue == colors[colorIndex] ? Color.gray : colors[colorIndex].SwiftUIColor , lineWidth: 3)
-                        .background {
-                            if colors[colorIndex].SwiftUIColor == Color.primary {
-                                Image(systemName: "circle.righthalf.fill")
-                                    .imageScale(.large)
-                            } else {
-                                Circle().foregroundColor(colors[colorIndex].SwiftUIColor)
-                            }
-                        }
-                        .padding(.horizontal, -13)
-                        .onTapGesture {
-                            selectedColor.wrappedValue = colors[colorIndex]
-                        }
-                }
-            }
-        }
-        .padding(.vertical, 7)
-        .modifier(Feedback(color: selectedColor.wrappedValue.SwiftUIColor))
+			Color.clear
+				.frame(width: 40, height: 40)
+				.glassEffect(.clear, in: .circle)
+				.matchedGeometryEffect(id: "\(selectedColor.wrappedValue)", in: colorPickerNamespace, properties: .position, anchor: .center, isSource: false)
+			
+			VStack() {
+				switch pickerStyle {
+					case .expanded(let systemImage, let description):
+						HStack {
+							Label(description, systemImage: systemImage)
+							Spacer()
+							Text(selectedColor.wrappedValue.SwiftUIColor.description.capitalized)
+								.foregroundColor(selectedColor.wrappedValue.SwiftUIColor)
+						}
+					default: EmptyView()
+				}
+				
+				HStack {
+					Spacer()
+					ForEach(colors.indices, id: \.self) { colorIndex in
+						Group {
+							if colors[colorIndex].SwiftUIColor == Color.primary {
+								Image(systemName: "circle.righthalf.fill")
+							} else {
+								Circle()
+									.fill(colors[colorIndex].SwiftUIColor)
+									.frame(height: 18)
+							}
+						}
+						.background {
+							Color.clear
+								.matchedGeometryEffect(id: "\(colors[colorIndex])", in: colorPickerNamespace, properties: .position, anchor: .center, isSource: true)
+						}
+						.onTapGesture {
+							withAnimation(.spring(duration: 0.3, bounce: 0.4)) {
+								selectedColor.wrappedValue = colors[colorIndex]
+							}
+						} 
+						
+						Spacer()
+					}
+				}
+			}
+		}
+		.sensoryFeedback(.selection, trigger: selectedColor.wrappedValue)
     }
     
     private func elementAt<T: Collection>(from collection: T, index: T.Index) -> T.Element? {
@@ -103,23 +116,8 @@ public struct InlineColorPicker<T: ColorOptions>: View {
     }
 }
 
-@available(iOS 15.0, *)
-@available(macOS 14, *)
-fileprivate struct Feedback: ViewModifier {
-    let color: Color
-    func body(content: Content) -> some View {
-        if #available(iOS 17.0, *) {
-            content
-                .sensoryFeedback(.selection, trigger: color)
-        } else {
-            content
-        }
-    }
-}
-
 /// Available styles for the ``InlineColorPicker``
-@available(iOS 15.0, *)
-@available(macOS 14, *)
+@available(iOS 26, macOS 26, *)
 public enum InlineColorPickerStyle {
     /// The slim style for the ``InlineColorPicker``.
     case slim
@@ -131,8 +129,7 @@ public enum InlineColorPickerStyle {
 }
 
 /// A default type, which can be used to bind the selected color for an ``InlineColorPicker``.
-@available(iOS 15.0, *)
-@available(macOS 14, *)
+@available(iOS 26, macOS 26, *)
 public enum AvailableColors: Int, ColorOptions, Codable {
     case blue = 0
     case cyan = 1
@@ -144,7 +141,6 @@ public enum AvailableColors: Int, ColorOptions, Codable {
     case purple = 7
     case indigo = 8
     case primary = 9
-    
     
     /// Returns the `Color` for an variable of type ``AvailableColors``.
     public var SwiftUIColor: Color {
@@ -207,7 +203,7 @@ public enum AvailableColors: Int, ColorOptions, Codable {
 ///    }
 ///}
 /// ```
-@available(macOS 14, *)
+@available(iOS 26, macOS 26, *)
 public protocol ColorOptions: CaseIterable, Hashable {
     var SwiftUIColor: Color { get }
 }
