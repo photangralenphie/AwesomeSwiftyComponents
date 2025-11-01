@@ -8,34 +8,40 @@ public struct UIExtensions {
 	#if !os(macOS)
     /// Sets the NavigationBar font.
     /// - Parameter fontDesign: The font to use.
-    public static func setNavigationBarFont(fontDesign: UIFontDescriptor.SystemDesign)  {
-        let largeTitleDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .largeTitle)
-            .withDesign(fontDesign)!
-            .withSymbolicTraits(UIFontDescriptor.SymbolicTraits.traitBold)!
-        let smallTitleDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .body)
-            .withDesign(fontDesign)!
-            .withSymbolicTraits(UIFontDescriptor.SymbolicTraits.traitBold)!
+	@available(iOS 15.0, *)
+	public static func setNavigationBarFont(fontDesign: UIFontDescriptor.SystemDesign)  {
+		let largeTitleBase = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .largeTitle)
+		let bodyBase = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .body)
 
-        let standardAppearance = UINavigationBarAppearance()
-        standardAppearance.configureWithOpaqueBackground()
-        standardAppearance.largeTitleTextAttributes = [
-            .font: UIFont(descriptor: largeTitleDescriptor, size: 0)
-        ]
-        standardAppearance.titleTextAttributes = [
-            .font: UIFont(descriptor: smallTitleDescriptor, size: 0)
-        ]
-        
-        let scrollEdgeAppearance = UINavigationBarAppearance()
-        scrollEdgeAppearance.configureWithTransparentBackground()
-        scrollEdgeAppearance.largeTitleTextAttributes = [
-            .font: UIFont(descriptor: largeTitleDescriptor, size: 0)
-        ]
-        scrollEdgeAppearance.titleTextAttributes = [
-            .font: UIFont(descriptor: smallTitleDescriptor, size: 0)
-        ]
+		guard
+			let largeTitleDesign = largeTitleBase.withDesign(fontDesign),
+			let bodyDesign = bodyBase.withDesign(fontDesign),
+			let largeTitleBold = largeTitleDesign.withSymbolicTraits(.traitBold),
+			let bodyBold = bodyDesign.withSymbolicTraits(.traitBold)
+		else {
+			return
+		}
 
-        UINavigationBar.appearance().standardAppearance = standardAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = scrollEdgeAppearance
+		let largeTitleFont = UIFont(descriptor: largeTitleBold, size: 0)
+		let smallTitleFont = UIFont(descriptor: bodyBold, size: 0)
+
+		let appearance = UINavigationBarAppearance()
+		appearance.configureWithDefaultBackground()
+		appearance.titleTextAttributes = [
+			.font: smallTitleFont
+		]
+		appearance.largeTitleTextAttributes = [
+			.font: largeTitleFont
+		]
+
+		let navBar = UINavigationBar.appearance()
+		navBar.standardAppearance = appearance
+
+		// iOS 15+ uses scrollEdgeAppearance when content scrolls behind the nav bar
+		navBar.scrollEdgeAppearance = appearance
+
+		navBar.compactAppearance = appearance
+		navBar.compactScrollEdgeAppearance = appearance
     }
 	#endif
 }

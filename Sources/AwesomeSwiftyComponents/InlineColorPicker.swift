@@ -130,7 +130,7 @@ public enum InlineColorPickerStyle {
 
 /// A default type, which can be used to bind the selected color for an ``InlineColorPicker``.
 @available(iOS 26, macOS 26, *)
-public enum AvailableColors: Int, ColorOptions, Codable {
+public enum AvailableColors: Int, ColorOptions, Codable, Sendable {
     case blue = 0
     case cyan = 1
     case mint = 2
