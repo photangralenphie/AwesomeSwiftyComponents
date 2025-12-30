@@ -35,7 +35,7 @@ import SwiftUI
 ///  ```swift
 /// InlineColorPicker(selectedColor: $myColor, pickerStyle: .expanded(systemImage: "paintbrush.pointed", description: "Selected Color:"))
 /// ```
-@available(iOS 26, macOS 26, *)
+@available(iOS 17, macOS 26, *)
 public struct InlineColorPicker<T: ColorOptions>: View {
     
     /// The selected color wrapper. Binding to a variable of type ``AvailableColors`` or you own type which conforms to ``ColorOptions``.
@@ -60,11 +60,18 @@ public struct InlineColorPicker<T: ColorOptions>: View {
     
     public var body: some View {
 		ZStack {
-
-			Color.clear
-				.frame(width: 40, height: 40)
-				.glassEffect(.clear, in: .circle)
-				.matchedGeometryEffect(id: "\(selectedColor.wrappedValue)", in: colorPickerNamespace, properties: .position, anchor: .center, isSource: false)
+			
+			if #available(iOS 26.0, *) {
+				Color.clear
+					.frame(width: 40, height: 40)
+					.glassEffect(.clear, in: .circle)
+					.matchedGeometryEffect(id: "\(selectedColor.wrappedValue)", in: colorPickerNamespace, properties: .position, anchor: .center, isSource: false)
+			} else {
+				Circle()
+					.fill(Color.gray)
+					.frame(width: 40, height: 40)
+					.matchedGeometryEffect(id: "\(selectedColor.wrappedValue)", in: colorPickerNamespace, properties: .position, anchor: .center, isSource: false)
+			}
 			
 			VStack() {
 				switch pickerStyle {
@@ -117,7 +124,7 @@ public struct InlineColorPicker<T: ColorOptions>: View {
 }
 
 /// Available styles for the ``InlineColorPicker``
-@available(iOS 26, macOS 26, *)
+@available(iOS 17, macOS 26, *)
 public enum InlineColorPickerStyle {
     /// The slim style for the ``InlineColorPicker``.
     case slim
@@ -129,7 +136,7 @@ public enum InlineColorPickerStyle {
 }
 
 /// A default type, which can be used to bind the selected color for an ``InlineColorPicker``.
-@available(iOS 26, macOS 26, *)
+@available(iOS 17, macOS 26, *)
 public enum AvailableColors: Int, ColorOptions, Codable, Sendable {
     case blue = 0
     case cyan = 1
@@ -203,7 +210,7 @@ public enum AvailableColors: Int, ColorOptions, Codable, Sendable {
 ///    }
 ///}
 /// ```
-@available(iOS 26, macOS 26, *)
+@available(iOS 17, macOS 26, *)
 public protocol ColorOptions: CaseIterable, Hashable {
     var SwiftUIColor: Color { get }
 }
