@@ -1,6 +1,6 @@
 import SwiftUI
 
-@available(iOS 15.0, *)
+@available(iOS 17, *)
 @available(macOS 14, *)
 public struct ColorSchemeSwitcher: View {
     
@@ -21,15 +21,15 @@ public struct ColorSchemeSwitcher: View {
     }
     
     public var body: some View {
-		let schemaSwitcher = Picker("Is Dark?", selection: $colorScheme) {
-            Text(systemLabel)
+		let schemaSwitcher = Picker("Is Dark?", selection: $colorScheme.animation()) {
+			Label(systemLabel, systemImage: "circle.lefthalf.filled")
                 .tag(PreferredColorScheme.systemDefault)
-            Text(darkLabel)
+			Label(darkLabel, systemImage: "circle.fill")
                 .tag(PreferredColorScheme.dark)
-            Text(lightLabel)
+			Label(lightLabel, systemImage: "circle")
                 .tag(PreferredColorScheme.light)
         }
-        .pickerStyle(.segmented)
+		.pickerStyle(.segmented)
         .modifier(iOO17HapticFeedBack(feedbackTrigger: colorScheme))
         
         if(showIcon) {

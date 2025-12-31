@@ -21,11 +21,13 @@
 ## Modifiers:
 * **.listGlassCell()**: switches the background of a list cell to liquid glass.
 * **.conditionalBackground()**: conditionally shows the provided background.
+* **.safeAreaView()**: combines **safeAreaInset()** on iOS 18 and below and **safeAreaBar()** from iOS26 
 
 ## Others:
 * sheet in app browser (iOS 15-18) (deprecated use WebView from iOS 26 on).
 * array support for AppStorage.
 * bool binding for optional data.
+* luminance value for CGColor
 * more that, either doesn't work correctly right now, or I can't be bothered to write down.
 
 ## No documentation yet - sorry :/
