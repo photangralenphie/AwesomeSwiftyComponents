@@ -33,7 +33,7 @@ extension View {
 }
 
 
-@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
+@available(iOS 15.0, macOS 15.0, visionOS 2.0, *)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 fileprivate struct SafeAreaView<C:View>: ViewModifier {
@@ -53,7 +53,7 @@ fileprivate struct SafeAreaView<C:View>: ViewModifier {
 	}
 }
 
-@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
+@available(iOS 15.0, macOS 15.0, visionOS 2.0, *)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 extension View {

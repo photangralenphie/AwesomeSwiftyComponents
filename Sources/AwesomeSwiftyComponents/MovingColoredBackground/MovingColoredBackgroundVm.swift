@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@available(iOS 18.0, *)
+@available(iOS 17.0, *)
 @Observable
 public class MovingColoredBackgroundVm {
 	

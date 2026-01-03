@@ -2,8 +2,8 @@
 
 import SwiftUI
 
-@available(iOS 18.0, *)
-@available(macOS 15.0, *)
+@available(iOS 16.0, *)
+@available(macOS 14.0, *)
 public struct CreditManager<Content: View>: View {
     @ViewBuilder public var content: Content
     
@@ -14,19 +14,15 @@ public struct CreditManager<Content: View>: View {
     public var body: some View {
         NavigationStack {
             Form {
-                ForEach(sections: content) { section in
-                    Section(header: section.header) {
-                        section.content
-                    }
-                }
+				content
             }
             .navigationTitle("Credits")
         }
     }
 }
 
-@available(iOS 18.0, *)
-@available(macOS 15.0, *)
+@available(iOS 16.0, *)
+@available(macOS 14.0, *)
 public struct LinkedCreditManager<Content: View>: View {
     @ViewBuilder public var content: Content
     let text: LocalizedStringKey
@@ -49,7 +45,7 @@ public struct LinkedCreditManager<Content: View>: View {
     }
 }
 
-public enum Licence: Identifiable{
+public enum Licence: Identifiable {
 	
     case mit(name: String, author: String, year: String)
     case apache(name: String, author: String, year: String)
@@ -236,5 +232,3 @@ public struct LicenceView: View {
 		#endif
     }
 }
-
-//#endif

@@ -1,6 +1,6 @@
 import SwiftUI
 
-@available(iOS 17, *)
+@available(iOS 15, *)
 @available(macOS 14, *)
 public struct ColorSchemeSwitcher: View {
     

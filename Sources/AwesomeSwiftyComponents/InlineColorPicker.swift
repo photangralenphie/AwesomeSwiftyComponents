@@ -35,7 +35,7 @@ import SwiftUI
 ///  ```swift
 /// InlineColorPicker(selectedColor: $myColor, pickerStyle: .expanded(systemImage: "paintbrush.pointed", description: "Selected Color:"))
 /// ```
-@available(iOS 17, macOS 26, *)
+@available(iOS 15, macOS 26, *)
 public struct InlineColorPicker<T: ColorOptions>: View {
     
     /// The selected color wrapper. Binding to a variable of type ``AvailableColors`` or you own type which conforms to ``ColorOptions``.
@@ -59,8 +59,7 @@ public struct InlineColorPicker<T: ColorOptions>: View {
     }
     
     public var body: some View {
-		ZStack {
-			
+		let body = ZStack {
 			if #available(iOS 26.0, *) {
 				Color.clear
 					.frame(width: 40, height: 40)
@@ -112,7 +111,13 @@ public struct InlineColorPicker<T: ColorOptions>: View {
 				}
 			}
 		}
-		.sensoryFeedback(.selection, trigger: selectedColor.wrappedValue)
+		
+		if #available(iOS 17.0, *) {
+			body
+				.sensoryFeedback(.selection, trigger: selectedColor.wrappedValue)
+		} else {
+			body
+		}
     }
     
     private func elementAt<T: Collection>(from collection: T, index: T.Index) -> T.Element? {
@@ -124,7 +129,7 @@ public struct InlineColorPicker<T: ColorOptions>: View {
 }
 
 /// Available styles for the ``InlineColorPicker``
-@available(iOS 17, macOS 26, *)
+@available(iOS 15, macOS 26, *)
 public enum InlineColorPickerStyle {
     /// The slim style for the ``InlineColorPicker``.
     case slim
@@ -136,7 +141,7 @@ public enum InlineColorPickerStyle {
 }
 
 /// A default type, which can be used to bind the selected color for an ``InlineColorPicker``.
-@available(iOS 17, macOS 26, *)
+@available(iOS 15, macOS 26, *)
 public enum AvailableColors: Int, ColorOptions, Codable, Sendable {
     case blue = 0
     case cyan = 1
@@ -187,7 +192,7 @@ public enum AvailableColors: Int, ColorOptions, Codable, Sendable {
 ///  - Create a new enum and make if conform to ``ColorOptions`` (see an example below).
 ///  - Create a `@State` variable of you new type.
 ///  - Bind it to the ``InlineColorPicker`` and your picker will display only your selected Colors
-///  - You can also use ``AvailableColors`` which also conforms to this protocol the use the standard colors.
+///  - You can also use ``AvailableColors`` which also conforms to this protocol to use the default colors.
 /// ```swift
 ///public enum WarmColors: Int, ColorOptions {
 ///    case yellow = 1
@@ -210,7 +215,7 @@ public enum AvailableColors: Int, ColorOptions, Codable, Sendable {
 ///    }
 ///}
 /// ```
-@available(iOS 17, macOS 26, *)
+@available(iOS 15, macOS 26, *)
 public protocol ColorOptions: CaseIterable, Hashable {
     var SwiftUIColor: Color { get }
 }
