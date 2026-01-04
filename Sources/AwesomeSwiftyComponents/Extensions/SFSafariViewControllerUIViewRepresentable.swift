@@ -14,6 +14,7 @@ import UIKit
 import SafariServices
 
 @available(iOS 13.0, *)
+@available(iOS, deprecated: 26.0, message: "Used WebKit instead.")
 public struct SFSafariViewControllerUIViewRepresentable: UIViewControllerRepresentable {
 
     let url: URL

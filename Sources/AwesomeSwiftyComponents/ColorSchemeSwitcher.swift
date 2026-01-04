@@ -1,16 +1,25 @@
 import SwiftUI
 
+/// A Color Scheme Switcher Best used in a ``SwiftUI/Form``form.
 @available(iOS 15, *)
 @available(macOS 14, *)
 public struct ColorSchemeSwitcher: View {
     
     @Binding public var colorScheme: PreferredColorScheme
-    let showIcon: Bool
-    let hapticFeedback: Bool
-    let systemLabel: LocalizedStringKey
-	let darkLabel: LocalizedStringKey
-    let lightLabel: LocalizedStringKey
-    
+    private let showIcon: Bool
+	private let hapticFeedback: Bool
+	private let systemLabel: LocalizedStringKey
+	private let darkLabel: LocalizedStringKey
+	private let lightLabel: LocalizedStringKey
+	
+	/// Creates a color schema switcher.
+	/// - Parameters:
+	///   - colorScheme: A binding to a ``PreferredColorScheme``
+	///   - showIcon: Whether to show an icon next to the picker (default: true).
+	///   - hapticFeedback: Whether to use haptic feedback (default: true) [requires iOS 17].
+	///   - systemLabel: The text to display on the `System`option (default: "System").
+	///   - darkLabel: The text to display on the `Dark`option (default: "Dark").
+	///   - lightLabel: The text to display on the `Light`option (default: "Light").
     public init(colorScheme: Binding<PreferredColorScheme>, showIcon: Bool = true, hapticFeedback: Bool = true, systemLabel: LocalizedStringKey = "System", darkLabel: LocalizedStringKey = "Dark", lightLabel: LocalizedStringKey = "Light") {
         _colorScheme = colorScheme
         self.showIcon = showIcon
@@ -47,7 +56,7 @@ public struct ColorSchemeSwitcher: View {
 }
 
 @available(macOS 14, *)
-fileprivate struct iOO17HapticFeedBack : ViewModifier {
+internal struct iOO17HapticFeedBack : ViewModifier {
     let feedbackTrigger: PreferredColorScheme
     func body(content: Content) -> some View {
         if #available(iOS 17.0, *) {
@@ -61,7 +70,7 @@ fileprivate struct iOO17HapticFeedBack : ViewModifier {
 }
 
 @available(macOS 14, *)
-fileprivate struct iOS17ContentTransition : ViewModifier {
+internal struct iOS17ContentTransition : ViewModifier {
     func body(content: Content) -> some View {
         if #available(iOS 17.0, *) {
             content

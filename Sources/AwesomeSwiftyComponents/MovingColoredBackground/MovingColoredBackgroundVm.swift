@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// The ViewModel for the MovingColoredBackgroundView.
 @available(iOS 17.0, *)
 @Observable
 public class MovingColoredBackgroundVm {
@@ -28,18 +29,22 @@ public class MovingColoredBackgroundVm {
 	@ObservationIgnored
 	private var startDate = Date()
 	
-	public init() {
+	/// Creates a background from the color blue
+	/// - Parameter initialColor: The color of the background. Can be changed with ``setBackgroundColor(baseColor:)`` later.
+	public init(initialColor: AvailableColors = .blue) {
 		self.seeds = Self.getSeed(basePoints: basePoints)
-		self.colors = Self.getColors(baseColor: AvailableColors.blue)
+		self.colors = Self.getColors(baseColor: initialColor)
 	}
 	
+	/// Use to change the color of the background.
+	/// - Parameter baseColor: The new color of the background.
 	public func setBackgroundColor(baseColor: AvailableColors) {
 		withAnimation {
 			self.colors = Self.getColors(baseColor: baseColor)
 		}
 	}
 	
-	public func points(at time: Date) -> [SIMD2<Float>] {
+	internal func points(at time: Date) -> [SIMD2<Float>] {
 		let passedTime: TimeInterval = time.timeIntervalSince(startDate)
 		
 		return zip(basePoints, seeds).map { base, seed in
@@ -80,7 +85,6 @@ public class MovingColoredBackgroundVm {
 	}
 	
 	// MARK: - init
-	
 	private static func getSeed(basePoints: [SIMD2<Float>]) -> [PointSeed] {
 		return basePoints.map { base in
 			PointSeed.random(for: base)
@@ -99,7 +103,7 @@ public class MovingColoredBackgroundVm {
 	}
 }
 
-fileprivate struct PointSeed: Hashable {
+internal struct PointSeed: Hashable {
 	let phaseX: Float
 	let phaseY: Float
 	let freqX: Float

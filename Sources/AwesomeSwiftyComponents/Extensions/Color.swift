@@ -7,13 +7,31 @@
 
 import SwiftUI
 
+// MARK: - COLOR
 extension Color {
+	/// The ``CoreGraphics/CGColor`` of a ``SwiftUICore/Color``
 	public var CgColor: CGColor {
 		UIColor(self).cgColor
 	}
+	
+	// MARK: Random
+	@available(iOS 15.0, *)
+	fileprivate static let randomColorOptions: [Color] = [.blue, .brown, .cyan, .green, indigo, .mint, .orange, .purple, .pink, .red, .teal, .yellow]
+	
+	/// gives back a random SwiftUI ``SwiftUICore/Color`` out of the following options
+	/// ```swift
+	/// [.blue, .brown, .cyan, .green, indigo, .mint, .orange, .purple, .pink, .red, .teal, .yellow]
+	/// ```
+	@available(iOS 15.0, *)
+	public static var random: Color {
+		Color.randomColorOptions.randomElement()!
+	}
 }
 
+// MARK: - CGCOLOR
 extension CGColor {
+	/// The luminance (brightness) of a ``CoreGraphics/CGColor`` (0 == dark, 1 == bright).
+	/// Can be used to check if a foreground color should be white or black in relation to a background.
 	public var luminance: CGFloat? {
 		guard let components = self.components else { return nil }
 
@@ -26,6 +44,7 @@ extension CGColor {
 	}
 }
 
+// MARK: - AvailableColors
 @available(iOS 17, *)
 extension AvailableColors {
 	public var adjacentColor1: Color {

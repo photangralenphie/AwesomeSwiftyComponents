@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// An animated moving background. Specify a reusable ``MovingColoredBackgroundVm`` to create the background.
 @available(iOS 18.0, *)
 public struct MovingColoredBackgroundView: View {
 	

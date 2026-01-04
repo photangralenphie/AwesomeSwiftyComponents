@@ -2,6 +2,7 @@ import SwiftUI
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Binding {
+	/// Allows binding an arbitrary ``Swift/Optional`` value to a bool ``Swift/Binding``.
 	public func isNotNil<T>() -> Binding<Bool> where Value == T? {
 		Binding<Bool>(
 			get: { self.wrappedValue != nil },
