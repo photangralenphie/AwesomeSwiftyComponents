@@ -14,10 +14,9 @@ extension Color {
 		UIColor(self).cgColor
 	}
 	
-	// MARK: Random
+	
 	@available(iOS 15.0, *)
 	fileprivate static let randomColorOptions: [Color] = [.blue, .brown, .cyan, .green, indigo, .mint, .orange, .purple, .pink, .red, .teal, .yellow]
-	
 	/// gives back a random SwiftUI ``SwiftUICore/Color`` out of the following options
 	/// ```swift
 	/// [.blue, .brown, .cyan, .green, indigo, .mint, .orange, .purple, .pink, .red, .teal, .yellow]
@@ -47,6 +46,7 @@ extension CGColor {
 // MARK: - AvailableColors
 @available(iOS 17, *)
 extension AvailableColors {
+	/// <#Description#>
 	public var adjacentColor1: Color {
 		switch self {
 			case .blue: return .cyan
@@ -62,6 +62,7 @@ extension AvailableColors {
 		}
 	}
 	
+	/// <#Description#>
 	public var adjacentColor2: Color {
 		switch self {
 			case .blue: return .indigo

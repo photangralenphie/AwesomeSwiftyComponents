@@ -1,6 +1,5 @@
 import Foundation
 
-/// Adds the possibility to store Arrays with the `@AppStorage` wrapper.
 extension Array: @retroactive RawRepresentable where Element: Codable {
     /// Adds the possibility to store Arrays with the `@AppStorage` wrapper.
     public init?(rawValue: String) {

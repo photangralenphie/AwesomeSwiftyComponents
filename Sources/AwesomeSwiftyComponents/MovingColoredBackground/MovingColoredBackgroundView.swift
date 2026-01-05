@@ -11,8 +11,10 @@ import SwiftUI
 @available(iOS 18.0, *)
 public struct MovingColoredBackgroundView: View {
 	
-	public let vm: MovingColoredBackgroundVm
+	let vm: MovingColoredBackgroundVm
 	
+	/// <#Description#>
+	/// - Parameter vm: <#vm description#>
 	public init(vm: MovingColoredBackgroundVm) {
 		self.vm = vm
 	}

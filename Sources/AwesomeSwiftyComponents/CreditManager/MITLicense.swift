@@ -8,19 +8,19 @@
 import SwiftUI
 
 @available(iOS 14.0, *, macOS 11.0, *)
-public struct MITLicense: View {
+struct MITLicense: View {
     
-    private let name: String
-    private let year: String
-    private let author: String
+    let name: String
+    let year: String
+    let author: String
     
-    public init(name: String, year: String, author: String) {
+    init(name: String, year: String, author: String) {
         self.name = name
         self.year = year
         self.author = author
     }
     
-    public var body: some View {
+    var body: some View {
         List {
             Section {
                 Text("MIT License")

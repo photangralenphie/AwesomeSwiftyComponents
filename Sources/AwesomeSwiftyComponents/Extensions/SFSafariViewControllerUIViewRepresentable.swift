@@ -13,6 +13,7 @@ import SwiftUI
 import UIKit
 import SafariServices
 
+/// <#Description#>
 @available(iOS 13.0, *)
 @available(iOS, deprecated: 26.0, message: "Used WebKit instead.")
 public struct SFSafariViewControllerUIViewRepresentable: UIViewControllerRepresentable {
@@ -39,7 +40,9 @@ public struct SFSafariViewControllerUIViewRepresentable: UIViewControllerReprese
 @available(iOS 15.0, *)
 @available(macOS 10.15, *)
 private struct SafariViewControllerViewModifier: ViewModifier {
+	/// <#Description#>
     public let useInAppBrowser: Bool
+	
     @State private var urlToOpen: URL?
 
     func body(content: Content) -> some View {
@@ -70,11 +73,13 @@ private struct SafariViewControllerViewModifier: ViewModifier {
 @available(iOS 15.0, *)
 @available(macOS 10.15, *)
 public extension View {
-    /// Monitor the `openURL` environment variable and handle them in-app instead of viathe external web browser.
-    /// Does nothing on macOS
-	///
-    /// Uses the `SafariViewWrapper` which will present the URL in a `SFSafariViewController`.
-    /// Originally by: [Antoine van der Lee](https://www.avanderlee.com/swiftui/sfsafariviewcontroller-open-webpages-in-app/)
+	/// Monitor the `openURL` environment variable and handle them in-app instead of viathe external web browser.
+	/// Does nothing on macOS
+	/// 
+	/// Uses the `SafariViewWrapper` which will present the URL in a `SFSafariViewController`.
+	/// Originally by: [Antoine van der Lee](https://www.avanderlee.com/swiftui/sfsafariviewcontroller-open-webpages-in-app/)
+	/// - Parameter useInAppBrowser: <#useInAppBrowser description#>
+	/// - Returns: <#description#>
 
     func useInAppSafari(_ useInAppBrowser: Bool) -> some View {
         modifier(SafariViewControllerViewModifier(useInAppBrowser: useInAppBrowser))

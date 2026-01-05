@@ -14,7 +14,11 @@ public struct iOSBorderedForMacOS<S: Shape>: ButtonStyle {
     
     let foregroundColor: Color
     let clipShape: S
-    
+	
+	/// <#Description#>
+	/// - Parameters:
+	///   - foregroundColor: <#foregroundColor description#>
+	///   - clipShape: <#clipShape description#>
     public init(foregroundColor: Color = .primary, clipShape: S = Circle()) {
         self.foregroundColor = foregroundColor
         self.clipShape = clipShape
@@ -43,6 +47,8 @@ public struct iOSBorderedProminentForMacOS<S: Shape>: ButtonStyle {
 	
 	let clipShape: S
 	
+	/// <#Description#>
+	/// - Parameter clipShape: <#clipShape description#>
 	public init(clipShape: S = RoundedRectangle(cornerRadius: 7)) {
 		self.clipShape = clipShape
 	}

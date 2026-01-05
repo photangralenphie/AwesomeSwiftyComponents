@@ -44,7 +44,7 @@ public class MovingColoredBackgroundVm {
 		}
 	}
 	
-	internal func points(at time: Date) -> [SIMD2<Float>] {
+	func points(at time: Date) -> [SIMD2<Float>] {
 		let passedTime: TimeInterval = time.timeIntervalSince(startDate)
 		
 		return zip(basePoints, seeds).map { base, seed in

@@ -6,11 +6,10 @@
 //
 import SwiftUI
 
-// MARK: - TabViewSidebarBottomBar
 @available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
-fileprivate struct BetterTabViewSidebarBottomBar<TabViewContent:View>: ViewModifier {
+struct BetterTabViewSidebarBottomBar<TabViewContent:View>: ViewModifier {
 	let isVisible: Bool
 	let tabViewSidebarBottomBarContent: () -> TabViewContent
 	
@@ -23,20 +22,10 @@ fileprivate struct BetterTabViewSidebarBottomBar<TabViewContent:View>: ViewModif
 	}
 }
 
-@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
-@available(tvOS, unavailable)
-@available(watchOS, unavailable)
-extension View {
-	public func tabViewSidebarBottomBar<TabViewContent: View>(isVisible: Bool, @ViewBuilder content: @escaping () -> TabViewContent ) -> some View {
-		modifier(BetterTabViewSidebarBottomBar(isVisible: isVisible, tabViewSidebarBottomBarContent: content))
-	}
-}
-
-
 @available(iOS 15.0, macOS 15.0, visionOS 2.0, *)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
-fileprivate struct SafeAreaView<C:View>: ViewModifier {
+struct SafeAreaView<C:View>: ViewModifier {
 	let edge: VerticalEdge
 	let alignment: HorizontalAlignment
 	let spacing: CGFloat?
@@ -53,18 +42,9 @@ fileprivate struct SafeAreaView<C:View>: ViewModifier {
 	}
 }
 
-@available(iOS 15.0, macOS 15.0, visionOS 2.0, *)
-@available(tvOS, unavailable)
-@available(watchOS, unavailable)
-extension View {
-	public func safeAreaView<V>(edge: VerticalEdge, alignment: HorizontalAlignment = .center, spacing: CGFloat? = nil, @ViewBuilder content: @escaping () -> V) -> some View where V : View {
-		modifier(SafeAreaView(edge: edge, alignment: alignment, spacing: spacing, viewContent: content))
-	}
-}
 
-// MARK: - ListGlassCell
 @available(iOS 26, macOS 26, *)
-public struct ListGlassCell<S: Shape>: ViewModifier {
+struct ListGlassCell<S: Shape>: ViewModifier {
 	
 	let glass: Glass
 	let shape: S
@@ -78,8 +58,36 @@ public struct ListGlassCell<S: Shape>: ViewModifier {
 	}
 }
 
-@available(iOS 26, macOS 26, *)
 extension View {
+	/// <#Description#>
+	/// - Parameters:
+	///   - isVisible: <#isVisible description#>
+	///   - content: <#content description#>
+	@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
+	@available(tvOS, unavailable)
+	@available(watchOS, unavailable)
+	public func tabViewSidebarBottomBar<TabViewContent: View>(isVisible: Bool, @ViewBuilder content: @escaping () -> TabViewContent ) -> some View {
+		modifier(BetterTabViewSidebarBottomBar(isVisible: isVisible, tabViewSidebarBottomBarContent: content))
+	}
+	
+	/// <#Description#>
+	/// - Parameters:
+	///   - edge: <#edge description#>
+	///   - alignment: <#alignment description#>
+	///   - spacing: <#spacing description#>
+	///   - content: <#content description#>
+	@available(iOS 15.0, macOS 15.0, visionOS 2.0, *)
+	@available(tvOS, unavailable)
+	@available(watchOS, unavailable)
+	public func safeAreaView<V>(edge: VerticalEdge, alignment: HorizontalAlignment = .center, spacing: CGFloat? = nil, @ViewBuilder content: @escaping () -> V) -> some View where V : View {
+		modifier(SafeAreaView(edge: edge, alignment: alignment, spacing: spacing, viewContent: content))
+	}
+	
+	/// Turns cells of Lists and Forms into glass.
+	/// - Parameters:
+	///   - glass: The glass to use (default: .clear.interactive())
+	///   - shape: The shape of the cell (default: DefaultGlassEffectShape())
+	@available(iOS 26, macOS 26, *)
 	public func listGlassCell(_ glass: Glass = .clear.interactive(), in shape: some Shape = DefaultGlassEffectShape()) -> some View {
 		modifier(ListGlassCell(glass: glass, shape: shape))
 	}

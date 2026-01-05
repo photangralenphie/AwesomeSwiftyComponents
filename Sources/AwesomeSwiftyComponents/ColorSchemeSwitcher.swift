@@ -56,7 +56,7 @@ public struct ColorSchemeSwitcher: View {
 }
 
 @available(macOS 14, *)
-internal struct iOO17HapticFeedBack : ViewModifier {
+struct iOO17HapticFeedBack : ViewModifier {
     let feedbackTrigger: PreferredColorScheme
     func body(content: Content) -> some View {
         if #available(iOS 17.0, *) {
@@ -70,7 +70,7 @@ internal struct iOO17HapticFeedBack : ViewModifier {
 }
 
 @available(macOS 14, *)
-internal struct iOS17ContentTransition : ViewModifier {
+struct iOS17ContentTransition : ViewModifier {
     func body(content: Content) -> some View {
         if #available(iOS 17.0, *) {
             content
@@ -81,13 +81,14 @@ internal struct iOS17ContentTransition : ViewModifier {
     }
 }
 
+/// <#Description#>
 @available(macOS 10.15, *)
 public enum PreferredColorScheme: String, CaseIterable {
     case light
     case dark
     case systemDefault
     
-    fileprivate var icon: String {
+    var icon: String {
         switch self {
             case .dark:
                 return "moon.circle"
@@ -97,15 +98,16 @@ public enum PreferredColorScheme: String, CaseIterable {
                 return "circle.lefthalf.filled"
         }
     }
-    
+	
+	/// <#Description#>
     public var mode: ColorScheme? {
         switch self {
-        case .dark:
-            return .dark
-        case .light:
-            return .light
-        case .systemDefault:
-            return nil
+			case .dark:
+				return .dark
+			case .light:
+				return .light
+			case .systemDefault:
+				return nil
         }
     }
 }

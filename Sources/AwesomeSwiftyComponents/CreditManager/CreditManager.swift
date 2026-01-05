@@ -2,11 +2,14 @@
 
 import SwiftUI
 
+/// <#Description#>
 @available(iOS 16.0, *)
 @available(macOS 14.0, *)
 public struct CreditManager<Content: View>: View {
     @ViewBuilder public var content: Content
-    
+	
+	/// <#Description#>
+	/// - Parameter content: <#content description#>
     public init(@ViewBuilder content: () -> Content) {
         self.content = content()
     }
@@ -21,13 +24,19 @@ public struct CreditManager<Content: View>: View {
     }
 }
 
+/// <#Description#>
 @available(iOS 16.0, *)
 @available(macOS 14.0, *)
 public struct LinkedCreditManager<Content: View>: View {
     @ViewBuilder public var content: Content
     let text: LocalizedStringKey
     let systemImage: String
-    
+	
+	/// <#Description#>
+	/// - Parameters:
+	///   - text: <#text description#>
+	///   - systemImage: <#systemImage description#>
+	///   - content: <#content description#>
     public init(text: LocalizedStringKey = "Credits", systemImage: String = "text.document.fill", @ViewBuilder content: () -> Content) {
         self.content = content()
         self.text = text
@@ -45,8 +54,8 @@ public struct LinkedCreditManager<Content: View>: View {
     }
 }
 
+/// <#Description#>
 public enum Licence: Identifiable {
-	
     case mit(name: String, author: String, year: String)
     case apache(name: String, author: String, year: String)
     case CC0(credit: String)
@@ -58,6 +67,7 @@ public enum Licence: Identifiable {
     case publicDomain(credit: String)
     case photographerAttribution(name: String)
 	
+	/// <#Description#>
 	public var id: String {
 		switch self {
 			case let .mit(name, author, year):
@@ -82,7 +92,8 @@ public enum Licence: Identifiable {
 				return "photographer-\(name)"
 		}
 	}
-    
+	
+	/// <#Description#>
     public var description: String {
         switch self {
             case .mit(let name, let author, let year):
@@ -107,7 +118,8 @@ public enum Licence: Identifiable {
                 return "All Rights Reserved"
         }
     }
-    
+	
+	/// <#Description#>
     public var creditEntity: String {
         switch self {
             case .mit(name: let name, author: let author, year: let year):
@@ -134,13 +146,18 @@ public enum Licence: Identifiable {
     }
 }
 
+/// <#Description#>
 @available(macOS 13.0, *)
 public struct LicenceLink: View {
     
     private let licence: Licence
     private let name: String
     private let image: Image?
-    
+	
+	/// <#Description#>
+	/// - Parameters:
+	///   - licence: <#licence description#>
+	///   - image: <#image description#>
     public init(licence: Licence, image: Image? = nil) {
         self.licence = licence
         self.image = image
@@ -190,11 +207,14 @@ public struct LicenceLink: View {
     }
 }
 
+/// <#Description#>
 @available(macOS 13.0, *)
 public struct LicenceView: View {
     
     private let licence: Licence
-    
+	
+	/// <#Description#>
+	/// - Parameter licence: <#licence description#>
     public init(licence: Licence) {
         self.licence = licence
     }

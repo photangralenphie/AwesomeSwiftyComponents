@@ -8,11 +8,11 @@
 import SwiftUI
 
 @available(iOS 14.0, *, macOS 11.0, *)
-public struct CC0: View {
+struct CC0: View {
     
-    public let credit: String
+    let credit: String
 
-    public var body: some View {
+    var body: some View {
         List {
             Section {
                 Text("""

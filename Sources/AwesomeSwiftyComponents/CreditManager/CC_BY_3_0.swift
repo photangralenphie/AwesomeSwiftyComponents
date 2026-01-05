@@ -8,11 +8,11 @@
 import SwiftUI
 
 @available(iOS 14.0, *, macOS 11.0, *)
-public struct CC_BY_3_0: View {
+struct CC_BY_3_0: View {
     
-    public let credit: String
+    let credit: String
 
-    public var body: some View {
+    var body: some View {
         List {
             Text("Attribution 3.0 Unported")
             Text("""

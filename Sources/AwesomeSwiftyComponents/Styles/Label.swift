@@ -8,9 +8,12 @@
 import SwiftUI
 
 // MARK: - CenteredImage
+/// <#Description#>
 @available(macOS 12, iOS 15, *)
 public struct CenteredImageLabelStyle: LabelStyle {
-	let tintIcon: Bool
+	/// <#Description#>
+	public let tintIcon: Bool
+	
     public func makeBody(configuration: Configuration) -> some View {
         HStack(alignment: .center) {
 			if #available(iOS 15.0, *) {
@@ -54,9 +57,11 @@ extension LabelStyle where Self == CenteredImageLabelStyle {
 
 
 // MARK: - SpaceAdaptable
+/// <#Description#>
 @available(macOS 11.0, iOS 15, *)
 public struct DefaultSpaceAdaptableLabelStyle: LabelStyle {
 	
+	/// <#Description#>
 	public let horizontalSizeClass: UserInterfaceSizeClass?
 	
 	public func makeBody(configuration: Configuration) -> some View {

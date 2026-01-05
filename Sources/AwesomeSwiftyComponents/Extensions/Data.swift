@@ -8,5 +8,6 @@
 import Foundation
 
 extension Data: Identifiable {
+	/// <#Description#>
 	public var id: Data { self }
 }
