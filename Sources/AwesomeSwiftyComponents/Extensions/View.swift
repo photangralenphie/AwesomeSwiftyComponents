@@ -83,4 +83,26 @@ extension View {
 	public func listGlassCell(_ glass: Glass = .clear.interactive(), in shape: some Shape = DefaultGlassEffectShape()) -> some View {
 		modifier(ListGlassCell(glass: glass, shape: shape))
 	}
+	
+	/// Applies the .bordered on iOS 18 and earlier or the .glass on iOS 26 and later
+	@available(iOS 15.0, *)
+	@ViewBuilder
+	public func glassOrBorderedButtonStyle() -> some View {
+		if #available(iOS 26, *) {
+			self.buttonStyle(.glass)
+		} else {
+			self.buttonStyle(.bordered)
+		}
+	}
+
+	/// Applies the .borderedProminent on iOS 18 and earlier or the .glassProminent on iOS 26 and later
+	@available(iOS 15.0, *)
+	@ViewBuilder
+	public func glassOrBorderedProminentButtonStyle() -> some View {
+		if #available(iOS 26, *) {
+			self.buttonStyle(.glassProminent)
+		} else {
+			self.buttonStyle(.borderedProminent)
+		}
+	}
 }
