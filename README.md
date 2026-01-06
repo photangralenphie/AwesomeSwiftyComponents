@@ -3,12 +3,16 @@
 **Feel free to use, but:**
 * Expect breaking changes. 
 * Bugs are guaranteed.
+* Nothing has been tested on watchOS, tvOS and visonOS. 
 
 ## Components: 
 * **CreditManager:** to easily display credits for open source libraries.
 * **InlineColorPicker:** Customisable, works best in Forms. Support for saving with AppStorage.
 * **ColorScheme:** For switching between dark, light and system appearance - works best in Forms.
 * **ListFooter:** A footer for lists (duh!).
+* **MovingColoredBackground:**
+* **TintEmoji:** A view that takes an Emoji and applies Color.accentColor to it.
+* **Emoji-Label:** Label overload (Label(\_ text: LocalizedStringKey, emoji: String)) which creates an Label from a text and an Emoji.
 
 ## Styles: 
 * **Button:**
