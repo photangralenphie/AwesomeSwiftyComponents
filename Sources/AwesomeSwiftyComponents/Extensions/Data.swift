@@ -7,7 +7,8 @@
 
 import Foundation
 
-extension Data: Identifiable {
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, visionOS 1.0, *)
+extension Data: @retroactive Identifiable {
 	/// <#Description#>
 	public var id: Data { self }
 }

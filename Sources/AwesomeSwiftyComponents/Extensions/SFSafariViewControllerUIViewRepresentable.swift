@@ -8,14 +8,18 @@
 //
 
 
+#if canImport(UIKit)
+#if canImport(SafariServices)
 import SwiftUI
-#if !os(macOS)
 import UIKit
 import SafariServices
 
 /// <#Description#>
-@available(iOS 13.0, *)
-@available(iOS, deprecated: 26.0, message: "Used WebKit instead.")
+@available(iOS 15.0, *)
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+@available(iOS, deprecated: 18.0, message: "Used WebKit instead.")
 public struct SFSafariViewControllerUIViewRepresentable: UIViewControllerRepresentable {
 
     let url: URL
@@ -32,16 +36,16 @@ public struct SFSafariViewControllerUIViewRepresentable: UIViewControllerReprese
         // No need to do anything here
     }
 }
-#endif
 
 
 /// Monitors the `openURL` environment variable and handles them in-app instead of via
 /// the external web browser.
-@available(iOS 15.0, *)
-@available(macOS 10.15, *)
-private struct SafariViewControllerViewModifier: ViewModifier {
+@available(iOS 15.0, tvOS 15.0, *)
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
+struct SafariViewControllerViewModifier: ViewModifier {
 	/// <#Description#>
-    public let useInAppBrowser: Bool
+    let useInAppBrowser: Bool
 	
     @State private var urlToOpen: URL?
 
@@ -70,12 +74,13 @@ private struct SafariViewControllerViewModifier: ViewModifier {
     }
 }
 
-@available(iOS 15.0, *)
-@available(macOS 10.15, *)
+@available(iOS 15.0, tvOS 15.0, *)
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
 public extension View {
 	/// Monitor the `openURL` environment variable and handle them in-app instead of viathe external web browser.
 	/// Does nothing on macOS
-	/// 
+	///
 	/// Uses the `SafariViewWrapper` which will present the URL in a `SFSafariViewController`.
 	/// Originally by: [Antoine van der Lee](https://www.avanderlee.com/swiftui/sfsafariviewcontroller-open-webpages-in-app/)
 	/// - Parameter useInAppBrowser: <#useInAppBrowser description#>
@@ -85,3 +90,5 @@ public extension View {
         modifier(SafariViewControllerViewModifier(useInAppBrowser: useInAppBrowser))
     }
 }
+#endif
+#endif

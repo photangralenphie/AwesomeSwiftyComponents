@@ -1,8 +1,7 @@
 import SwiftUI
 
 /// A Color Scheme Switcher Best used in a ``SwiftUI/Form``form.
-@available(iOS 15, *)
-@available(macOS 14, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 public struct ColorSchemeSwitcher: View {
     
     @Binding public var colorScheme: PreferredColorScheme
@@ -38,7 +37,9 @@ public struct ColorSchemeSwitcher: View {
 			Label(lightLabel, systemImage: "circle")
                 .tag(PreferredColorScheme.light)
         }
+		#if !os(watchOS)
 		.pickerStyle(.segmented)
+		#endif
         .modifier(iOO17HapticFeedBack(feedbackTrigger: colorScheme))
         
         if(showIcon) {
@@ -55,11 +56,11 @@ public struct ColorSchemeSwitcher: View {
     }
 }
 
-@available(macOS 14, *)
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, visionOS 1.0, *)
 struct iOO17HapticFeedBack : ViewModifier {
     let feedbackTrigger: PreferredColorScheme
     func body(content: Content) -> some View {
-        if #available(iOS 17.0, *) {
+        if #available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, visionOS 26.0, *){
             content
                 .contentTransition(.symbolEffect(.replace))
                 .sensoryFeedback(.selection, trigger: feedbackTrigger)
@@ -69,10 +70,10 @@ struct iOO17HapticFeedBack : ViewModifier {
     }
 }
 
-@available(macOS 14, *)
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, visionOS 1.0, *)
 struct iOS17ContentTransition : ViewModifier {
     func body(content: Content) -> some View {
-        if #available(iOS 17.0, *) {
+		if #available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, visionOS 1.0, *) {
             content
                 .contentTransition(.symbolEffect(.replace))
         } else {
@@ -82,7 +83,6 @@ struct iOS17ContentTransition : ViewModifier {
 }
 
 /// <#Description#>
-@available(macOS 10.15, *)
 public enum PreferredColorScheme: String, CaseIterable {
     case light
     case dark

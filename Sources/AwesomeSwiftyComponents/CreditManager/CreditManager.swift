@@ -3,8 +3,7 @@
 import SwiftUI
 
 /// <#Description#>
-@available(iOS 16.0, *)
-@available(macOS 14.0, *)
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, visionOS 1.0, *)
 public struct CreditManager<Content: View>: View {
     @ViewBuilder public var content: Content
 	
@@ -25,8 +24,7 @@ public struct CreditManager<Content: View>: View {
 }
 
 /// <#Description#>
-@available(iOS 16.0, *)
-@available(macOS 14.0, *)
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, visionOS 1.0, *)
 public struct LinkedCreditManager<Content: View>: View {
     @ViewBuilder public var content: Content
     let text: LocalizedStringKey
@@ -55,6 +53,7 @@ public struct LinkedCreditManager<Content: View>: View {
 }
 
 /// <#Description#>
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, visionOS 1.0, *)
 public enum Licence: Identifiable {
     case mit(name: String, author: String, year: String)
     case apache(name: String, author: String, year: String)
@@ -96,25 +95,25 @@ public enum Licence: Identifiable {
 	/// <#Description#>
     public var description: String {
         switch self {
-            case .mit(let name, let author, let year):
+			case .mit(_, _, _):
                 return "MIT License"
-            case .apache(let name, let author, let year):
+			case .apache(_, _, _):
                 return "Apache License V2.0"
-            case .CC0(let credit):
+            case .CC0(_):
                 return "CC0"
-            case .CC_BY_SA_2_0(let credit):
+            case .CC_BY_SA_2_0(_):
                 return "CC BY SA 2.0"
-            case .CC_BY_SA_3_0(let credit):
+            case .CC_BY_SA_3_0(_):
                 return "CC BY SA 3.0"
-            case .CC_BY_SA_4_0(let credit):
+            case .CC_BY_SA_4_0(_):
                 return "CC BY SA 4.0"
-            case .CC_BY_2_0(let credit):
+            case .CC_BY_2_0(_):
                 return "CC BY 2.0"
-            case .CC_BY_3_0(let credit):
+            case .CC_BY_3_0(_):
                 return "CC BY 3.0"
-            case .publicDomain(let credit):
+            case .publicDomain(_):
                 return "Public Domain"
-            case .photographerAttribution(name: let name):
+            case .photographerAttribution(name: _):
                 return "All Rights Reserved"
         }
     }
@@ -122,9 +121,9 @@ public enum Licence: Identifiable {
 	/// <#Description#>
     public var creditEntity: String {
         switch self {
-            case .mit(name: let name, author: let author, year: let year):
+            case .mit(name: _, author: let author, year: _):
                 return author
-            case .apache(name: let name, author: let author, year: let year):
+            case .apache(name: _, author: let author, year: _):
                 return author
             case .CC0(credit: let credit):
                 return credit
@@ -147,7 +146,7 @@ public enum Licence: Identifiable {
 }
 
 /// <#Description#>
-@available(macOS 13.0, *)
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, visionOS 1.0, *)
 public struct LicenceLink: View {
     
     private let licence: Licence
@@ -208,7 +207,7 @@ public struct LicenceLink: View {
 }
 
 /// <#Description#>
-@available(macOS 13.0, *)
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, visionOS 1.0,*)
 public struct LicenceView: View {
     
     private let licence: Licence
@@ -247,7 +246,7 @@ public struct LicenceView: View {
                     }
             }
         }
-		#if !os(macOS)
+		#if !os(macOS) && !os(tvOS)
         .navigationBarTitleDisplayMode(.inline)
 		#endif
     }

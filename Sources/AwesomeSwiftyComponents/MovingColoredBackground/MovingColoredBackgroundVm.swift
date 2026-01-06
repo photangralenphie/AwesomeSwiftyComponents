@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-/// The ViewModel for the MovingColoredBackgroundView.
-@available(iOS 17.0, *)
+/// The ViewModel for the MovingColoredBackground.
+@available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, visionOS 1.0, *)
 @Observable
 public class MovingColoredBackgroundVm {
 	

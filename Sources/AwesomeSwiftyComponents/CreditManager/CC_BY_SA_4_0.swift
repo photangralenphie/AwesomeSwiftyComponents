@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@available(iOS 14.0, *, macOS 11.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 struct CC_BY_SA_4_0: View {
     
     let credit: String

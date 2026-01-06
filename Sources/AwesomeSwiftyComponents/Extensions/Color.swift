@@ -6,22 +6,36 @@
 //
 
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 
 // MARK: - COLOR
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, visionOS 1.0, *)
 extension Color {
 	/// The ``CoreGraphics/CGColor`` of a ``SwiftUICore/Color``
+	@available(iOS 14.0, macOS 11.0, tvOS 14.0, visionOS 1.0, *)
+	@available(watchOS, unavailable)
 	public var CgColor: CGColor {
-		UIColor(self).cgColor
+		#if canImport(UIKit)
+		UIColor(self).resolvedColor(with: UITraitCollection.current).cgColor
+		#elseif canImport(AppKit)
+		NSColor(self).cgColor
+		#else
+		CgColor(red: 0, green: 0, blue: 0, alpha: 1)
+		#endif
 	}
 	
 	
-	@available(iOS 15.0, *)
+	@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 	fileprivate static let randomColorOptions: [Color] = [.blue, .brown, .cyan, .green, indigo, .mint, .orange, .purple, .pink, .red, .teal, .yellow]
 	/// gives back a random SwiftUI ``SwiftUICore/Color`` out of the following options
 	/// ```swift
 	/// [.blue, .brown, .cyan, .green, indigo, .mint, .orange, .purple, .pink, .red, .teal, .yellow]
 	/// ```
-	@available(iOS 15.0, *)
+	@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 	public static var random: Color {
 		Color.randomColorOptions.randomElement()!
 	}
@@ -44,7 +58,7 @@ extension CGColor {
 }
 
 // MARK: - AvailableColors
-@available(iOS 17, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 extension AvailableColors {
 	/// <#Description#>
 	public var adjacentColor1: Color {

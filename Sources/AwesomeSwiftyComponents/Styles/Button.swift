@@ -10,6 +10,10 @@ import SwiftUI
 /// A Button style mimicking the bordered ButtonStyle on iOS just for macOS.
 /// Applying this to a button wont change the default default ButtonStyle on iOS
 @available(macOS 12.0, *)
+@available(iOS, unavailable)
+@available(tvOS, unavailable)
+@available(watchOS, unavailable)
+@available(visionOS, unavailable)
 public struct iOSBorderedForMacOS<S: Shape>: ButtonStyle {
     
     let foregroundColor: Color
@@ -43,6 +47,10 @@ public struct iOSBorderedForMacOS<S: Shape>: ButtonStyle {
 /// A Button style mimicking the bordered prominent ButtonStyle on iOS just for macOS.
 /// Applying this to a button wont change the default default ButtonStyle on iOS
 @available(macOS 12.0, *)
+@available(iOS, unavailable)
+@available(tvOS, unavailable)
+@available(watchOS, unavailable)
+@available(visionOS, unavailable)
 public struct iOSBorderedProminentForMacOS<S: Shape>: ButtonStyle {
 	
 	let clipShape: S

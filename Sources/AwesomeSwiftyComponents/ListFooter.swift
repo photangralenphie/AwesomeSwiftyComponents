@@ -8,8 +8,7 @@
 import SwiftUI
 
 /// A footer for a list. Ideal to display the number of items in the lit.
-@available(macOS 13.0, *)
-@available(iOS 15.0, *)
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, visionOS 1.0, *)
 public struct ListFooter: View {
     
     private let text: LocalizedStringKey
@@ -40,7 +39,9 @@ public struct ListFooter: View {
 			}
 			.frame(maxWidth: .infinity)
 			.listRowBackground(Color.white.opacity(0))
+			#if !os(tvOS) && !os(watchOS)
 			.listRowSeparator(.hidden)
+			#endif
 		}
     }
 }

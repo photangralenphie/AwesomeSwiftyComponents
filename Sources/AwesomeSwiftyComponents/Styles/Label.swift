@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - CenteredImage
 /// <#Description#>
-@available(macOS 12, iOS 15, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 public struct CenteredImageLabelStyle: LabelStyle {
 	/// <#Description#>
 	public let tintIcon: Bool
@@ -41,7 +41,7 @@ public struct CenteredImageLabelStyle: LabelStyle {
     }
 }
 
-@available(macOS 12.0, iOS 15, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 extension LabelStyle where Self == CenteredImageLabelStyle {
 
 	/// A label style that vertically centers the icon. (tintIcon: if the icon should be displayed in the accent color)
@@ -58,7 +58,7 @@ extension LabelStyle where Self == CenteredImageLabelStyle {
 
 // MARK: - SpaceAdaptable
 /// <#Description#>
-@available(macOS 11.0, iOS 15, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public struct DefaultSpaceAdaptableLabelStyle: LabelStyle {
 	
 	/// <#Description#>
@@ -72,7 +72,7 @@ public struct DefaultSpaceAdaptableLabelStyle: LabelStyle {
 	}
 }
 
-@available(macOS 11.0, iOS 15, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 extension LabelStyle where Self == DefaultSpaceAdaptableLabelStyle {
 
 	/// A label style that shows the icon and text in a regular horizontalSizeClass and the icon only in a compact horizontalSizeClass.

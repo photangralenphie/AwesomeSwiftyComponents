@@ -35,7 +35,8 @@ import SwiftUI
 ///  ```swift
 /// InlineColorPicker(selectedColor: $myColor, pickerStyle: .expanded(systemImage: "paintbrush.pointed", description: "Selected Color:"))
 /// ```
-@available(iOS 15, macOS 26, *)
+@available(iOS 15.0, macOS 10.15, tvOS 16.0, watchOS 8.0, *)
+@available(visionOS, unavailable)
 public struct InlineColorPicker<T: ColorOptions>: View {
     
     /// The selected color wrapper. Binding to a variable of type ``AvailableColors`` or you own type which conforms to ``ColorOptions``.
@@ -60,17 +61,17 @@ public struct InlineColorPicker<T: ColorOptions>: View {
     
     public var body: some View {
 		let body = ZStack {
-			if #available(iOS 26.0, *) {
-				Color.clear
-					.frame(width: 40, height: 40)
-					.glassEffect(.clear, in: .circle)
-					.matchedGeometryEffect(id: "\(selectedColor.wrappedValue)", in: colorPickerNamespace, properties: .position, anchor: .center, isSource: false)
-			} else {
+			if #available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, *) {
+                Color.clear
+                    .frame(width: 30, height: 30)
+                    .glassEffect(.clear, in: .circle)
+                    .matchedGeometryEffect(id: "\(selectedColor.wrappedValue)", in: colorPickerNamespace, properties: .position, anchor: .center, isSource: false)
+            } else {
 				Circle()
 					.fill(Color.gray)
-					.frame(width: 40, height: 40)
+					.frame(width: 30, height: 30)
 					.matchedGeometryEffect(id: "\(selectedColor.wrappedValue)", in: colorPickerNamespace, properties: .position, anchor: .center, isSource: false)
-			}
+            }
 			
 			VStack() {
 				switch pickerStyle {
@@ -101,9 +102,9 @@ public struct InlineColorPicker<T: ColorOptions>: View {
 								.matchedGeometryEffect(id: "\(colors[colorIndex])", in: colorPickerNamespace, properties: .position, anchor: .center, isSource: true)
 						}
 						.onTapGesture {
-							withAnimation(.spring(duration: 0.3, bounce: 0.4)) {
+//							withAnimation(.spring(duration: 0.3, bounce: 0.4)) {
 								selectedColor.wrappedValue = colors[colorIndex]
-							}
+//							}
 						} 
 						
 						Spacer()
@@ -112,12 +113,21 @@ public struct InlineColorPicker<T: ColorOptions>: View {
 			}
 		}
 		
-		if #available(iOS 17.0, *) {
-			body
-				.sensoryFeedback(.selection, trigger: selectedColor.wrappedValue)
-		} else {
-			body
-		}
+#if os(visionOS)
+        if #available(visionOS 1.0, *) {
+            body
+                .sensoryFeedback(.selection, trigger: selectedColor.wrappedValue)
+        } else {
+            body
+        }
+#else
+        if #available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *) {
+            body
+                .sensoryFeedback(.selection, trigger: selectedColor.wrappedValue)
+        } else {
+            body
+        }
+#endif
     }
     
     private func elementAt<T: Collection>(from collection: T, index: T.Index) -> T.Element? {
@@ -129,7 +139,7 @@ public struct InlineColorPicker<T: ColorOptions>: View {
 }
 
 /// Available styles for the ``InlineColorPicker``
-@available(iOS 15, macOS 26, *)
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 public enum InlineColorPickerStyle {
     /// The slim style for the ``InlineColorPicker``.
     case slim
@@ -141,7 +151,7 @@ public enum InlineColorPickerStyle {
 }
 
 /// A default type, which can be used to bind the selected color for an ``InlineColorPicker``.
-@available(iOS 15, macOS 26, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 public enum AvailableColors: Int, ColorOptions, Codable, Sendable {
     case blue = 0
     case cyan = 1
@@ -215,7 +225,8 @@ public enum AvailableColors: Int, ColorOptions, Codable, Sendable {
 ///    }
 ///}
 /// ```
-@available(iOS 15, macOS 26, *)
+
 public protocol ColorOptions: CaseIterable, Hashable {
     var SwiftUIColor: Color { get }
 }
+
