@@ -19,6 +19,11 @@ import SwiftUI
 /// .background { MovingColoredBackground(vm: vm) }
 /// .onAppear { vm.setBackgroundColor(baseColor: .mint) }
 /// ```
+/// The Background adjusts to the ColorSchema of the app:
+/// Dark:
+/// ![A dark moving colored background](MovingBackgroundDark)
+/// Light:
+/// ![A light moving colored background](MovingBackgroundLight)
 @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, visionOS 1.0, *)
 @Observable
 public class MovingColoredBackgroundVm {
