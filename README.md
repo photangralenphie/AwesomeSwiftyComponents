@@ -9,12 +9,18 @@ Reusable components, extensions, ViewModifier, Styles and other Swift/SwiftUI st
 
 ## Components: 
 
+All Components automatically support light and dark modes.
+
 ### CreditManager
 * To easily display credits for Open-Source libraries.
 * [Documentation](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/creditmanager)
-<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/CreditManager~dark@3x.png" width="300">
-<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/CreditManagerLicence~dark@3x.png" width="300">
-* The CreditManger has variations and parts that can be used separately. See also [LinkedLicenceManager](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/linkedcreditmanager), [LicenceLink](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/licencelink) and [LicenceView](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/licenceview)
+
+<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/CreditManager~dark@3x.png" width="300"> <img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/CreditManagerLicence~dark@3x.png" width="300">
+
+* The CreditManger has variations and parts that can be used separately. See also:
+   * [LinkedLicenceManager](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/linkedcreditmanager)
+   * [LicenceLink](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/licencelink)
+   * [LicenceView](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/licenceview)
 
 ### ColorSchemeSwitcher
 * For switching between dark, light and system appearance - works best in Forms.
@@ -43,7 +49,7 @@ Reusable components, extensions, ViewModifier, Styles and other Swift/SwiftUI st
 <img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/TintedEmojis~dark@3x.png" width="300">
 
 ### Emoji-Label
-* A new Label overload (`Label(\_ text: LocalizedStringKey, emoji: String, tinted: Bool?)`) which creates an Label from a text and an Emoji.
+* A new Label overload which creates an Label from a text and an Emoji.
 * [Documentation](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/swiftui/label/init(_:emoji:tinted:))
 <img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/LabelWithEmoji~dark@3x.png" width="300">
 
