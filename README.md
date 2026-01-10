@@ -34,8 +34,7 @@
 * luminance value for CGColor
 * more that, either doesn't work correctly right now, or I can't be bothered to write down.
 
-## No documentation yet - sorry :/
-coming soon... (promise)
+## [Doumentation](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/)
 
 ## Licence:
 MIT Licence
