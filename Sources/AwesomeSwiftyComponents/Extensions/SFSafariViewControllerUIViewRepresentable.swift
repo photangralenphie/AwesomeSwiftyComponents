@@ -48,7 +48,8 @@ public struct SFSafariViewControllerUIViewRepresentable: UIViewControllerReprese
 @available(iOS 15.0, tvOS 15.0, *)
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
-struct SafariViewControllerViewModifier: ViewModifier {
+@available(iOS, deprecated: 18.0, message: "Used WebKit instead.")
+internal struct SafariViewControllerViewModifier: ViewModifier {
     /// Whether to intercept `openURL` actions and present links in-app using Safari Services.
     let useInAppBrowser: Bool
 	
@@ -82,6 +83,7 @@ struct SafariViewControllerViewModifier: ViewModifier {
 @available(iOS 15.0, tvOS 15.0, *)
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
+@available(iOS, deprecated: 18.0, message: "Used WebKit instead.")
 public extension View {
     /// Monitor the `openURL` environment and handle links in-app using Safari Services.
     ///

@@ -1,37 +1,100 @@
 import SwiftUI
 
-/// A reusable container that presents a navigable Credits form.
+/// A navigable Credits form. Add ``LicenceLink``s to navigate to the corresponding licence.
 ///
-/// Use `CreditManager` to wrap one or more credit-related rows or sections
-/// inside a `Form` embedded in a `NavigationStack`. This view sets an
-/// appropriate navigation title and leaves the layout of the inner content
-/// up to the caller.
+/// Use `CreditManager` to show credits for your app.
+/// The CreditManager works best when presented with a `.sheet()` or `.fullScreenCover()`.
+///
+/// The most common Open-Source Licences are already included. See ``Licence``.
+///
+/// ### Exemple
+/// ```swift
+/// Button("Show Credits") { isShowingCredits.toggle() }
+///		.sheet(isPresented: $isShowingCredits) {
+///			CreditManager {
+/// 			LicenceLink(licence: .mit(name: "CodeScanner", author: "Paul Hudson", year: "2021"))
+///			    LicenceLink(licence: .mit(name: "AwesomeSwiftyComponents", author: "Jonas Helmer", year: "2025"))
+///			    LicenceLink(licence: .mit(name: "ShaderKit", author: "James Rochabrun", year: "2025"))
+///			}
+///		}
+///```
+/// The presented Sheet looks like this:
+/// ![The presented CreditManager in a sheet.](CreditManager)
+///
+/// When navigated to a Licence it looks like this:
+/// ![The Licence navigated to](CreditManagerLicence)
+///
+/// Use a ``LinkedCreditManager`` if you want to navigate to the CreditManager from within a `Form`, `List` or similar.
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, visionOS 1.0, *)
 public struct CreditManager<Content: View>: View {
+	@Environment(\.dismiss) private var dismiss
+	
     @ViewBuilder public var content: Content
+	let showCloseButton: Bool
+	
+	/// Creates a Credits container with the provided content.
+	/// 
+	/// - Parameter content: A view builder producing the rows and sections to display inside the Credits form.
+    public init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+		self.showCloseButton = true
+    }
 	
 	/// Creates a Credits container with the provided content.
 	///
 	/// - Parameter content: A view builder producing the rows and sections to display inside the Credits form.
-    public init(@ViewBuilder content: () -> Content) {
-        self.content = content()
-    }
+	/// - Parameter showCloseButton: If to show the close button in the toolbar (default: true).
+	public init(showCloseButton: Bool, @ViewBuilder content: () -> Content) {
+		self.content = content()
+		self.showCloseButton = showCloseButton
+	}
         
     public var body: some View {
         NavigationStack {
             Form {
 				content
             }
-            .navigationTitle("Credits")
+			.navigationTitle("Credits")
+			.toolbar {
+				if showCloseButton {
+					ToolbarItem {
+						Button("Close", systemImage: "xmark") { dismiss() }
+					}
+				}
+			}
         }
     }
 }
 
-/// A link-style entry that navigates to a Credits screen.
+/// A navigable Credits form. Add ``LicenceLink``s to navigate to the corresponding licence.
 ///
-/// `LinkedCreditManager` renders a `NavigationLink` with a label and optional
-/// system image. When tapped, it pushes a `CreditManager` containing the
-/// supplied content.
+/// Use `LinkedCreditManager` to show credits for your app.
+/// The CreditManager works best when included in a Form with a `.sheet()` or `.fullScreenCover()`
+///
+/// The most common Open-Source Licences are already included. See ``Licence``.
+///
+/// ### Exemple
+/// ```swift
+/// Form {
+///		Section("Legal"){
+///			LinkedCreditManager {
+/// 			LicenceLink(licence: .mit(name: "CodeScanner", author: "Paul Hudson", year: "2021"))
+///			    LicenceLink(licence: .mit(name: "AwesomeSwiftyComponents", author: "Jonas Helmer", year: "2025"))
+///			    LicenceLink(licence: .mit(name: "ShaderKit", author: "James Rochabrun", year: "2025"))
+///			}
+///		}
+///	}
+///```
+/// The presented Sheet looks like this:
+/// ![The presented LinkedCreditManager in a sheet.](LinkedCreditManager)
+///
+/// When navigated to the CreditManager is looks like this:
+/// ![The presented CreditManager in a sheet.](CreditManager)
+///
+/// When navigated to a Licence it looks like this:
+/// ![The Licence navigated to.](CreditManagerLicence)
+///
+/// Use a ``CreditManager`` if you want to present the CreditManager from a `.sheet()` or `.fullScreenCover()`.
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, visionOS 1.0, *)
 public struct LinkedCreditManager<Content: View>: View {
     @ViewBuilder public var content: Content
@@ -52,7 +115,7 @@ public struct LinkedCreditManager<Content: View>: View {
     
     public var body: some View {
         NavigationLink {
-            CreditManager {
+            CreditManager(showCloseButton: false) {
                 content
             }
         } label: {
@@ -160,8 +223,26 @@ public enum Licence: Identifiable {
 
 /// A navigation link row that presents details for a specific license.
 ///
-/// `LicenceLink` optionally displays an image next to the license or
-/// attribution name and navigates to `LicenceView` when selected.
+/// The preferred use is from a  ``CreditManager`` or ``LinkedCreditManager``,  the `LicenceLink` can also be used separately.
+///
+/// The most common Open-Source Licences are already included. See ``Licence``.
+///
+/// ### Example with ``CreditManager``
+/// ```swift
+/// Button("Show Credits") { isShowingCredits.toggle() }
+///		.sheet(isPresented: $isShowingCredits) {
+///			CreditManager {
+/// 			LicenceLink(licence: .mit(name: "CodeScanner", author: "Paul Hudson", year: "2021"))
+///			    LicenceLink(licence: .mit(name: "AwesomeSwiftyComponents", author: "Jonas Helmer", year: "2025"))
+///			    LicenceLink(licence: .mit(name: "ShaderKit", author: "James Rochabrun", year: "2025"))
+///			}
+///		}
+///```
+/// The presented Sheet looks like this:
+/// ![The presented CreditManager in a sheet.](CreditManager)
+///
+/// When navigated to a Licence it looks like this:
+/// ![The Licence navigated to](CreditManagerLicence)
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, visionOS 1.0, *)
 public struct LicenceLink: View {
     
@@ -228,6 +309,18 @@ public struct LicenceLink: View {
 /// `LicenceView` chooses an appropriate subview based on the `Licence`
 /// case, such as MIT or Apache license text, Creative Commons attributions,
 /// or photographer credits.
+///
+/// The preferred use is from a  ``LicenceLink``, but  it can also be used separately.
+///
+/// The most common Open-Source Licences are already included. See ``Licence``.
+///
+/// ### Example with ``LicenceLink``
+/// ```swift
+/// LicenceLink(licence: .mit(name: "AwesomeSwiftyComponents", author: "Jonas Helmer", year: "2025"))
+///```
+///
+/// When navigated to a Licence it looks like this:
+/// ![The Licence navigated to](CreditManagerLicence)
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, visionOS 1.0,*)
 public struct LicenceView: View {
     

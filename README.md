@@ -5,29 +5,33 @@ Reusable components, extensions, ViewModifier, Styles and other Swift/SwiftUI st
 **Feel free to use, but:**
 * Expect breaking changes. 
 * Bugs are guaranteed.
-* Nothing has been tested on watchOS, tvOS and visonOS. 
+* Nothing has been tested on watchOS, tvOS and visionOS. 
 
 ## Components: 
+
 ### CreditManager
 * To easily display credits for Open-Source libraries.
 * [Documentation](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/creditmanager)
+<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/CreditManager~dark@3x.png" width="300">
+<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/CreditManagerLicence~dark@3x.png" width="300">
+* The CreditManger has variations and parts that can be used separately. See also [LinkedLicenceManager](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/linkedcreditmanager), [LicenceLink](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/licencelink) and [LicenceView](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/licenceview)
 
 ### ColorSchemeSwitcher
 * For switching between dark, light and system appearance - works best in Forms.
 * [Documentation](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/colorschemeswitcher)
-<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/ColorSchemeSwitcher@3x.png" width="300">
+<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/ColorSchemeSwitcher~dark@3x.png" width="300">
 
 ### InlineColorPicker
 * Customisable, works best in Forms. Support for saving with AppStorage.
 * [Documentation](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/inlinecolorpicker)
-<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/InlineColorPicker@3x.png" width="300">
-<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/InlineColorPickerIcon@3x.png" width="300">
-<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/InlineColorPickerDescriptionIcon@3x.png" width="300">
+<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/InlineColorPicker~dark@3x.png" width="300">
+<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/InlineColorPickerIcon~dark@3x.png" width="300">
+<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/InlineColorPickerDescriptionIcon~dark@3x.png" width="300">
 
 ### ListFooter
 * A footer for lists (duh!).
 * [Documentation](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/listfooter)
-<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/ListFooter@3x.png" width="300">
+<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/ListFooter~dark@3x.png" width="300">
 
 ### MovingColoredBackground
 * An slow moving animated colored background.
@@ -36,12 +40,12 @@ Reusable components, extensions, ViewModifier, Styles and other Swift/SwiftUI st
 ### TintEmoji
 * A view that takes an Emoji and applies Color.accentColor to it.
 * [Documentation](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/tintedemoji) 
-<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/TintedEmojis@3x.png" width="300">
+<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/TintedEmojis~dark@3x.png" width="300">
 
 ### Emoji-Label
 * A new Label overload (`Label(\_ text: LocalizedStringKey, emoji: String, tinted: Bool?)`) which creates an Label from a text and an Emoji.
 * [Documentation](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/swiftui/label/init(_:emoji:tinted:))
-<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/LabelWithEmoji@3x.png" width="300">
+<img src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/LabelWithEmoji~dark@3x.png" width="300">
 
 ## Styles: 
 * **Button:**
