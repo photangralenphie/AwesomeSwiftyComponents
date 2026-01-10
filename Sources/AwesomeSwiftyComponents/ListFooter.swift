@@ -7,7 +7,18 @@
 
 import SwiftUI
 
-/// A footer for a list. Ideal to display the number of items in the lit.
+/// A footer for a `List` or `Form`. Ideal to display the number of items.
+/// ### Example
+/// ```swift
+/// List {
+///		Label("Label 1 with tinted emoji", emoji: "🔝")
+///		Label("Label 2 with tinted emoji", emoji: "💯")
+///		Label("Label 3 with emoji", emoji: "🎈", tinted: false)
+///		Label("Label 4 with emoji", emoji: "🤘", tinted: false)
+///		ListFooter("4 Elements in List")
+///	}
+/// ```
+/// ![Adding a footer to a List or Form](ListFooter)
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, visionOS 1.0, *)
 public struct ListFooter: View {
     

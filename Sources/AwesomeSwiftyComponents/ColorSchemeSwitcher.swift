@@ -7,17 +7,37 @@ import SwiftUI
 ///
 /// The selected value can be directly applied to a scene or view using
 /// `.preferredColorScheme(_:)`.
+///
+/// ### How to Use
+/// Define a variable to store the ``PreferredColorScheme``.
+/// Use `@AppStorage` to persist the data over app launches.
+/// ```swift
+/// @AppStorage("colorScheme") private var scheme: PreferredColorScheme = .systemDefault
+/// ```
+/// Add the ColorSchemeSwitcher to your view. It looks best in a `Form`.
+/// ```swift
+/// Form {
+///     ColorSchemeSwitcher(colorScheme: $scheme)
+/// }
+/// ```
+/// This will look like this:
+/// ![The ColorSchemeSwitcher in a Form](ColorSchemeSwitcher)
+///
+/// To apply the color schema, use the `.preferredColorScheme(_:)` modifier on a view.
+/// ```swift
+/// ContentView()
+/// 	.preferredColorScheme(scheme.mode)
+/// ```
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 public struct ColorSchemeSwitcher: View {
     
-    @Binding public var colorScheme: PreferredColorScheme
+    @Binding private var colorScheme: PreferredColorScheme
     private let showIcon: Bool
 	private let hapticFeedback: Bool
 	private let systemLabel: LocalizedStringKey
 	private let darkLabel: LocalizedStringKey
 	private let lightLabel: LocalizedStringKey
 	
-
 	/// Creates a color scheme switcher.
 	///
 	/// - Parameters:
@@ -27,16 +47,6 @@ public struct ColorSchemeSwitcher: View {
 	///   - systemLabel: The label used for the *System* option.
 	///   - darkLabel: The label used for the *Dark* option.
 	///   - lightLabel: The label used for the *Light* option.
-	///
-	/// ### Example
-	/// ```swift
-	/// @State private var scheme: PreferredColorScheme = .systemDefault
-	///
-	/// Form {
-	///     ColorSchemeSwitcher(colorScheme: $scheme)
-	/// }
-	/// .preferredColorScheme(scheme.mode)
-	/// ```
     public init(colorScheme: Binding<PreferredColorScheme>, showIcon: Bool = true, hapticFeedback: Bool = true, systemLabel: LocalizedStringKey = "System", darkLabel: LocalizedStringKey = "Dark", lightLabel: LocalizedStringKey = "Light") {
         _colorScheme = colorScheme
         self.showIcon = showIcon
@@ -74,8 +84,7 @@ public struct ColorSchemeSwitcher: View {
     }
 }
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, visionOS 1.0, *)
-struct iOO17HapticFeedBack : ViewModifier {
+internal struct iOO17HapticFeedBack : ViewModifier {
     let feedbackTrigger: PreferredColorScheme
     func body(content: Content) -> some View {
         if #available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, visionOS 26.0, *){
@@ -88,8 +97,7 @@ struct iOO17HapticFeedBack : ViewModifier {
     }
 }
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, visionOS 1.0, *)
-struct iOS17ContentTransition : ViewModifier {
+internal struct iOS17ContentTransition : ViewModifier {
     func body(content: Content) -> some View {
 		if #available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, visionOS 1.0, *) {
             content

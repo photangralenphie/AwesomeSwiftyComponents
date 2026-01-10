@@ -1,4 +1,6 @@
-# Reusable components, extensions, ViewModifier, Styles and other Swift/SwiftUI stuff I use(d) in my projects.
+# AwesomeSwiftyComponents
+
+Reusable components, extensions, ViewModifier, Styles and other Swift/SwiftUI stuff I use(d) in my projects.
 
 **Feel free to use, but:**
 * Expect breaking changes. 
@@ -8,7 +10,7 @@
 ## Components: 
 * **CreditManager:** to easily display credits for open source libraries.
 * **InlineColorPicker:** Customisable, works best in Forms. Support for saving with AppStorage.
-* **ColorScheme:** For switching between dark, light and system appearance - works best in Forms.
+* **ColorSchemeSwitcher:** For switching between dark, light and system appearance - works best in Forms.
 * **ListFooter:** A footer for lists (duh!).
 * **MovingColoredBackground:**
 * **TintEmoji:** A view that takes an Emoji and applies Color.accentColor to it.
@@ -34,7 +36,7 @@
 * luminance value for CGColor
 * more that, either doesn't work correctly right now, or I can't be bothered to write down.
 
-## [Doumentation](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/)
+## [Documentation](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/)
 
 ## Licence:
 MIT Licence

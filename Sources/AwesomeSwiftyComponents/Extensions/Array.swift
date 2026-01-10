@@ -7,7 +7,7 @@ extension Array: @retroactive RawRepresentable where Element: Codable {
     /// allowing you to store arrays in `@AppStorage` (and other string-backed storage) by
     /// automatically encoding/decoding JSON.
     ///
-    /// Example:
+    /// ### Example
     /// ```swift
     /// struct SettingsView: View {
     ///     @AppStorage("favoriteTags") private var favoriteTagsRaw: String = "[]"
@@ -27,7 +27,7 @@ extension Array: @retroactive RawRepresentable where Element: Codable {
 
     /// A JSON string representing this array, suitable for storage in `@AppStorage`.
     ///
-    /// Example:
+    /// ### Example
     /// ```swift
     /// let numbers = [1, 2, 3]
     /// let stored = numbers.rawValue // "[1,2,3]"

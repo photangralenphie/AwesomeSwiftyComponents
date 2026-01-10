@@ -2,7 +2,7 @@ import SwiftUI
 
 /// An  awesome, simple but customisable Inline color picker. Supports saving a color with `@AppStorage`.  You can provide your own colors by implementing a type conforming to ``ColorOptions``.
 ///
-/// ## Essentials
+/// ## How to Use
 /// Get started by defining a `@State` variable to hold you selected color.
 /// This can either be an on of the enum ``AvailableColors`` or your own implemented color selection conforming to the ``ColorOptions`` protocol:
 /// ```swift
@@ -25,36 +25,48 @@ import SwiftUI
 ///     .tint(myColor.SwiftUIColor)
 /// ```
 ///
-/// ### Styles & Customization
+/// ## Styles & Customization
 ///
-/// #### Default Inline Appearance
+/// ### Default Inline Appearance
 /// The default initializer creates a compact, inline picker without additional labels or icons:
 /// This variant works well inside Form and List rows where minimal visual weight is preferred.
 ///  ```swift
-/// InlineColorPicker(selectedColor: $myColor)
+/// Form {
+/// 	InlineColorPicker(selectedColor: $myColor)
+/// }
 /// ```
+/// Results in:
+/// ![Default InlineColorPicker](InlineColorPicker)
 ///
-/// #### Inline Picker with Icon
+/// ### Inline Picker with Icon
 /// To add a leading SF Symbol next to the picker, use the initializer with a systemImage.
 /// This is useful when the picker is part of a settings list and should be visually associated with a concept.
 /// ```swift
-/// InlineColorPicker(
-///     selectedColor: $myColor,
-///     systemImage: "paintbrush"
-/// )
+/// Form {
+/// 	InlineColorPicker(
+///			selectedColor: $myColor,
+///			systemImage: "paintbrush"
+///		)
+/// }
 /// ```
+/// Results in:
+/// ![Default InlineColorPicker](InlineColorPickerIcon)
 ///
-/// #### Expanded Picker with Description and Icon
+/// ### Expanded Picker with Description and Icon
 /// For a more expressive layout, use the initializer that includes both a description and an icon.
 /// This creates an expanded layout with a header-style label above the picker.
 /// This variant is ideal for primary customization options, such as accent or theme colors.
 /// ```
-/// InlineColorPicker(
-///     selectedColor: $myColor,
-///     description: "Accent Color:",
-///     systemImage: "paintbrush"
-/// )
+/// Form {
+/// 	InlineColorPicker(
+///			selectedColor: $myColor,
+///			description: "Accent Color:",
+///			systemImage: "paintbrush"
+///		)
+/// }
 /// ```
+/// Results in:
+/// ![Default InlineColorPicker](InlineColorPickerDescriptionIcon)
 @available(iOS 15.0, macOS 10.15, tvOS 16.0, watchOS 8.0, visionOS 1.0, *)
 public struct InlineColorPicker<T: ColorOptions>: View {
     

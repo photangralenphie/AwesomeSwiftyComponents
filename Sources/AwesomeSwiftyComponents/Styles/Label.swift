@@ -12,7 +12,7 @@ import SwiftUI
 ///
 /// Use this style to keep icons visually aligned with text in list rows or forms.
 ///
-/// Example:
+/// ### Example
 /// ```swift
 /// Label("Settings", systemImage: "gear")
 ///     .labelStyle(.centeredImage(tintIcon: true))
@@ -24,24 +24,13 @@ public struct CenteredImageLabelStyle: LabelStyle {
 	
     public func makeBody(configuration: Configuration) -> some View {
         HStack(alignment: .center) {
-			if #available(iOS 15.0, *) {
-				if tintIcon {
-					configuration.icon
-						.frame(width: 25)
-						.foregroundStyle(Color.accentColor)
-				} else {
-					configuration.icon
-						.frame(width: 25)
-				}
+			if tintIcon {
+				configuration.icon
+					.frame(width: 25)
+					.foregroundStyle(Color.accentColor)
 			} else {
-				if tintIcon {
-					configuration.icon
-						.frame(width: 25)
-						.foregroundColor(Color.accentColor)
-				} else {
-					configuration.icon
-						.frame(width: 25)
-				}
+				configuration.icon
+					.frame(width: 25)
 			}
             configuration.title
                 .padding(.leading, 5)
@@ -69,7 +58,7 @@ extension LabelStyle where Self == CenteredImageLabelStyle {
 ///
 /// In compact width, only the icon is shown. In regular width, both icon and title are shown.
 ///
-/// Example:
+/// ### Example
 /// ```swift
 /// @Environment(\.horizontalSizeClass) private var hSize
 /// 

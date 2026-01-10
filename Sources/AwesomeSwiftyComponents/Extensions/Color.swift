@@ -20,9 +20,7 @@ extension Color {
 	/// On iOS, this resolves dynamic colors (like semantic colors that vary with light/dark mode)
 	/// against the current `UITraitCollection` before returning the underlying `CGColor`.
 	///
-	/// - Availability: Not available on watchOS.
-	///
-	/// Example:
+	/// ### Example
 	/// ```swift
 	/// let fill = Color.accentColor
 	/// let cg = fill.CgColor
@@ -47,12 +45,12 @@ extension Color {
 	fileprivate static let randomColorOptions: [Color] = [.blue, .brown, .cyan, .green, indigo, .mint, .orange, .purple, .pink, .red, .teal, .yellow]
 	/// Returns a random SwiftUI `Color` chosen from a curated set of vibrant system colors.
 	///
-	/// Palette:
+	/// One of the following will be chosen at random.
 	/// ```swift
-	/// [.blue, .brown, .cyan, .green, .indigo, .mint, .orange, .purple, .pink, .red, .teal, .yellow]
+	/// let colors: [Color] = [.blue, .brown, .cyan, .green, .indigo, .mint, .orange, .purple, .pink, .red, .teal, .yellow]
 	/// ```
 	///
-	/// Example:
+	/// #### Example
 	/// ```swift
 	/// struct RandomSwatch: View {
 	///     let color = Color.random
@@ -71,11 +69,12 @@ extension Color {
 	/// Use this to decide on a contrasting foreground color for legibility.
 	/// Returns `nil` if a `CGColor` cannot be produced.
 	///
-	/// Example:
+	/// ### Example
 	/// ```swift
 	/// let bg = Color.blue
 	/// let text: Color = (bg.luminance ?? 0) < 0.5 ? .white : .black
 	/// ```
+	/// Use ``CoreGraphics/CGColor/luminance`` to get the luminance of a `CGColor`
 	@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 	public var luminance: CGFloat? { CgColor.luminance }
 }
@@ -87,12 +86,13 @@ extension CGColor {
 	/// Uses the standard relative luminance formula: `0.2126 * R + 0.7152 * G + 0.0722 * B`.
 	/// Returns `nil` when color components are unavailable.
 	///
-	/// Example:
+	/// ### Example
 	/// ```swift
 	/// if let l = myCGColor.luminance, l < 0.5 {
 	///     // Use a light foreground color
 	/// }
 	/// ```
+	/// Use ``SwiftUICore/Color/luminance`` to get the luminance of a SwiftUI `Color`
 	public var luminance: CGFloat? {
 		guard let components = self.components else { return nil }
 
@@ -111,7 +111,7 @@ extension CGColor {
 extension AvailableColors {
 	/// The first adjacent color on the hue wheel for this base color.
 	///
-	/// Example:
+	/// ### Example
 	/// ```swift
 	/// let a1 = AvailableColors.blue.adjacentColor1 // .cyan
 	/// ```
@@ -132,7 +132,7 @@ extension AvailableColors {
 	
 	/// The second adjacent color on the hue wheel for this base color.
 	///
-	/// Example:
+	/// ### Example
 	/// ```swift
 	/// let a2 = AvailableColors.blue.adjacentColor2 // .indigo
 	/// ```
@@ -155,7 +155,7 @@ extension AvailableColors {
 	///
 	/// This chooses white text for dark backgrounds and black text for light backgrounds based on luminance.
 	///
-	/// Example:
+	/// ### Example
 	/// ```swift
 	/// Text("Orange")
 	///     .foregroundStyle(AvailableColors.orange.prominentColor)

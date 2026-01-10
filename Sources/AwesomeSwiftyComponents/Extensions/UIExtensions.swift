@@ -4,7 +4,23 @@ import UIKit
 public struct UIExtensions {
     
     /// Sets the NavigationBar font.
-    /// - Parameter fontDesign: The font to use.
+	///
+	/// Use this in the `init()` of the `App` struct of your App.
+	///
+	/// ### Exemple
+	/// ```swift
+	/// @main
+	/// struct MyApp: App {
+	///		init() {
+	///			UIExtensions.setNavigationBarFont(fontDesign: .rounded)
+	///		}
+	///		var body: some Scene {
+	///			/* Content */
+	///		}
+	///}
+	///```
+	///
+	/// - Parameter fontDesign: The font design to use.
 	@available(iOS 15.0, *)
 	@available(macOS, unavailable)
 	@available(tvOS, unavailable)

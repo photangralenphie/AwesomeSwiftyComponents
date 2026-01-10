@@ -9,7 +9,7 @@ import SwiftUI
 
 /// The view model for a moving, color-shifting background.
 ///
-/// Example:
+/// ### Example
 /// ```swift
 /// @State private var vm = MovingColoredBackgroundVm(initialColor: .blue)
 /// 

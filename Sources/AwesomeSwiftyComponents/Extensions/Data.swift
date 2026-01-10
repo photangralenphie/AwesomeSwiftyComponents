@@ -14,7 +14,7 @@ extension Data: @retroactive Identifiable {
 	/// Conforming `Data` to `Identifiable` enables convenient use in SwiftUI lists
 	/// and diffable collections without having to wrap it in another type.
 	///
-	/// Example:
+	/// ### Example
 	/// ```swift
 	/// struct HashList: View {
 	///     let items: [Data]
