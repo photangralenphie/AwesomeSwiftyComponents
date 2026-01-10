@@ -38,9 +38,6 @@ public struct UIExtensions {
 		let navBar = UINavigationBar.appearance()
 		navBar.standardAppearance = appearance
 
-		// iOS 15+ uses scrollEdgeAppearance when content scrolls behind the nav bar
-		navBar.scrollEdgeAppearance = appearance
-
 		navBar.compactAppearance = appearance
 		navBar.compactScrollEdgeAppearance = appearance
     }

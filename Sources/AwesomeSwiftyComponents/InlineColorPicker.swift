@@ -26,46 +26,99 @@ import SwiftUI
 /// ```
 ///
 /// ### Styles & Customization
-/// The picker supports two different style: ``InlineColorPickerStyle/slim`` which is set as the default and ``InlineColorPickerStyle/expanded(systemImage:description:)``.
+///
+/// #### Default Inline Appearance
+/// The default initializer creates a compact, inline picker without additional labels or icons:
+/// This variant works well inside Form and List rows where minimal visual weight is preferred.
 ///  ```swift
-/// InlineColorPicker(selectedColor: $myColor, pickerStyle: .expanded())
+/// InlineColorPicker(selectedColor: $myColor)
 /// ```
 ///
-/// You can customize the SF Symbol and the text in the picker like this:
-///  ```swift
-/// InlineColorPicker(selectedColor: $myColor, pickerStyle: .expanded(systemImage: "paintbrush.pointed", description: "Selected Color:"))
+/// #### Inline Picker with Icon
+/// To add a leading SF Symbol next to the picker, use the initializer with a systemImage.
+/// This is useful when the picker is part of a settings list and should be visually associated with a concept.
+/// ```swift
+/// InlineColorPicker(
+///     selectedColor: $myColor,
+///     systemImage: "paintbrush"
+/// )
 /// ```
-@available(iOS 15.0, macOS 10.15, tvOS 16.0, watchOS 8.0, *)
-@available(visionOS, unavailable)
+///
+/// #### Expanded Picker with Description and Icon
+/// For a more expressive layout, use the initializer that includes both a description and an icon.
+/// This creates an expanded layout with a header-style label above the picker.
+/// This variant is ideal for primary customization options, such as accent or theme colors.
+/// ```
+/// InlineColorPicker(
+///     selectedColor: $myColor,
+///     description: "Accent Color:",
+///     systemImage: "paintbrush"
+/// )
+/// ```
+@available(iOS 15.0, macOS 10.15, tvOS 16.0, watchOS 8.0, visionOS 1.0, *)
 public struct InlineColorPicker<T: ColorOptions>: View {
     
     /// The selected color wrapper. Binding to a variable of type ``AvailableColors`` or you own type which conforms to ``ColorOptions``.
     var selectedColor: Binding<T>
     /// The style of the picker.
-    let pickerStyle: InlineColorPickerStyle
+	
+	let systemImage: String?
+	let description: LocalizedStringKey?
     
 	private let colors: Array<T>
 	@Namespace private var colorPickerNamespace
-    
-    /// Creates a new ``InlineColorPicker``.
-    /// - Parameters:
-    ///   - selectedColor: The selected color wrapper. Binding to a variable of type ``AvailableColors`` or you own type which conforms to ``ColorOptions``.
-    ///   - pickerStyle: The style of the picker (default: ``InlineColorPickerStyle/slim``) .
-    public init(selectedColor: Binding<T>, pickerStyle: InlineColorPickerStyle = .slim) {
-        self.selectedColor = selectedColor
-        self.pickerStyle = pickerStyle
-        
-		let enumType: any ColorOptions.Type = type(of: selectedColor.wrappedValue)
-		self.colors = Array(enumType.allCases.compactMap { $0 as? T })
-    }
+	
+	/// Creates an inline color picker with default appearance.
+	/// - Parameter selectedColor: A binding to a `ColorOptions` value.
+	public init(selectedColor: Binding<T>) {
+		self.selectedColor = selectedColor
+		self.systemImage = nil
+		self.description = nil
+		self.colors = Self.getColors(from: selectedColor.wrappedValue)
+	}
+	
+	/// Creates an inline color picker with a leading system image.
+	/// - Parameters:
+	///   - selectedColor: A binding to a `ColorOptions` value.
+	///   - systemImage: An SF Symbol name to display next to the picker.
+	public init(selectedColor: Binding<T>, systemImage: String) {
+		self.selectedColor = selectedColor
+		self.systemImage = systemImage
+		self.description = nil
+		self.colors = Self.getColors(from: selectedColor.wrappedValue)
+	}
+	
+	/// Creates an expanded inline color picker with a description and icon.
+	/// - Parameters:
+	///   - selectedColor: A binding to a `ColorOptions` value.
+	///   - description: A localized description shown above the picker.
+	///   - systemImage: An SF Symbol name to display next to the description.
+	public init(selectedColor: Binding<T>, description: LocalizedStringKey, systemImage: String) {
+		self.selectedColor = selectedColor
+		self.systemImage = systemImage
+		self.description = description
+		self.colors = Self.getColors(from: selectedColor.wrappedValue)
+	}
+	
+	
+	/// Builds the array of available colors from the type of the wrapped value.
+	private static func getColors(from colorOptions: T) -> [T] {
+		let enumType: any ColorOptions.Type = type(of: colorOptions)
+		return Array(enumType.allCases.compactMap { $0 as? T })
+	}
     
     public var body: some View {
-		let body = ZStack {
-			if #available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, *) {
+
+		let pickerBody = ZStack {
+			if #available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 9999.0, *) {
                 Color.clear
                     .frame(width: 30, height: 30)
+					#if os(visionOS)
+					.frame(width: 30, height: 30)
+					#else
                     .glassEffect(.clear, in: .circle)
-                    .matchedGeometryEffect(id: "\(selectedColor.wrappedValue)", in: colorPickerNamespace, properties: .position, anchor: .center, isSource: false)
+					#endif
+					.matchedGeometryEffect(id: "\(selectedColor.wrappedValue)", in: colorPickerNamespace, properties: .position, anchor: .center, isSource: false)
             } else {
 				Circle()
 					.fill(Color.gray)
@@ -74,17 +127,6 @@ public struct InlineColorPicker<T: ColorOptions>: View {
             }
 			
 			VStack() {
-				switch pickerStyle {
-					case .expanded(let systemImage, let description):
-						HStack {
-							Label(description, systemImage: systemImage)
-							Spacer()
-							Text(selectedColor.wrappedValue.SwiftUIColor.description.capitalized)
-								.foregroundColor(selectedColor.wrappedValue.SwiftUIColor)
-						}
-					default: EmptyView()
-				}
-				
 				HStack {
 					Spacer()
 					ForEach(colors.indices, id: \.self) { colorIndex in
@@ -101,53 +143,50 @@ public struct InlineColorPicker<T: ColorOptions>: View {
 							Color.clear
 								.matchedGeometryEffect(id: "\(colors[colorIndex])", in: colorPickerNamespace, properties: .position, anchor: .center, isSource: true)
 						}
-						.onTapGesture {
-//							withAnimation(.spring(duration: 0.3, bounce: 0.4)) {
-								selectedColor.wrappedValue = colors[colorIndex]
-//							}
-						} 
+						.onTapGesture { selectedColor.wrappedValue = colors[colorIndex] }
 						
-						Spacer()
+						if #available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, visionOS 26.0, *) {
+							Spacer()
+								.sensoryFeedback(.selection, trigger: selectedColor.wrappedValue)
+						} else {
+							Spacer()
+						}
 					}
 				}
 			}
 		}
 		
-#if os(visionOS)
-        if #available(visionOS 1.0, *) {
-            body
-                .sensoryFeedback(.selection, trigger: selectedColor.wrappedValue)
-        } else {
-            body
-        }
-#else
-        if #available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *) {
-            body
-                .sensoryFeedback(.selection, trigger: selectedColor.wrappedValue)
-        } else {
-            body
-        }
-#endif
+		if let description, let systemImage {
+			VStack {
+				HStack {
+					Label(description, systemImage: systemImage)
+					Spacer()
+					Text(selectedColor.wrappedValue.SwiftUIColor.description.capitalized)
+						.foregroundColor(selectedColor.wrappedValue.SwiftUIColor)
+				}
+				pickerBody
+			}
+		}
+		
+		if let systemImage, description == nil {
+			Label {
+				pickerBody
+			} icon: {
+				Image(systemName: systemImage)
+			}
+		}
+		
+		if systemImage == nil, description == nil {
+			pickerBody
+		}
     }
     
-    private func elementAt<T: Collection>(from collection: T, index: T.Index) -> T.Element? {
+    private func elementAt<U: Collection>(from collection: U, index: U.Index) -> U.Element? {
         guard collection.indices.contains(index) else {
             return nil
         }
         return collection[index]
     }
-}
-
-/// Available styles for the ``InlineColorPicker``
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-public enum InlineColorPickerStyle {
-    /// The slim style for the ``InlineColorPicker``.
-    case slim
-    /// The expanded style for the ``InlineColorPicker``.
-    /// - Parameters:
-    ///     - systemImage: The SF Symbol to display int the `.topLeading` corner of the picker (default: `paintbrush`).
-    ///     - description: The text to display in the `.topTrailing` corner of the picker (default: Accent Color:)
-    case expanded(systemImage: String = "paintbrush", description: LocalizedStringKey = "Accent Color:")
 }
 
 /// A default type, which can be used to bind the selected color for an ``InlineColorPicker``.
@@ -167,26 +206,16 @@ public enum AvailableColors: Int, ColorOptions, Codable, Sendable {
     /// Returns the `Color` for an variable of type ``AvailableColors``.
     public var SwiftUIColor: Color {
         switch self {
-        case .blue:
-            return .blue
-        case .cyan:
-            return .cyan
-        case .mint:
-            return .mint
-        case .green:
-            return .green
-        case .yellow:
-            return .yellow
-        case .orange:
-            return .orange
-        case .red:
-            return .red
-        case .purple:
-            return .purple
-        case .indigo:
-            return .indigo
-        case .primary:
-            return .primary
+        case .blue: return .blue
+        case .cyan: return .cyan
+        case .mint: return .mint
+        case .green: return .green
+        case .yellow: return .yellow
+        case .orange: return .orange
+        case .red: return .red
+        case .purple: return .purple
+        case .indigo: return .indigo
+        case .primary: return .primary
         }
     }
     
@@ -229,4 +258,3 @@ public enum AvailableColors: Int, ColorOptions, Codable, Sendable {
 public protocol ColorOptions: CaseIterable, Hashable {
     var SwiftUIColor: Color { get }
 }
-
