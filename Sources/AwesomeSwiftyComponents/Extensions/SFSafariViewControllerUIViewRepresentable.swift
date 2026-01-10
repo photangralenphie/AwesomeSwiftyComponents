@@ -14,7 +14,10 @@ import SwiftUI
 import UIKit
 import SafariServices
 
-/// <#Description#>
+/// A SwiftUI wrapper for `SFSafariViewController` to present web content in-app.
+///
+/// Use this representable to open a URL within your app using Safari Services instead of
+/// switching to the system browser. This is iOS-only and deprecated on iOS 18 in favor of WebKit.
 @available(iOS 15.0, *)
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
@@ -22,6 +25,8 @@ import SafariServices
 @available(iOS, deprecated: 18.0, message: "Used WebKit instead.")
 public struct SFSafariViewControllerUIViewRepresentable: UIViewControllerRepresentable {
 
+    /// Creates a representable that presents the given URL in a `SFSafariViewController`.
+    /// - Parameter url: The URL to load.
     let url: URL
     
     public init(url: URL) {
@@ -44,7 +49,7 @@ public struct SFSafariViewControllerUIViewRepresentable: UIViewControllerReprese
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 struct SafariViewControllerViewModifier: ViewModifier {
-	/// <#Description#>
+    /// Whether to intercept `openURL` actions and present links in-app using Safari Services.
     let useInAppBrowser: Bool
 	
     @State private var urlToOpen: URL?
@@ -78,17 +83,18 @@ struct SafariViewControllerViewModifier: ViewModifier {
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 public extension View {
-	/// Monitor the `openURL` environment variable and handle them in-app instead of viathe external web browser.
-	/// Does nothing on macOS
-	///
-	/// Uses the `SafariViewWrapper` which will present the URL in a `SFSafariViewController`.
-	/// Originally by: [Antoine van der Lee](https://www.avanderlee.com/swiftui/sfsafariviewcontroller-open-webpages-in-app/)
-	/// - Parameter useInAppBrowser: <#useInAppBrowser description#>
-	/// - Returns: <#description#>
-
+    /// Monitor the `openURL` environment and handle links in-app using Safari Services.
+    ///
+    /// When enabled, links opened via `openURL` are intercepted and presented in a
+    /// `SFSafariViewController` sheet instead of the external browser. Does nothing on macOS and watchOS.
+    /// Originally by: [Antoine van der Lee](https://www.avanderlee.com/swiftui/sfsafariviewcontroller-open-webpages-in-app/)
+    ///
+    /// - Parameter useInAppBrowser: Pass `true` to handle links in-app, or `false` to use the system default.
+    /// - Returns: A view that intercepts `openURL` and presents links in a `SFSafariViewController` when enabled.
     func useInAppSafari(_ useInAppBrowser: Bool) -> some View {
         modifier(SafariViewControllerViewModifier(useInAppBrowser: useInAppBrowser))
     }
 }
 #endif
 #endif
+

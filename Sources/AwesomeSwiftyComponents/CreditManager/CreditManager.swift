@@ -1,14 +1,18 @@
-//#if !os(macOS)
-
 import SwiftUI
 
-/// <#Description#>
+/// A reusable container that presents a navigable Credits form.
+///
+/// Use `CreditManager` to wrap one or more credit-related rows or sections
+/// inside a `Form` embedded in a `NavigationStack`. This view sets an
+/// appropriate navigation title and leaves the layout of the inner content
+/// up to the caller.
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, visionOS 1.0, *)
 public struct CreditManager<Content: View>: View {
     @ViewBuilder public var content: Content
 	
-	/// <#Description#>
-	/// - Parameter content: <#content description#>
+	/// Creates a Credits container with the provided content.
+	///
+	/// - Parameter content: A view builder producing the rows and sections to display inside the Credits form.
     public init(@ViewBuilder content: () -> Content) {
         self.content = content()
     }
@@ -23,18 +27,23 @@ public struct CreditManager<Content: View>: View {
     }
 }
 
-/// <#Description#>
+/// A link-style entry that navigates to a Credits screen.
+///
+/// `LinkedCreditManager` renders a `NavigationLink` with a label and optional
+/// system image. When tapped, it pushes a `CreditManager` containing the
+/// supplied content.
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, visionOS 1.0, *)
 public struct LinkedCreditManager<Content: View>: View {
     @ViewBuilder public var content: Content
     let text: LocalizedStringKey
     let systemImage: String
 	
-	/// <#Description#>
+	/// Creates a navigation link to a Credits screen.
+	///
 	/// - Parameters:
-	///   - text: <#text description#>
-	///   - systemImage: <#systemImage description#>
-	///   - content: <#content description#>
+	///   - text: The localized title for the link label. Defaults to "Credits".
+	///   - systemImage: The SF Symbol name to display with the label. Defaults to `"text.document.fill"`.
+	///   - content: A view builder producing the rows and sections to show inside the destination `CreditManager`.
     public init(text: LocalizedStringKey = "Credits", systemImage: String = "text.document.fill", @ViewBuilder content: () -> Content) {
         self.content = content()
         self.text = text
@@ -52,7 +61,11 @@ public struct LinkedCreditManager<Content: View>: View {
     }
 }
 
-/// <#Description#>
+/// A set of supported license and attribution types for credits.
+///
+/// Each case carries the associated data needed to present a human-readable
+/// description and unique identifier. Use this type to model the license or
+/// attribution required for an asset or dependency.
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, visionOS 1.0, *)
 public enum Licence: Identifiable {
     case mit(name: String, author: String, year: String)
@@ -66,7 +79,7 @@ public enum Licence: Identifiable {
     case publicDomain(credit: String)
     case photographerAttribution(name: String)
 	
-	/// <#Description#>
+	/// A stable identifier derived from the case and its associated values.
 	public var id: String {
 		switch self {
 			case let .mit(name, author, year):
@@ -92,7 +105,7 @@ public enum Licence: Identifiable {
 		}
 	}
 	
-	/// <#Description#>
+	/// A human-readable description of the license or attribution type.
     public var description: String {
         switch self {
 			case .mit(_, _, _):
@@ -118,7 +131,7 @@ public enum Licence: Identifiable {
         }
     }
 	
-	/// <#Description#>
+	/// The primary credited entity for this license, such as the author or name.
     public var creditEntity: String {
         switch self {
             case .mit(name: _, author: let author, year: _):
@@ -145,7 +158,10 @@ public enum Licence: Identifiable {
     }
 }
 
-/// <#Description#>
+/// A navigation link row that presents details for a specific license.
+///
+/// `LicenceLink` optionally displays an image next to the license or
+/// attribution name and navigates to `LicenceView` when selected.
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, visionOS 1.0, *)
 public struct LicenceLink: View {
     
@@ -153,10 +169,11 @@ public struct LicenceLink: View {
     private let name: String
     private let image: Image?
 	
-	/// <#Description#>
+	/// Creates a link row for the given license.
+	///
 	/// - Parameters:
-	///   - licence: <#licence description#>
-	///   - image: <#image description#>
+	///   - licence: The `Licence` to display and navigate to.
+	///   - image: An optional `Image` to show as an icon alongside the license name.
     public init(licence: Licence, image: Image? = nil) {
         self.licence = licence
         self.image = image
@@ -206,14 +223,19 @@ public struct LicenceLink: View {
     }
 }
 
-/// <#Description#>
+/// A detailed view that renders the full text or attribution for a license.
+///
+/// `LicenceView` chooses an appropriate subview based on the `Licence`
+/// case, such as MIT or Apache license text, Creative Commons attributions,
+/// or photographer credits.
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, visionOS 1.0,*)
 public struct LicenceView: View {
     
     private let licence: Licence
 	
-	/// <#Description#>
-	/// - Parameter licence: <#licence description#>
+	/// Creates a detailed license view.
+	///
+	/// - Parameter licence: The license or attribution to display.
     public init(licence: Licence) {
         self.licence = licence
     }

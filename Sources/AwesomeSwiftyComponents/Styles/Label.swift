@@ -8,10 +8,18 @@
 import SwiftUI
 
 // MARK: - CenteredImage
-/// <#Description#>
+/// A label style that vertically centers the icon next to the title.
+///
+/// Use this style to keep icons visually aligned with text in list rows or forms.
+///
+/// Example:
+/// ```swift
+/// Label("Settings", systemImage: "gear")
+///     .labelStyle(.centeredImage(tintIcon: true))
+/// ```
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 public struct CenteredImageLabelStyle: LabelStyle {
-	/// <#Description#>
+	/// Whether to apply the accent color to the icon.
 	public let tintIcon: Bool
 	
     public func makeBody(configuration: Configuration) -> some View {
@@ -57,11 +65,21 @@ extension LabelStyle where Self == CenteredImageLabelStyle {
 
 
 // MARK: - SpaceAdaptable
-/// <#Description#>
+/// A label style that adapts to horizontal size class.
+///
+/// In compact width, only the icon is shown. In regular width, both icon and title are shown.
+///
+/// Example:
+/// ```swift
+/// @Environment(\.horizontalSizeClass) private var hSize
+/// 
+/// Label("Bookmarks", systemImage: "bookmark")
+///     .labelStyle(.spaceAdaptable(horizontalSizeClass: hSize))
+/// ```
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public struct DefaultSpaceAdaptableLabelStyle: LabelStyle {
 	
-	/// <#Description#>
+	/// The current horizontal size class used to decide whether to show the title.
 	public let horizontalSizeClass: UserInterfaceSizeClass?
 	
 	public func makeBody(configuration: Configuration) -> some View {
@@ -80,3 +98,4 @@ extension LabelStyle where Self == DefaultSpaceAdaptableLabelStyle {
 		return DefaultSpaceAdaptableLabelStyle(horizontalSizeClass: horizontalSizeClass)
 	}
 }
+

@@ -15,7 +15,20 @@ import AppKit
 // MARK: - COLOR
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, visionOS 1.0, *)
 extension Color {
-	/// The ``CoreGraphics/CGColor`` of a ``SwiftUICore/Color``
+	/// Returns the CoreGraphics `CGColor` that best represents this SwiftUI `Color` on the current platform.
+	///
+	/// On iOS, this resolves dynamic colors (like semantic colors that vary with light/dark mode)
+	/// against the current `UITraitCollection` before returning the underlying `CGColor`.
+	///
+	/// - Availability: Not available on watchOS.
+	///
+	/// Example:
+	/// ```swift
+	/// let fill = Color.accentColor
+	/// let cg = fill.CgColor
+	/// context.setFillColor(cg)
+	/// context.fill(rect)
+	/// ```
 	@available(iOS 14.0, macOS 11.0, tvOS 14.0, visionOS 1.0, *)
 	@available(watchOS, unavailable)
 	public var CgColor: CGColor {
@@ -29,22 +42,57 @@ extension Color {
 	}
 	
 	
+	/// Internal palette used by `Color.random`. Values are stable across platforms and OS versions.
 	@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 	fileprivate static let randomColorOptions: [Color] = [.blue, .brown, .cyan, .green, indigo, .mint, .orange, .purple, .pink, .red, .teal, .yellow]
-	/// gives back a random SwiftUI ``SwiftUICore/Color`` out of the following options
+	/// Returns a random SwiftUI `Color` chosen from a curated set of vibrant system colors.
+	///
+	/// Palette:
 	/// ```swift
-	/// [.blue, .brown, .cyan, .green, indigo, .mint, .orange, .purple, .pink, .red, .teal, .yellow]
+	/// [.blue, .brown, .cyan, .green, .indigo, .mint, .orange, .purple, .pink, .red, .teal, .yellow]
+	/// ```
+	///
+	/// Example:
+	/// ```swift
+	/// struct RandomSwatch: View {
+	///     let color = Color.random
+	///     var body: some View {
+	///         Circle().fill(color)
+	///     }
+	/// }
 	/// ```
 	@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 	public static var random: Color {
 		Color.randomColorOptions.randomElement()!
 	}
+	
+	/// The perceived brightness of this `Color` in the sRGB color space (0 = dark, 1 = bright).
+	///
+	/// Use this to decide on a contrasting foreground color for legibility.
+	/// Returns `nil` if a `CGColor` cannot be produced.
+	///
+	/// Example:
+	/// ```swift
+	/// let bg = Color.blue
+	/// let text: Color = (bg.luminance ?? 0) < 0.5 ? .white : .black
+	/// ```
+	@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
+	public var luminance: CGFloat? { CgColor.luminance }
 }
 
 // MARK: - CGCOLOR
 extension CGColor {
-	/// The luminance (brightness) of a ``CoreGraphics/CGColor`` (0 == dark, 1 == bright).
-	/// Can be used to check if a foreground color should be white or black in relation to a background.
+	/// The perceived brightness of this `CGColor` in the sRGB color space (0 = dark, 1 = bright).
+	///
+	/// Uses the standard relative luminance formula: `0.2126 * R + 0.7152 * G + 0.0722 * B`.
+	/// Returns `nil` when color components are unavailable.
+	///
+	/// Example:
+	/// ```swift
+	/// if let l = myCGColor.luminance, l < 0.5 {
+	///     // Use a light foreground color
+	/// }
+	/// ```
 	public var luminance: CGFloat? {
 		guard let components = self.components else { return nil }
 
@@ -58,9 +106,15 @@ extension CGColor {
 }
 
 // MARK: - AvailableColors
+/// Utilities for deriving related colors and high-contrast foregrounds from an `AvailableColors` base color.
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 extension AvailableColors {
-	/// <#Description#>
+	/// The first adjacent color on the hue wheel for this base color.
+	///
+	/// Example:
+	/// ```swift
+	/// let a1 = AvailableColors.blue.adjacentColor1 // .cyan
+	/// ```
 	public var adjacentColor1: Color {
 		switch self {
 			case .blue: return .cyan
@@ -76,7 +130,12 @@ extension AvailableColors {
 		}
 	}
 	
-	/// <#Description#>
+	/// The second adjacent color on the hue wheel for this base color.
+	///
+	/// Example:
+	/// ```swift
+	/// let a2 = AvailableColors.blue.adjacentColor2 // .indigo
+	/// ```
 	public var adjacentColor2: Color {
 		switch self {
 			case .blue: return .indigo
@@ -91,4 +150,20 @@ extension AvailableColors {
 			case .primary: return .secondary
 		}
 	}
+	
+	/// A high-contrast foreground `Color` suitable for content displayed on this base color.
+	///
+	/// This chooses white text for dark backgrounds and black text for light backgrounds based on luminance.
+	///
+	/// Example:
+	/// ```swift
+	/// Text("Orange")
+	///     .foregroundStyle(AvailableColors.orange.prominentColor)
+	///     .padding()
+	///     .background(AvailableColors.orange.SwiftUIColor)
+	/// ```
+	public var prominentColor: Color {
+		(self.SwiftUIColor.luminance ?? 0) < 0.5 ? .white : .black
+	}
 }
+

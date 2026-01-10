@@ -7,7 +7,18 @@
 
 import SwiftUI
 
-/// The ViewModel for the MovingColoredBackground.
+/// The view model for a moving, color-shifting background.
+///
+/// Example:
+/// ```swift
+/// @State private var vm = MovingColoredBackgroundVm(initialColor: .blue)
+/// 
+/// VStack {
+/// 	/* content */
+/// }
+/// .background { MovingColoredBackground(vm: vm) }
+/// .onAppear { vm.setBackgroundColor(baseColor: .mint) }
+/// ```
 @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, visionOS 1.0, *)
 @Observable
 public class MovingColoredBackgroundVm {
@@ -29,15 +40,15 @@ public class MovingColoredBackgroundVm {
 	@ObservationIgnored
 	private var startDate = Date()
 	
-	/// Creates a background from the color blue
-	/// - Parameter initialColor: The color of the background. Can be changed with ``setBackgroundColor(baseColor:)`` later.
+	/// Creates a background using the provided base color.
+	/// - Parameter initialColor: The base color for the background (default: `.blue`). You can change it later with ``setBackgroundColor(baseColor:)``.
 	public init(initialColor: AvailableColors = .blue) {
 		self.seeds = Self.getSeed(basePoints: basePoints)
 		self.colors = Self.getColors(baseColor: initialColor)
 	}
 	
-	/// Use to change the color of the background.
-	/// - Parameter baseColor: The new color of the background.
+	/// Updates the background to use a new base color with animation.
+	/// - Parameter baseColor: The new base color.
 	public func setBackgroundColor(baseColor: AvailableColors) {
 		withAnimation {
 			self.colors = Self.getColors(baseColor: baseColor)

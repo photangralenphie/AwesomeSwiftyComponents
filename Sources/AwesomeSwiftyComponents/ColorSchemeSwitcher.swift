@@ -1,6 +1,12 @@
 import SwiftUI
 
-/// A Color Scheme Switcher Best used in a ``SwiftUI/Form``form.
+/// A segmented control for selecting the app’s preferred color scheme.
+///
+/// This view is best used inside a `Form` or settings-style layout and provides
+/// options for system default, light mode, and dark mode.
+///
+/// The selected value can be directly applied to a scene or view using
+/// `.preferredColorScheme(_:)`.
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 public struct ColorSchemeSwitcher: View {
     
@@ -11,14 +17,26 @@ public struct ColorSchemeSwitcher: View {
 	private let darkLabel: LocalizedStringKey
 	private let lightLabel: LocalizedStringKey
 	
-	/// Creates a color schema switcher.
+
+	/// Creates a color scheme switcher.
+	///
 	/// - Parameters:
-	///   - colorScheme: A binding to a ``PreferredColorScheme``
-	///   - showIcon: Whether to show an icon next to the picker (default: true).
-	///   - hapticFeedback: Whether to use haptic feedback (default: true) [requires iOS 17].
-	///   - systemLabel: The text to display on the `System`option (default: "System").
-	///   - darkLabel: The text to display on the `Dark`option (default: "Dark").
-	///   - lightLabel: The text to display on the `Light`option (default: "Light").
+	///   - colorScheme: A binding to the selected ``PreferredColorScheme``.
+	///   - showIcon: Whether to show an icon next to the picker.
+	///   - hapticFeedback: Whether to trigger haptic feedback on selection changes.
+	///   - systemLabel: The label used for the *System* option.
+	///   - darkLabel: The label used for the *Dark* option.
+	///   - lightLabel: The label used for the *Light* option.
+	///
+	/// ### Example
+	/// ```swift
+	/// @State private var scheme: PreferredColorScheme = .systemDefault
+	///
+	/// Form {
+	///     ColorSchemeSwitcher(colorScheme: $scheme)
+	/// }
+	/// .preferredColorScheme(scheme.mode)
+	/// ```
     public init(colorScheme: Binding<PreferredColorScheme>, showIcon: Bool = true, hapticFeedback: Bool = true, systemLabel: LocalizedStringKey = "System", darkLabel: LocalizedStringKey = "Dark", lightLabel: LocalizedStringKey = "Light") {
         _colorScheme = colorScheme
         self.showIcon = showIcon
@@ -82,32 +100,41 @@ struct iOS17ContentTransition : ViewModifier {
     }
 }
 
-/// <#Description#>
+/// Represents the preferred appearance mode of the app.
 public enum PreferredColorScheme: String, CaseIterable {
-    case light
-    case dark
-    case systemDefault
-    
-    var icon: String {
-        switch self {
-            case .dark:
-                return "moon.circle"
-            case .light:
-                return "sun.max.circle"
-            case .systemDefault:
-                return "circle.lefthalf.filled"
-        }
-    }
-	
-	/// <#Description#>
-    public var mode: ColorScheme? {
-        switch self {
-			case .dark:
-				return .dark
-			case .light:
-				return .light
-			case .systemDefault:
-				return nil
-        }
-    }
+
+	/// Always use light appearance.
+	case light
+
+	/// Always use dark appearance.
+	case dark
+
+	/// Follow the system appearance setting.
+	case systemDefault
+
+	/// The SF Symbol name associated with the color scheme.
+	var icon: String {
+		switch self {
+		case .dark:
+			return "moon.circle"
+		case .light:
+			return "sun.max.circle"
+		case .systemDefault:
+			return "circle.lefthalf.filled"
+		}
+	}
+
+	/// The corresponding SwiftUI `ColorScheme` value.
+	///
+	/// Returns `nil` when the system appearance should be respected.
+	public var mode: ColorScheme? {
+		switch self {
+		case .dark:
+			return .dark
+		case .light:
+			return .light
+		case .systemDefault:
+			return nil
+		}
+	}
 }
