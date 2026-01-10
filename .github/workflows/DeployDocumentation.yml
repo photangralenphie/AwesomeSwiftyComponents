@@ -28,35 +28,11 @@ jobs:
             transform-for-static-hosting /tmp/docbuild/Build/Products/Debug-iphoneos/AwesomeSwiftyComponents.doccarchive \
             --hosting-base-path AwesomeSwiftyComponents \
             --output-path docs;
-          echo "<script>window.location.href += \"/AwesomeSwiftyComponents\"</script>" > docs/index.html;
+          echo "<script>window.location.href += \"/awesomeswiftysomponents\"</script>" > docs/index.html;
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          name: docc
-          path: docs
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build-docc
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Download Docs Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: docc
-          path: docs
-
-      - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: docs
-
+          path: 'docs'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
