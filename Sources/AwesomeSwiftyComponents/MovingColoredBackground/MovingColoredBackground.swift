@@ -7,7 +7,13 @@
 
 import SwiftUI
 
-/// An animated moving background. Specify a reusable ``MovingColoredBackgroundVm`` to create the background.
+/// An animated moving background.
+///
+/// Specify a reusable ``MovingColoredBackgroundVm`` to create the background.
+///
+/// See ``MovingColoredBackgroundVm/init(initialColor:)`` and ``MovingColoredBackgroundVm/setBackgroundColor(baseColor:)`` on how to configure it.
+///
+/// The background automatically adjusts to the `ColorScheme` of the app.
 ///
 /// ### Example
 /// ```swift
@@ -18,10 +24,11 @@ import SwiftUI
 /// }
 /// .background { MovingColoredBackground(vm: vm) }
 /// ```
-/// The Background adjusts to the ColorSchema of the app:
-/// Dark:
+///
+/// #### Dark Appearance
 /// ![A dark moving colored background](MovingBackgroundDark)
-/// Light:
+///
+/// #### Light Appearance
 /// ![A light moving colored background](MovingBackgroundLight)
 @available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 @available(tvOS, unavailable)

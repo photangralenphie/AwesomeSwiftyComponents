@@ -43,6 +43,12 @@ All Components automatically support light and dark modes.
 * An slow moving animated colored background.
 * [Documentation](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/movingcoloredbackground)
 
+<video controls height="300">
+  <source src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/MovingBackgroundDark.mov" type="video/mov" />
+<video><video controls height="300">
+  <source src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/MovingBackgroundLight.mov" type="video/mov" />
+<video>
+
 ### TintEmoji
 * A view that takes an Emoji and applies Color.accentColor to it.
 * [Documentation](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/tintedemoji) 
