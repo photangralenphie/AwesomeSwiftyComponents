@@ -133,6 +133,7 @@ public struct LinkedCreditManager<Content: View>: View {
 public enum Licence: Identifiable {
     case mit(name: String, author: String, year: String)
     case apache(name: String, author: String, year: String)
+	case BSD_2(name: String, creditHolder: String, year: String)
     case CC0(credit: String)
     case CC_BY_2_0(credit: String)
     case CC_BY_3_0(credit: String)
@@ -149,6 +150,8 @@ public enum Licence: Identifiable {
 				return "mit-\(name)-\(author)-\(year)"
 			case let .apache(name, author, year):
 				return "apache-\(name)-\(author)-\(year)"
+			case let .BSD_2(name, creditHolder, year):
+				return "bsd2-\(name)-\(creditHolder)-\(year)"
 			case let .CC0(credit):
 				return "cc0-\(credit)"
 			case let .CC_BY_2_0(credit):
@@ -175,6 +178,8 @@ public enum Licence: Identifiable {
                 return "MIT License"
 			case .apache(_, _, _):
                 return "Apache License V2.0"
+			case .BSD_2(_, _, _):
+				return "2-Clause BSD License"
             case .CC0(_):
                 return "CC0"
             case .CC_BY_SA_2_0(_):
@@ -201,6 +206,8 @@ public enum Licence: Identifiable {
                 return author
             case .apache(name: _, author: let author, year: _):
                 return author
+			case .BSD_2(name: _, creditHolder: let creditHolder, year: _):
+				return creditHolder
             case .CC0(credit: let credit):
                 return credit
             case .CC_BY_SA_2_0(credit: let credit):
@@ -227,7 +234,8 @@ public enum Licence: Identifiable {
 ///
 /// The most common Open-Source Licences are already included. See ``Licence``.
 ///
-/// ### Example with ``CreditManager``
+/// ### Example
+/// using ``CreditManager``
 /// ```swift
 /// Button("Show Credits") { isShowingCredits.toggle() }
 ///		.sheet(isPresented: $isShowingCredits) {
@@ -264,6 +272,8 @@ public struct LicenceLink: View {
                 self.name = name
             case .apache(let name, author: _, year: _):
                 self.name = name
+			case .BSD_2(let name, creditHolder: _, year: _):
+				self.name = name
             case .CC0(let credit):
                 self.name = credit
             case .CC_BY_SA_2_0(let credit):
@@ -314,7 +324,8 @@ public struct LicenceLink: View {
 ///
 /// The most common Open-Source Licences are already included. See ``Licence``.
 ///
-/// ### Example with ``LicenceLink``
+/// ### Example
+/// using ``LicenceLink``
 /// ```swift
 /// LicenceLink(licence: .mit(name: "AwesomeSwiftyComponents", author: "Jonas Helmer", year: "2025"))
 ///```
@@ -340,6 +351,8 @@ public struct LicenceView: View {
                     MITLicense(name: name, year: year, author: author)
                 case .apache(let name, let author, let year):
                     ApacheLicense(name: name, year: year, author: author)
+				case .BSD_2(let name, let copyrightHolder, let year):
+					BSD2_Clause(name: name, year: year, copyrightHolder: copyrightHolder)
                 case .CC_BY_SA_2_0(let credit):
                     CC_BY_SA_2_0(credit: credit)
                 case .CC0(let credit):
