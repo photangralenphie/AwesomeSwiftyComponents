@@ -7,7 +7,7 @@ Reusable components, extensions, ViewModifier, Styles and other Swift/SwiftUI st
 * Bugs are guaranteed.
 * Nothing has been tested on watchOS, tvOS and visionOS. 
 
-## Components: 
+## Components
 
 All Components automatically support light and dark modes.
 
@@ -42,12 +42,13 @@ All Components automatically support light and dark modes.
 ### MovingColoredBackground
 * An slow moving animated colored background.
 * [Documentation](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/movingcoloredbackground)
+* Dark Appearance:
 
-<video controls height="300">
-  <source src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/MovingBackgroundDark.mov" type="video/mov" />
-<video><video controls height="300">
-  <source src="https://photangralenphie.github.io/AwesomeSwiftyComponents/images/awesomeswiftycomponents.AwesomeSwiftyComponents/MovingBackgroundLight.mov" type="video/mov" />
-<video>
+https://github.com/user-attachments/assets/8dc50870-3254-473f-8025-19da02acc874 
+
+* Light Appearance:
+
+https://github.com/user-attachments/assets/7388a911-db49-4eb8-849a-0511498d3594
 
 ### TintEmoji
 * A view that takes an Emoji and applies Color.accentColor to it.
