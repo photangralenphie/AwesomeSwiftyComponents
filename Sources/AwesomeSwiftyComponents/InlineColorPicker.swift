@@ -67,7 +67,7 @@ import SwiftUI
 /// ```
 /// Results in:
 /// ![Default InlineColorPicker](InlineColorPickerDescriptionIcon)
-@available(iOS 15.0, macOS 10.15, tvOS 16.0, watchOS 8.0, visionOS 1.0, *)
+@available(iOS 15.0, macOS 12, tvOS 16.0, watchOS 8.0, visionOS 1.0, *)
 public struct InlineColorPicker<T: ColorOptions>: View {
     
     /// The selected color wrapper. Binding to a variable of type ``AvailableColors`` or you own type which conforms to ``ColorOptions``.

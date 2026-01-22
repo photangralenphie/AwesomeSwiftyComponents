@@ -73,7 +73,7 @@ https://github.com/user-attachments/assets/7388a911-db49-4eb8-849a-0511498d3594
 * **[.safeAreaView()](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/swiftuicore/view/safeareaview(edge:alignment:spacing:content:))**: combines **safeAreaInset()** on iOS 18 and below and **safeAreaBar()** from iOS26 
 
 ## Others:
-* [sheet in app browser](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/swiftuicore/view/useinappsafari(_:)) (iOS 15-18) (deprecated use WebView from iOS 26 on).
+* [open link in in-app browser](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/swiftuicore/view/useinappsafari(_:))
 * [array support for AppStorage](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/swift/array/init(rawvalue:))
 * [bool binding for optional data](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/swiftuicore/binding/isnotnil()).
 * luminance value for [CGColor](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/coregraphics/cgcolor/luminance) and [Color](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/swiftuicore/color/luminance)
