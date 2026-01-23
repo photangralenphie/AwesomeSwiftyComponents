@@ -72,6 +72,7 @@ public struct ColorSchemeSwitcher: View {
 				} icon: {
 					Image(systemName: schema.icon)
 				}
+			}
         }
 		#if !os(watchOS)
 		.pickerStyle(.segmented)
@@ -130,12 +131,9 @@ public enum PreferredColorScheme: String, CaseIterable, Identifiable {
 	/// The SF Symbol name associated with the color scheme.
 	public var icon: String {
 		switch self {
-			case .dark:
-				return "moon.circle"
-			case .light:
-				return "sun.max.circle"
-			case .systemDefault:
-				return "circle.lefthalf.filled"
+			case .dark: return "moon.circle"
+			case .light: return "sun.max.circle"
+			case .systemDefault: return "circle.lefthalf.filled"
 		}
 	}
 
@@ -144,12 +142,9 @@ public enum PreferredColorScheme: String, CaseIterable, Identifiable {
 	/// Returns `nil` when the system appearance should be respected.
 	public var mode: ColorScheme? {
 		switch self {
-		case .dark:
-			return .dark
-		case .light:
-			return .light
-		case .systemDefault:
-			return nil
+			case .dark: return .dark
+			case .light: return .light
+			case .systemDefault: return nil
 		}
 	}
 }
