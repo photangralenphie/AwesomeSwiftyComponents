@@ -369,8 +369,8 @@ public struct LicenceView: View {
                     PublicDomain(credit: credit)
                 case .photographerAttribution(name: let name):
                     Form {
-                        Text("Image by \(name)")
-                        Text("All rights reserved.")
+                        Text(verbatim: "Image by \(name)")
+                        Text(verbatim: "All rights reserved.")
                     }
             }
         }

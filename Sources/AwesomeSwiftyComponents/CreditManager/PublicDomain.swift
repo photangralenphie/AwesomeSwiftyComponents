@@ -14,8 +14,8 @@ struct PublicDomain: View {
     
     var body: some View {
         List {
-            Text("Public Domain")
-            Text("This work by \(credit) was published into the public domain.")
+            Text(verbatim: "Public Domain")
+            Text(verbatim: "This work by \(credit) was published into the public domain.")
         }
         .font(.footnote)
         .listStyle(.plain)

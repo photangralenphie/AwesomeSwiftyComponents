@@ -34,9 +34,9 @@ public struct ColorSchemeSwitcher: View {
     @Binding private var colorScheme: PreferredColorScheme
     private let showIcon: Bool
 	private let hapticFeedback: Bool
-	private let systemLabel: LocalizedStringKey
-	private let darkLabel: LocalizedStringKey
-	private let lightLabel: LocalizedStringKey
+	private let systemLabel: Text
+	private let darkLabel: Text
+	private let lightLabel: Text
 	
 	/// Creates a color scheme switcher.
 	///
@@ -47,23 +47,31 @@ public struct ColorSchemeSwitcher: View {
 	///   - systemLabel: The label used for the *System* option.
 	///   - darkLabel: The label used for the *Dark* option.
 	///   - lightLabel: The label used for the *Light* option.
-    public init(colorScheme: Binding<PreferredColorScheme>, showIcon: Bool = true, hapticFeedback: Bool = true, systemLabel: LocalizedStringKey = "System", darkLabel: LocalizedStringKey = "Dark", lightLabel: LocalizedStringKey = "Light") {
+    public init(colorScheme: Binding<PreferredColorScheme>, showIcon: Bool = true, hapticFeedback: Bool = true, systemLabel: Text? = nil, darkLabel: Text? = nil, lightLabel: Text? = nil) {
         _colorScheme = colorScheme
         self.showIcon = showIcon
         self.hapticFeedback = hapticFeedback
-        self.systemLabel = systemLabel
-        self.darkLabel = darkLabel
-        self.lightLabel = lightLabel
+		self.systemLabel = systemLabel ?? Text("System", bundle: .module)
+		self.darkLabel = darkLabel ?? Text("Dark", bundle: .module)
+		self.lightLabel = lightLabel ?? Text("Light", bundle: .module)
     }
+	
+	private func getLabel(for schema: PreferredColorScheme) -> Text {
+		switch schema {
+			case .systemDefault: return systemLabel
+			case .dark: return darkLabel
+			case .light: return lightLabel
+		}
+	}
     
     public var body: some View {
 		let schemaSwitcher = Picker("Is Dark?", selection: $colorScheme.animation()) {
-			Label(systemLabel, systemImage: "circle.lefthalf.filled")
-                .tag(PreferredColorScheme.systemDefault)
-			Label(darkLabel, systemImage: "circle.fill")
-                .tag(PreferredColorScheme.dark)
-			Label(lightLabel, systemImage: "circle")
-                .tag(PreferredColorScheme.light)
+			ForEach(PreferredColorScheme.allCases) { schema in
+				Label {
+					getLabel(for: schema)
+				} icon: {
+					Image(systemName: schema.icon)
+				}
         }
 		#if !os(watchOS)
 		.pickerStyle(.segmented)
@@ -109,26 +117,25 @@ internal struct iOS17ContentTransition : ViewModifier {
 }
 
 /// Represents the preferred appearance mode of the app.
-public enum PreferredColorScheme: String, CaseIterable {
-
+public enum PreferredColorScheme: String, CaseIterable, Identifiable {
+	public var id: Self { self }
+	
+	/// Follow the system appearance setting.
+	case systemDefault
+	/// Always use dark appearance.
+	case dark
 	/// Always use light appearance.
 	case light
 
-	/// Always use dark appearance.
-	case dark
-
-	/// Follow the system appearance setting.
-	case systemDefault
-
 	/// The SF Symbol name associated with the color scheme.
-	var icon: String {
+	public var icon: String {
 		switch self {
-		case .dark:
-			return "moon.circle"
-		case .light:
-			return "sun.max.circle"
-		case .systemDefault:
-			return "circle.lefthalf.filled"
+			case .dark:
+				return "moon.circle"
+			case .light:
+				return "sun.max.circle"
+			case .systemDefault:
+				return "circle.lefthalf.filled"
 		}
 	}
 
