@@ -37,7 +37,7 @@ import SwiftUI
 /// var body: some View {
 ///     CloseButton(close)
 /// }
-///  func close() { /* perform close */ }
+/// func close() { /* perform close */ }
 /// ```
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 public struct CloseButton: View {
