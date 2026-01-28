@@ -107,7 +107,7 @@ public struct LinkedCreditManager<Content: View>: View {
 	///   - text: The localized title for the link label. Defaults to "Credits".
 	///   - systemImage: The SF Symbol name to display with the label. Defaults to `"text.document.fill"`.
 	///   - content: A view builder producing the rows and sections to show inside the destination `CreditManager`.
-    public init(text: LocalizedStringKey = "Credits", systemImage: String = "text.document.fill", @ViewBuilder content: () -> Content) {
+    public init(text: LocalizedStringKey = "Credits", systemImage: String = "c.circle", @ViewBuilder content: () -> Content) {
         self.content = content()
         self.text = text
         self.systemImage = systemImage
