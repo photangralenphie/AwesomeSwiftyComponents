@@ -35,7 +35,9 @@ import SwiftUI
 @available(watchOS, unavailable)
 public struct MovingColoredBackground: View {
 	
-	let vm: MovingColoredBackgroundVm
+	private let dimensions = 5
+	private let vm: MovingColoredBackgroundVm
+	@Environment(\.accessibilityReduceMotion) private var useReducedMotion
 	
 	/// Creates a MovingColoredBackground
 	/// - Parameter vm: The ViewModel for the background.
@@ -44,11 +46,12 @@ public struct MovingColoredBackground: View {
 	}
 	
 	public var body: some View {
+		let reducedMotionDate = Date.now
 		TimelineView(.animation) { context in
 			MeshGradient(
-				width: 5,
-				height: 5,
-				points: vm.points(at: context.date),
+				width: dimensions,
+				height: dimensions,
+				points: vm.points(at: useReducedMotion ? reducedMotionDate : context.date),
 				colors: vm.colors,
 				smoothsColors: false
 			)

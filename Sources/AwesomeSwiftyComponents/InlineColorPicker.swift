@@ -43,10 +43,7 @@ import SwiftUI
 /// This is useful when the picker is part of a settings list and should be visually associated with a concept.
 /// ```swift
 /// Form {
-/// 	InlineColorPicker(
-///			selectedColor: $myColor,
-///			systemImage: "paintbrush"
-///		)
+/// 	InlineColorPicker(selectedColor: $myColor, systemImage: "paintbrush")
 /// }
 /// ```
 /// Results in:
@@ -56,7 +53,7 @@ import SwiftUI
 /// For a more expressive layout, use the initializer that includes both a description and an icon.
 /// This creates an expanded layout with a header-style label above the picker.
 /// This variant is ideal for primary customization options, such as accent or theme colors.
-/// ```
+/// ```swift
 /// Form {
 /// 	InlineColorPicker(
 ///			selectedColor: $myColor,
@@ -70,14 +67,11 @@ import SwiftUI
 @available(iOS 15.0, macOS 12, tvOS 16.0, watchOS 8.0, visionOS 1.0, *)
 public struct InlineColorPicker<T: ColorOptions>: View {
     
-    /// The selected color wrapper. Binding to a variable of type ``AvailableColors`` or you own type which conforms to ``ColorOptions``.
-    var selectedColor: Binding<T>
-    /// The style of the picker.
-	
-	let systemImage: String?
-	let description: LocalizedStringKey?
-    
+    private let selectedColor: Binding<T>
+	private let systemImage: String?
+	private let description: LocalizedStringKey?
 	private let colors: Array<T>
+	
 	@Namespace private var colorPickerNamespace
 	
 	/// Creates an inline color picker with default appearance.
@@ -112,7 +106,6 @@ public struct InlineColorPicker<T: ColorOptions>: View {
 		self.colors = Self.getColors(from: selectedColor.wrappedValue)
 	}
 	
-	
 	/// Builds the array of available colors from the type of the wrapped value.
 	private static func getColors(from colorOptions: T) -> [T] {
 		let enumType: any ColorOptions.Type = type(of: colorOptions)
@@ -142,20 +135,28 @@ public struct InlineColorPicker<T: ColorOptions>: View {
 				HStack {
 					Spacer()
 					ForEach(colors.indices, id: \.self) { colorIndex in
-						Group {
-							if colors[colorIndex].SwiftUIColor == Color.primary {
-								Image(systemName: "circle.righthalf.fill")
-							} else {
-								Circle()
-									.fill(colors[colorIndex].SwiftUIColor)
-									.frame(height: 18)
+						Button {
+							selectedColor.wrappedValue = colors[colorIndex]
+						} label: {
+							Group {
+								if colors[colorIndex].SwiftUIColor == Color.primary {
+									Image(systemName: "circle.righthalf.fill")
+								} else {
+									Circle()
+										.fill(colors[colorIndex].SwiftUIColor)
+										.frame(height: 18)
+								}
+							}
+							.background {
+								Color.clear
+									.matchedGeometryEffect(id: "\(colors[colorIndex])", in: colorPickerNamespace, properties: .position, anchor: .center, isSource: true)
 							}
 						}
-						.background {
-							Color.clear
-								.matchedGeometryEffect(id: "\(colors[colorIndex])", in: colorPickerNamespace, properties: .position, anchor: .center, isSource: true)
-						}
-						.onTapGesture { selectedColor.wrappedValue = colors[colorIndex] }
+						.buttonStyle(.plain)
+						.accessibilityElement(children: .ignore)
+						.accessibilityLabel(accessibilityName(for: colors[colorIndex]))
+						.accessibilityAddTraits(colors[colorIndex] == selectedColor.wrappedValue ? [.isSelected, .isButton] : [.isButton])
+						.accessibilityHint(Text("Selects the color theme of the app.", bundle: .module))
 						
 						if #available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, visionOS 26.0, *) {
 							Spacer()
@@ -185,6 +186,7 @@ public struct InlineColorPicker<T: ColorOptions>: View {
 				pickerBody
 			} icon: {
 				Image(systemName: systemImage)
+					.accessibilityHidden(true)
 			}
 		}
 		
@@ -192,6 +194,14 @@ public struct InlineColorPicker<T: ColorOptions>: View {
 			pickerBody
 		}
     }
+	
+	private func accessibilityName(for color: T) -> String {
+		let numColors = colors.count
+		let index = colors.firstIndex(of: color) ?? 0
+		let name = color.accessibilityLabelColorName
+
+		return String(localized: "Color: \(name) \(index + 1) of \(numColors)", bundle: .module)
+	}
     
     private func elementAt<U: Collection>(from collection: U, index: U.Index) -> U.Element? {
         guard collection.indices.contains(index) else {
@@ -204,6 +214,7 @@ public struct InlineColorPicker<T: ColorOptions>: View {
 /// A default type, which can be used to bind the selected color for an ``InlineColorPicker``.
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 public enum AvailableColors: Int, ColorOptions, Codable, Sendable {
+	
     case blue = 0
     case cyan = 1
     case mint = 2
@@ -213,23 +224,26 @@ public enum AvailableColors: Int, ColorOptions, Codable, Sendable {
     case red = 6
     case purple = 7
     case indigo = 8
-    case primary = 9
     
     /// Returns the `Color` for an variable of type ``AvailableColors``.
     public var SwiftUIColor: Color {
         switch self {
-        case .blue: return .blue
-        case .cyan: return .cyan
-        case .mint: return .mint
-        case .green: return .green
-        case .yellow: return .yellow
-        case .orange: return .orange
-        case .red: return .red
-        case .purple: return .purple
-        case .indigo: return .indigo
-        case .primary: return .primary
+			case .blue: return .blue
+			case .cyan: return .cyan
+			case .mint: return .mint
+			case .green: return .green
+			case .yellow: return .yellow
+			case .orange: return .orange
+			case .red: return .red
+			case .purple: return .purple
+			case .indigo: return .indigo
         }
     }
+
+	/// Returns a description of the color used for accessibility.
+	public var accessibilityLabelColorName: String {
+		self.SwiftUIColor.description
+	}
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.rawValue)
@@ -261,6 +275,10 @@ public enum AvailableColors: Int, ColorOptions, Codable, Sendable {
 ///        }
 ///    }
 ///
+///	   public var accessibilityLabelColorName: String {
+///         self.SwiftUIColor.description
+///    }
+///
 ///    public func hash(into hasher: inout Hasher) {
 ///        hasher.combine(self.rawValue)
 ///    }
@@ -269,4 +287,5 @@ public enum AvailableColors: Int, ColorOptions, Codable, Sendable {
 
 public protocol ColorOptions: CaseIterable, Hashable {
     var SwiftUIColor: Color { get }
+	var accessibilityLabelColorName: String { get }
 }

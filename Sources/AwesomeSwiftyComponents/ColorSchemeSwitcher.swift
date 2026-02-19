@@ -1,3 +1,4 @@
+import Foundation
 import SwiftUI
 
 /// A segmented control for selecting the app’s preferred color scheme.
@@ -65,7 +66,7 @@ public struct ColorSchemeSwitcher: View {
 	}
     
     public var body: some View {
-		let schemaSwitcher = Picker("Is Dark?", selection: $colorScheme.animation()) {
+		let schemaSwitcher = Picker(selection: $colorScheme.animation()) {
 			ForEach(PreferredColorScheme.allCases) { schema in
 				Label {
 					getLabel(for: schema)
@@ -73,19 +74,23 @@ public struct ColorSchemeSwitcher: View {
 					Image(systemName: schema.icon)
 				}
 			}
-        }
+        } label: {
+			Text("Color Scheme", bundle: .module)
+		}
 		#if !os(watchOS)
 		.pickerStyle(.segmented)
 		#endif
-        .modifier(iOO17HapticFeedBack(feedbackTrigger: colorScheme))
-        
+        .modifier(HapticFeedBackIfPossible(feedbackTrigger: colorScheme))
+		.accessibilityValue(getLabel(for: colorScheme))
+		.accessibilityHint(Text("Choose system, light, or dark appearance", bundle: .module))
         if(showIcon) {
             Label {
                 schemaSwitcher
             } icon: {
                 Image(systemName: colorScheme.icon)
                     .foregroundStyle(Color.accentColor)
-                    .modifier(iOS17ContentTransition())
+                    .modifier(ContentTransitionIfPossible())
+					.accessibilityHidden(true)
             }
         } else {
             schemaSwitcher
@@ -93,7 +98,7 @@ public struct ColorSchemeSwitcher: View {
     }
 }
 
-internal struct iOO17HapticFeedBack : ViewModifier {
+struct HapticFeedBackIfPossible : ViewModifier {
     let feedbackTrigger: PreferredColorScheme
     func body(content: Content) -> some View {
         if #available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, visionOS 26.0, *){
@@ -106,7 +111,7 @@ internal struct iOO17HapticFeedBack : ViewModifier {
     }
 }
 
-internal struct iOS17ContentTransition : ViewModifier {
+struct ContentTransitionIfPossible : ViewModifier {
     func body(content: Content) -> some View {
 		if #available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, visionOS 1.0, *) {
             content
