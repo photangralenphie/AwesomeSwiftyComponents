@@ -14,12 +14,6 @@ struct MITLicense: View {
     let year: String
     let author: String
     
-    init(name: String, year: String, author: String) {
-        self.name = name
-        self.year = year
-        self.author = author
-    }
-    
     var body: some View {
         List {
             Section {

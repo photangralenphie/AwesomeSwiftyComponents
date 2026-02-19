@@ -30,7 +30,7 @@ public struct CreditManager<Content: View>: View {
 	@Environment(\.dismiss) private var dismiss
 	
     @ViewBuilder public var content: Content
-	let showCloseButton: Bool
+	private let showCloseButton: Bool
 	
 	/// Creates a Credits container with the provided content.
 	/// 
@@ -97,9 +97,9 @@ public struct CreditManager<Content: View>: View {
 /// Use a ``CreditManager`` if you want to present the CreditManager from a `.sheet()` or `.fullScreenCover()`.
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, visionOS 1.0, *)
 public struct LinkedCreditManager<Content: View>: View {
-    @ViewBuilder public var content: Content
-    let text: LocalizedStringKey
-    let systemImage: String
+    @ViewBuilder private var content: Content
+    private let text: LocalizedStringKey
+	private let systemImage: String
 	
 	/// Creates a navigation link to a Credits screen.
 	///

@@ -26,22 +26,26 @@ extension UserDefaults {
 	// MARK: - Getter
 	/// Returns a persisted `Bool` for `key` or `defaultValue` if no value exists.
 	public static func getValue(_ key: String, _ defaultValue: Bool) -> Bool {
-		UserDefaults.standard.bool(forKey: key)
+		if UserDefaults.standard.object(forKey: key) == nil { return defaultValue }
+		return UserDefaults.standard.bool(forKey: key)
 	}
 	
 	/// Returns a persisted `Int` for `key` or `defaultValue` if no value exists.
 	public static func getValue(_ key: String, _ defaultValue: Int) -> Int {
-		UserDefaults.standard.integer(forKey: key) ?? defaultValue
+		if UserDefaults.standard.object(forKey: key) == nil { return defaultValue }
+		return UserDefaults.standard.integer(forKey: key)
 	}
 	
 	/// Returns a persisted `Float` for `key` or `defaultValue` if no value exists.
 	public static func getValue(_ key: String, _ defaultValue: Float) -> Float {
-		UserDefaults.standard.float(forKey: key) ?? defaultValue
+		if UserDefaults.standard.object(forKey: key) == nil { return defaultValue }
+		return UserDefaults.standard.float(forKey: key)
 	}
 	
 	/// Returns a persisted `Double` for `key` or `defaultValue` if no value exists.
 	public static func getValue(_ key: String, _ defaultValue: Double) -> Double {
-		UserDefaults.standard.double(forKey: key) ?? defaultValue
+		if UserDefaults.standard.object(forKey: key) == nil { return defaultValue }
+		return UserDefaults.standard.double(forKey: key)
 	}
 	
 	/// Returns a persisted `URL` for `key` or `defaultValue` if no value exists.
