@@ -59,7 +59,7 @@ public struct CloseButton: View {
 	}
 	
     public var body: some View {
-		if #available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, *) {
+		if #available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *) {
 			Button(role: .close, action: action)
 		} else {
 			Button("Close", systemImage: "xmark", action: action)

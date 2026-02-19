@@ -4,7 +4,6 @@ Reusable components, extensions, ViewModifier, Styles and other Swift/SwiftUI st
 
 **Feel free to use, but:**
 * Expect breaking changes. 
-* Bugs are guaranteed.
 * Nothing has been tested on watchOS, tvOS and visionOS. 
 
 ## Components
@@ -80,6 +79,15 @@ https://github.com/user-attachments/assets/7388a911-db49-4eb8-849a-0511498d3594
 * more that, either doesn't work correctly right now, or I can't be bothered to write down.
 
 ## [Documentation](https://photangralenphie.github.io/AwesomeSwiftyComponents/documentation/awesomeswiftycomponents/)
+
+## Requirements:
+* Swift 5.9
+* The following OS version are needed to use this package:
+	* iOS 13
+	* macOS 10.15
+	* tvOS 13
+	* watchOS 6
+	* visionOS
 
 ## Licence:
 MIT Licence

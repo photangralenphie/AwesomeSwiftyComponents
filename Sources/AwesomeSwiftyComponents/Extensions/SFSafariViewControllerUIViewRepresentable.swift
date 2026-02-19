@@ -28,10 +28,6 @@ struct SFSafariViewControllerUIViewRepresentable: UIViewControllerRepresentable 
     /// Creates a representable that presents the given URL in a `SFSafariViewController`.
     /// - Parameter url: The URL to load.
     let url: URL
-    
-    public init(url: URL) {
-        self.url = url
-    }
 
     public func makeUIViewController(context: UIViewControllerRepresentableContext<Self>) -> SFSafariViewController {
         return SFSafariViewController(url: url)
@@ -45,7 +41,8 @@ struct SFSafariViewControllerUIViewRepresentable: UIViewControllerRepresentable 
 
 /// Monitors the `openURL` environment variable and handles them in-app instead of via
 /// the external web browser.
-@available(iOS 15.0, tvOS 15.0, *)
+@available(iOS 15.0, *)
+@available(tvOS, unavailable)
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 @available(iOS, deprecated: 18.0, message: "Used WebKit instead.")
@@ -57,7 +54,6 @@ struct SafariViewControllerViewModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-		#if !os(macOS)
             .environment(\EnvironmentValues.openURL, OpenURLAction { url in
                 if (!useInAppBrowser) {
                     return .systemAction
@@ -76,13 +72,12 @@ struct SafariViewControllerViewModifier: ViewModifier {
                     SFSafariViewControllerUIViewRepresentable(url: urlToOpen)
                 }
             }
-		#endif
     }
 }
 #endif
 #endif
 
-@available(iOS 15.0, tvOS 15.0, macOS 26.0, watchOS 26.0, *)
+@available(iOS 15.0, tvOS 26.0, macOS 26.0, watchOS 26.0, visionOS 26.0, *)
 public extension View {
     /// Monitor the `openURL` environment and handle links in-app using Safari Services.
     ///
@@ -95,13 +90,15 @@ public extension View {
     /// - Returns: A view that intercepts `openURL` and presents links in a `SFSafariViewController` on iOS 15-18 or WebKit on iOS 26 and above when enabled.
 	@ViewBuilder
     func useInAppSafari(_ useInAppBrowser: Bool) -> some View {
-		if #available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, *) {
+		if #available(iOS 26.0, *) {
 			self.environment(\.openURL, OpenURLAction(handler: { _ in
 				.systemAction(prefersInApp: useInAppBrowser)
 			}))
 		} else {
+			#if canImport(SafariServices)
 			#if canImport(UIKit)
 			modifier(SafariViewControllerViewModifier(useInAppBrowser: useInAppBrowser))
+			#endif
 			#endif
 		}
     }

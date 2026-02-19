@@ -13,13 +13,14 @@ import SwiftUI
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 @available(visionOS, unavailable)
+@available(iOS, deprecated: 26.0, message: "Will be removed in a future version")
 public struct iOSBorderedForMacOS<S: Shape>: ButtonStyle {
 
 	/// The foreground color used for the button’s label.
-	let foregroundColor: Color
+	private let foregroundColor: Color
 
 	/// The shape used to clip the button background.
-	let clipShape: S
+	private let clipShape: S
 
 	/// Creates a bordered button style matching iOS appearance on macOS.
 	///
@@ -32,17 +33,13 @@ public struct iOSBorderedForMacOS<S: Shape>: ButtonStyle {
 	/// Button("Add", action: addItem)
 	///     .buttonStyle(iOSBorderedForMacOS())
 	/// ```
-	public init(
-		foregroundColor: Color = .primary,
-		clipShape: S = Circle()
-	) {
+	public init(foregroundColor: Color = .primary,clipShape: S = Circle()) {
 		self.foregroundColor = foregroundColor
 		self.clipShape = clipShape
 	}
 
 	public func makeBody(configuration: Configuration) -> some View {
 		configuration.label
-		#if os(macOS)
 			.foregroundStyle(foregroundColor)
 			.padding(6)
 			.background(
@@ -52,7 +49,6 @@ public struct iOSBorderedForMacOS<S: Shape>: ButtonStyle {
 					}
 			)
 			.clipShape(clipShape)
-		#endif
 	}
 }
 
@@ -68,10 +64,11 @@ public struct iOSBorderedForMacOS<S: Shape>: ButtonStyle {
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 @available(visionOS, unavailable)
+@available(iOS, deprecated: 26.0, message: "Will be removed in a future version")
 public struct iOSBorderedProminentForMacOS<S: Shape>: ButtonStyle {
 
 	/// The shape used to clip the button background.
-	let clipShape: S
+	private let clipShape: S
 
 	/// Creates a prominent bordered button style matching iOS appearance on macOS.
 	///
@@ -82,9 +79,7 @@ public struct iOSBorderedProminentForMacOS<S: Shape>: ButtonStyle {
 	/// Button("Save", action: save)
 	///     .buttonStyle(iOSBorderedProminentForMacOS())
 	/// ```
-	public init(
-		clipShape: S = RoundedRectangle(cornerRadius: 7)
-	) {
+	public init(clipShape: S = RoundedRectangle(cornerRadius: 7)) {
 		self.clipShape = clipShape
 	}
 

@@ -27,22 +27,25 @@ extension Color {
 	/// context.setFillColor(cg)
 	/// context.fill(rect)
 	/// ```
-	@available(iOS 14.0, macOS 11.0, tvOS 14.0, visionOS 1.0, *)
-	@available(watchOS, unavailable)
+	@available(iOS 14.0, macOS 11.0, tvOS 14.0, visionOS 1.0, watchOS 7.0, *)
 	public var CgColor: CGColor {
 		#if canImport(UIKit)
-		UIColor(self).resolvedColor(with: UITraitCollection.current).cgColor
+			#if os(watchOS)
+			return UIColor(self).cgColor
+			#else
+			return UIColor(self).resolvedColor(with: UITraitCollection.current).cgColor
+			#endif
 		#elseif canImport(AppKit)
-		NSColor(self).cgColor
+		return NSColor(self).cgColor
 		#else
-		CgColor(red: 0, green: 0, blue: 0, alpha: 1)
+		return CGColor(red: 0, green: 0, blue: 0, alpha: 1)
 		#endif
 	}
 	
 	
 	/// Internal palette used by `Color.random`. Values are stable across platforms and OS versions.
 	@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
-	fileprivate static let randomColorOptions: [Color] = [.blue, .brown, .cyan, .green, indigo, .mint, .orange, .purple, .pink, .red, .teal, .yellow]
+	private static let randomColorOptions: [Color] = [.blue, .brown, .cyan, .green, indigo, .mint, .orange, .purple, .pink, .red, .teal, .yellow]
 	/// Returns a random SwiftUI `Color` chosen from a curated set of vibrant system colors.
 	///
 	/// One of the following will be chosen at random.
@@ -75,7 +78,7 @@ extension Color {
 	/// let text: Color = (bg.luminance ?? 0) < 0.5 ? .white : .black
 	/// ```
 	/// Use ``CoreGraphics/CGColor/luminance`` to get the luminance of a `CGColor`
-	@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
+	@available(iOS 15.0, macOS 12.0, tvOS 15.0, visionOS 1.0, watchOS 7.0, *)
 	public var luminance: CGFloat? { CgColor.luminance }
 }
 
@@ -126,7 +129,6 @@ extension AvailableColors {
 			case .red: return .purple
 			case .purple: return .indigo
 			case .indigo: return .blue
-			case .primary: return .secondary
 		}
 	}
 	
@@ -147,7 +149,6 @@ extension AvailableColors {
 			case .red: return .orange
 			case .purple: return .red
 			case .indigo: return .purple
-			case .primary: return .secondary
 		}
 	}
 	

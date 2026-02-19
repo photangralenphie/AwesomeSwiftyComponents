@@ -1,8 +1,11 @@
 #if canImport(UIKit)
 import UIKit
+#endif
+
 /// A collection of unrelated static functions, that can modify the appearance of your app
 public struct UIExtensions {
     
+	#if canImport(UIKit)
     /// Sets the NavigationBar font.
 	///
 	/// Use this in the `init()` of the `App` struct of your App.
@@ -57,5 +60,5 @@ public struct UIExtensions {
 		navBar.compactAppearance = appearance
 		navBar.compactScrollEdgeAppearance = appearance
     }
+	#endif
 }
-#endif

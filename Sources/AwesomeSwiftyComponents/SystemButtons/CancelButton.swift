@@ -41,7 +41,7 @@ public struct CancelButton: View {
 	}
 	
 	public var body: some View {
-		if #available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, *) {
+		if #available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *) {
 			Button(role: .cancel, action: action)
 		} else if #available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *){
 			Button("Cancel", systemImage: "xmark", role: .cancel, action: action)
