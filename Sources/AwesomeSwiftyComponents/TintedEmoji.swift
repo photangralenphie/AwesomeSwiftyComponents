@@ -91,5 +91,31 @@ public extension Label where Title == Text, Icon == TintedEmoji {
 			TintedEmoji(emoji, color: .accentColor, tinted: tinted)
 		}
 	}
+	
+	/// Creates a ``SwiftUI/Label`` from a title and an emoji
+	///
+	/// - Parameters:
+	///   - title: The title of the label.
+	///   - emoji: The emoji of the label used as icon.
+	///   - tinted: Whether the emoji should have a tint or not (default: true).
+	///
+	/// ### Example
+	/// ```swift
+	/// Form {
+	///		Label("Label 1 with tinted emoji", emoji: "🔝")
+	///		Label("Label 2 with tinted emoji", emoji: "💯")
+	///		Label("Label 3 with emoji", emoji: "🎈", tinted: false)
+	///		Label("Label 4 with emoji", emoji: "🤘", tinted: false)
+	///	}
+	/// ```
+	///
+	/// ![The Added Label with a text an a emoji](LabelWithEmoji)
+	init(_ title: String, emoji: Character, tinted: Bool = true) {
+		self.init {
+			Text(title)
+		} icon: {
+			TintedEmoji(emoji, color: .accentColor, tinted: tinted)
+		}
+	}
 }
 
