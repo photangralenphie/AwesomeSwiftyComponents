@@ -28,6 +28,7 @@ import SwiftUI
 public class MovingColoredBackgroundVm {
 	
 	private(set) var colors: Array<Color> = []
+	public private(set) var baseColor: Color
 
 	@ObservationIgnored
 	private let basePoints: [SIMD2<Float>] = [
@@ -49,6 +50,7 @@ public class MovingColoredBackgroundVm {
 	public init(initialColor: AvailableColors = .blue) {
 		self.seeds = Self.getSeed(basePoints: basePoints)
 		self.colors = Self.getColors(baseColor: initialColor)
+		self.baseColor = initialColor.SwiftUIColor
 	}
 	
 	/// Updates the background to use a new base color with animation.
@@ -56,6 +58,7 @@ public class MovingColoredBackgroundVm {
 	public func setBackgroundColor(baseColor: AvailableColors) {
 		withAnimation {
 			self.colors = Self.getColors(baseColor: baseColor)
+			self.baseColor = baseColor.SwiftUIColor
 		}
 	}
 	
@@ -135,3 +138,4 @@ internal struct PointSeed: Hashable {
 		)
 	}
 }
+
