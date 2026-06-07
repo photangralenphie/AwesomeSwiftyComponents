@@ -19,3 +19,18 @@ extension Binding {
 	}
 }
 
+extension Binding<Bool> {
+	/// Returns a binding that represents the logical negation of this Boolean binding.
+	///
+	/// The returned binding reads as the logical NOT of this binding's value. Setting the returned binding
+	/// updates the original binding with the negated value of the assignment.
+	///
+	/// - Returns: A `Binding<Bool>` that reflects the logical negation of this binding.
+	public func negate() -> Binding<Bool> {
+		Binding {
+			!self.wrappedValue
+		} set: { newValue in
+			self.wrappedValue = !newValue
+		}
+	}
+}
