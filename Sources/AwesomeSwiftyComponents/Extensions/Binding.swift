@@ -19,6 +19,7 @@ extension Binding {
 	}
 }
 
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, visionOS 1.0, *)
 extension Binding<Bool> {
 	/// Returns a binding that represents the logical negation of this Boolean binding.
 	///

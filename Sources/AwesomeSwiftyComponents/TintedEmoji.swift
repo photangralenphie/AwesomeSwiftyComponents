@@ -65,6 +65,7 @@ public struct TintedEmoji: View {
 }
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
+@MainActor
 public extension Label where Title == Text, Icon == TintedEmoji {
 	/// Creates a ``SwiftUI/Label`` from a title and an emoji
 	///
