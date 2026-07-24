@@ -23,4 +23,9 @@ extension String {
 	public var isSingleEmoji: Bool {
 		count == 1 && first?.isEmoji == true
 	}
+	
+	/// Turns a string that might be empty into an optional but not empty sting.
+	public var nonEmpty: String? {
+		isEmpty ? nil : self
+	}
 }
