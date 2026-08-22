@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, visionOS 1.0, *)
 extension View {
 
@@ -108,5 +107,30 @@ extension View {
 		} else {
 			self.buttonStyle(.borderedProminent)
 		}
+	}
+
+	/// Performs an action when the user shakes the device.
+	///
+	/// This modifier adds an invisible UIKit-backed responder to the view hierarchy
+	/// and calls `action` after it receives a device shake motion event.
+	///
+	/// - Parameter action: The action to perform when the device is shaken.
+	///
+	/// ### Example
+	/// ```swift
+	/// Text("Shake to reset")
+	///     .onShake {
+	///         reset()
+	///     }
+	/// ```
+	@available(iOS 13.0, tvOS 13.0, *)
+	@available(macOS, unavailable)
+	@available(watchOS, unavailable)
+	public func onShake(perform action: @escaping () -> Void) -> some View {
+		#if canImport (UIKit)
+		self.background(ShakeDetector(onShake: action))
+		#else
+		self
+		#endif
 	}
 }
