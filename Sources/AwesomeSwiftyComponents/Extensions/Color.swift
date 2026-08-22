@@ -82,6 +82,29 @@ extension Color {
 	public var luminance: CGFloat? { CgColor.luminance }
 }
 
+// MARK: - NSCOLOR
+#if canImport(AppKit)
+extension NSColor {
+	/// The color's sRGB hexadecimal representation in `#RRGGBB` format.
+	///
+	/// The alpha component is not included. Returns `nil` if the color cannot be converted to the sRGB color space.
+	///
+	/// ### Example
+	/// ```swift
+	/// let hex = NSColor.systemBlue.hex // "#007AFF"
+	/// ```
+	public var hex: String? {
+		guard let color = self.usingColorSpace(.sRGB) else { return nil }
+		
+		let red = Int((min(max(color.redComponent, 0), 1) * 255).rounded())
+		let green = Int((min(max(color.greenComponent, 0), 1) * 255).rounded())
+		let blue = Int((min(max(color.blueComponent, 0), 1) * 255).rounded())
+		
+		return String(format: "#%02X%02X%02X", red, green, blue)
+	}
+}
+#endif
+
 // MARK: - CGCOLOR
 extension CGColor {
 	/// The perceived brightness of this `CGColor` in the sRGB color space (0 = dark, 1 = bright).
@@ -167,4 +190,3 @@ extension AvailableColors {
 		(self.SwiftUIColor.luminance ?? 0) < 0.5 ? .white : .black
 	}
 }
-
