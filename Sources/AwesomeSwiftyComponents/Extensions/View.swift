@@ -133,4 +133,34 @@ extension View {
 		self
 		#endif
 	}
+	
+	/// Adds a description to a form row.
+	///
+	/// Use this modifier if the control you add to you form does not work with two Texts
+	/// - Parameter description: The text to display
+	///
+	/// ### Exemple
+	/// ```swift
+	///	TextField("Name", value: $name)
+	///		.settingDescription("Only full names please")
+	/// ```
+	///
+	/// ### When not to use:
+	/// If the control supports two Text
+	/// ```swift
+	/// Toggle(isOn: $enabled) {
+	/// 	Text("Enable")
+	/// 	Text("Disabling this disables something")
+	/// }
+	/// ```
+	@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+	public func formRowDescription(_ description: String) -> some View {
+		VStack(alignment: .leading) {
+			self
+			
+			Text(description)
+				.font(.system(size: 11))
+				.foregroundStyle(.secondary)
+		}
+	}
 }
